@@ -101,6 +101,20 @@ a{color:inherit}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:8px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* phase view */
+.ph{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pc,var(--de));border-radius:12px;padding:16px 18px 14px;margin:18px 0 6px;box-shadow:var(--shadow)}
+.ph .ph-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ph .ph-no{font-size:13px;color:var(--pc,var(--ink-2));letter-spacing:.06em}
+.ph h2{margin:0;font-size:32px;line-height:1}
+.ph .ph-tag{font-size:13px;color:var(--ink-2);font-style:italic}
+.ph .ph-rule{font-size:13px;color:var(--ink-2);margin-top:6px}
+.ph .ph-prog{font-size:14px;font-weight:500;margin-top:4px}
+.ph .ph-why{font-size:13.5px;color:var(--ink-2);margin-top:6px;max-width:72ch;line-height:1.5}
+.ph.locked{border-left-color:var(--line-2);background:var(--surface-2)}
+.ph.locked h2{color:var(--ink-3)}
+.ph.locked .ph-no{color:var(--ink-3)}
+.nav a[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
 /* controls */
 .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -240,7 +254,7 @@ a{color:inherit}
   DATA.actions.forEach(function(a){ byCode[a.code] = a; });
 
   // ---------- state ----------
-  function blank(){ return {v:2, name:"", counts:{}, ia:10, sub:{}, appr:{}, notes:{}, updated:0}; }
+  function blank(){ return {v:2, name:"", counts:{}, ia:10, sub:{}, appr:{}, notes:{}, unlocked:{}, updated:0}; }
   function normalize(s){
     var b = blank();
     if (!s || typeof s !== "object") return b;
@@ -250,6 +264,7 @@ a{color:inherit}
     b.sub = s.sub && typeof s.sub === "object" ? s.sub : {};
     b.appr = s.appr && typeof s.appr === "object" ? s.appr : {};
     b.notes = s.notes && typeof s.notes === "object" ? s.notes : {};
+    b.unlocked = s.unlocked && typeof s.unlocked === "object" ? s.unlocked : {};
     b.updated = typeof s.updated === "number" ? s.updated : 0;
     Object.keys(b.counts).forEach(function(k){ if (!byCode[k] || !(b.counts[k] > 0)) delete b.counts[k]; });
     return b;
@@ -260,8 +275,24 @@ a{color:inherit}
   }
   var state = loadState();
   var filter = "all", query = "", openSet = {};
+  var route = {view:"home"};
+  var lastTotal = 0;
   function saveLocal(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){} }
-  function commit(){ state.updated = Date.now(); saveLocal(); renderSummary(); updateCatHeads(); }
+  function checkUnlocks(){
+    var t = totals().all.checked, msg = null;
+    TIERS.forEach(function(tr){
+      var key = tr.n.toLowerCase();
+      if (lastTotal < tr.p && t >= tr.p && !state.unlocked[key]){
+        state.unlocked[key] = true;
+        var ph = null;
+        CFG.phases.forEach(function(p){ if (p.unlockPoints === tr.p) ph = p; });
+        msg = ph ? tr.n+" reached. Phase "+ph.number+" is open." : tr.n+" reached.";
+      } else if (t >= tr.p) state.unlocked[key] = true;
+    });
+    lastTotal = t;
+    if (msg) toast(msg);
+  }
+  function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); }
 
   // ---------- math ----------
   function ptsFor(a){
@@ -327,10 +358,73 @@ a{color:inherit}
   }
   applyTheme();
 
+  // ---------- routing / phases ----------
+  var PHASE_ACCENT = {1:"--ok", 2:"--bronze", 3:"--silver", 4:"--gold"};
+  function phaseDef(n){ var f = null; CFG.phases.forEach(function(p){ if (p.number === n) f = p; }); return f; }
+  function actionsInView(){
+    if (route.view === "phase") return DATA.actions.filter(function(a){ return a.phase === route.n; });
+    return DATA.actions;
+  }
+  function phaseStats(n){
+    var s = {done:0, pts:0, single:0, total:0};
+    DATA.actions.forEach(function(a){
+      if (a.phase !== n) return;
+      s.total++; s.single += a.pts;
+      if (state.counts[a.code]){ s.done++; s.pts += ptsFor(a); }
+    });
+    return s;
+  }
+  function phaseHeadHtml(){
+    if (route.view !== "phase") return "";
+    var p = phaseDef(route.n), st = phaseStats(p.number), total = totals().all.checked;
+    var locked = total < p.unlockPoints;
+    var rule = p.unlockPoints ? "Recommended after "+p.unlockPoints+" points ("+esc(p.name)+" award)." : "Open from the beginning.";
+    var html = '<section class="ph'+(locked?' locked':'')+'" id="phase-head" style="--pc:var('+PHASE_ACCENT[p.number]+')">' +
+      '<div class="ph-top"><span class="ph-no cond">Phase '+p.number+'</span><h2 class="disp">'+esc(p.name)+'</h2><span class="ph-tag">'+esc(p.tagline)+'</span></div>' +
+      '<div class="ph-rule">'+rule+'</div>' +
+      '<div class="ph-prog" id="phase-prog">'+st.done+' of '+st.total+' checked, '+st.pts+' of '+st.single+' points</div>' +
+      '<div class="ph-why">'+esc(p.why)+'</div>' +
+      '</section>';
+    if (locked) html += '<div class="banner" id="phase-lock"><span class="sp">Recommended after you reach '+esc(p.name)+' ('+p.unlockPoints+' points). You have '+total+'. Everything here still works if you have already done it.</span></div>';
+    return html;
+  }
+  function updatePhaseHead(){
+    var el = document.getElementById("phase-hd");
+    if (el && route.view === "phase") el.innerHTML = phaseHeadHtml();
+  }
+  function parseRoute(){
+    var h = (location.hash || "").replace(/^#/, "");
+    if (!h || h === "home") return {view:"home"};
+    if (h === "all") return {view:"all"};
+    var m = /^phase\/([1-4])$/.exec(h);
+    if (m) return {view:"phase", n:parseInt(m[1], 10)};
+    if (/^cat-/.test(h) || /(^|&)s=/.test(h)) return null; // in-page anchors and share links, not routes
+    return {view:"home", bad:true};
+  }
+  function applyRoute(initial){
+    var r = parseRoute();
+    if (!r){ if (!initial){ updateNav(); return; } r = {view:"home"}; }
+    if (r.bad) history.replaceState(null, "", location.pathname + location.search + "#home");
+    route = {view:r.view, n:r.n};
+    renderCats(); updateNav();
+    if (!initial) window.scrollTo(0, 0);
+  }
+  function updateNav(){
+    Array.prototype.forEach.call(document.querySelectorAll('.nav a[data-view]'), function(a){
+      var h = a.getAttribute("href");
+      var active = (route.view === "home" && h === "#home") || (route.view === "all" && h === "#all") ||
+        (route.view === "phase" && h === "#phase/"+route.n);
+      if (active) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+  }
+
   // ---------- shell ----------
   function renderShell(){
     var app = document.getElementById("app");
-    var nav = DATA.cats.filter(function(c){return c.id!=="IA";}).map(function(c){
+    var viewNav = [{h:"#home", l:"Home"}].concat(CFG.phases.map(function(p){ return {h:"#phase/"+p.number, l:p.name}; }))
+      .concat([{h:"#all", l:"All"}])
+      .map(function(v){ return '<a href="'+v.h+'" data-view="1">'+esc(v.l)+'</a>'; }).join("");
+    var nav = viewNav + DATA.cats.filter(function(c){return c.id!=="IA";}).map(function(c){
       return '<a href="#cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+')"><span class="dot"></span>'+esc(c.name)+'</a>';
     }).join("");
     app.innerHTML =
@@ -368,7 +462,8 @@ a{color:inherit}
           '<p>'+esc(CFG.disclaimer)+'</p>' +
         '</footer>' +
       '</div>';
-    renderChips(); renderCats(); renderSummary(); applyTheme();
+    renderChips(); renderSummary(); applyTheme(); applyRoute(true);
+    window.addEventListener("hashchange", function(){ applyRoute(false); });
     document.getElementById("name").addEventListener("input", function(e){ state.name = e.target.value; state.updated = Date.now(); saveLocal(); });
     document.getElementById("search").addEventListener("input", function(e){ query = e.target.value.trim().toLowerCase(); applyFilter(); });
     document.getElementById("btn-expand").addEventListener("click", function(){ DATA.actions.forEach(function(a){ openSet[a.code] = true; }); syncOpen(); });
@@ -491,9 +586,12 @@ a{color:inherit}
   // ---------- rows ----------
   function renderCats(){
     var t = totals();
-    document.getElementById("cats").innerHTML = DATA.cats.map(function(c){
+    var acts = actionsInView();
+    document.getElementById("cats").innerHTML = '<div id="phase-hd">'+phaseHeadHtml()+'</div>' + DATA.cats.map(function(c){
       var x = t[c.id];
-      var rows = DATA.actions.filter(function(a){return a.cat===c.id;}).map(renderItem).join("");
+      var mine = acts.filter(function(a){return a.cat===c.id;});
+      if (!mine.length) return "";
+      var rows = mine.map(renderItem).join("");
       return '<section class="cat" id="cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+');--soft:var('+CATVAR[c.id]+'-soft)">' +
         '<div class="cat-h">' +
           '<div class="ct"><span class="code cond">'+c.id+'</span><h2 class="disp">'+esc(c.name)+'</h2></div>' +
@@ -660,7 +758,7 @@ a{color:inherit}
     r.onload = function(){
       try {
         var obj = JSON.parse(r.result); var s = obj && obj.state ? obj.state : obj;
-        state = normalize(s); state.updated = Date.now(); saveLocal();
+        state = normalize(s); state.updated = Date.now(); checkUnlocks(); saveLocal();
         document.getElementById("name").value = state.name; renderCats(); renderChips(); renderSummary(); toast("Backup imported.");
       } catch(err){ toast("That file isn't a planner backup."); }
       e.target.value = "";
@@ -680,7 +778,7 @@ a{color:inherit}
     var b = document.getElementById("banner");
     b.innerHTML = '<div class="banner"><span class="sp">This link carries a shared progress snapshot'+(incoming.name ? ' for <b>'+esc(incoming.name)+'</b>' : '')+' worth <b>'+t+' points</b>. Load it here? It replaces the checks saved in this browser (drafts are kept).</span><button class="btn primary" id="sh-load" type="button">Load snapshot</button><button class="btn" id="sh-ignore" type="button">Ignore</button></div>';
     document.getElementById("sh-load").addEventListener("click", function(){
-      incoming.notes = state.notes; state = incoming; state.updated = Date.now(); saveLocal();
+      incoming.notes = state.notes; state = incoming; state.updated = Date.now(); checkUnlocks(); saveLocal();
       document.getElementById("name").value = state.name; renderCats(); renderChips(); renderSummary(); b.innerHTML = "";
       history.replaceState(null, "", location.pathname + location.search); toast("Snapshot loaded.");
     });
@@ -712,6 +810,8 @@ a{color:inherit}
       '<p class="note">'+esc(CFG.disclaimer)+' '+esc(CFG.license)+'</p>';
   }
 
+  lastTotal = totals().all.checked;
+  TIERS.forEach(function(tr){ if (lastTotal >= tr.p) state.unlocked[tr.n.toLowerCase()] = true; });
   renderShell();
 })();
 </script>

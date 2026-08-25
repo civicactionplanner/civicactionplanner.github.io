@@ -22,6 +22,7 @@ const merged = {
   license: config.license,
   disclaimer: config.disclaimer,
   tiers: config.tiers || scorecard.tiers,
+  phases: config.phases,
   cats: scorecard.categories,
   actions: scorecard.actions,
 };
@@ -35,6 +36,22 @@ for (const a of merged.actions) {
   if (!a.variable && !(Number.isInteger(a.pts) && a.pts > 0)) throw new Error(`${a.code}: points must be a positive integer`);
   if (!(Number.isInteger(a.max) && a.max >= 1)) throw new Error(`${a.code}: max must be an integer >= 1`);
 }
+// Every action carries a phase, and the split is exactly the reviewed 22/39/34/14.
+const PHASE_COUNTS = { 1: 22, 2: 39, 3: 34, 4: 14 };
+const phaseSeen = { 1: 0, 2: 0, 3: 0, 4: 0 };
+for (const a of merged.actions) {
+  if (!Number.isInteger(a.phase) || a.phase < 1 || a.phase > 4) throw new Error(`${a.code}: missing or invalid phase (must be 1-4)`);
+  phaseSeen[a.phase]++;
+}
+for (const p of [1, 2, 3, 4]) {
+  if (phaseSeen[p] !== PHASE_COUNTS[p]) throw new Error(`Phase ${p} has ${phaseSeen[p]} actions; expected ${PHASE_COUNTS[p]}`);
+}
+if (!Array.isArray(merged.phases) || merged.phases.length !== 4) throw new Error("planner-config.json needs a 4-entry phases array");
+for (const [i, ph] of merged.phases.entries()) {
+  if (ph.number !== i + 1 || !ph.name || !Number.isInteger(ph.unlockPoints) || !ph.tagline || !ph.why)
+    throw new Error(`phases[${i}] needs number ${i + 1}, name, unlockPoints, tagline, why`);
+}
+
 for (const c of merged.cats) {
   const possible = merged.actions
     .filter((a) => a.cat === c.id)

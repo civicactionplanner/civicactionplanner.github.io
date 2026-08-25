@@ -117,6 +117,78 @@ test("print sheet lists checked actions with totals", async ({ page }) => {
   expect(sheet).toContain("Total points: 20");
 });
 
+// ---------- phases ----------
+const scorecard = JSON.parse(fs.readFileSync(path.join(root, "data", "civic-action-scorecard-2024-2025.json"), "utf8"));
+const byPhase = { 1: [], 2: [], 3: [], 4: [] };
+for (const a of scorecard.actions) byPhase[a.phase].push(a);
+const singlePass = (p) => byPhase[p].reduce((s, a) => s + a.pts, 0);
+// 10-point, single-completion actions used to build exact point totals in tests below.
+const tens = scorecard.actions.filter((a) => a.pts === 10 && !a.variable && !a.unlimited);
+const stateWith = (codes) => ({ v: 2, name: "", counts: Object.fromEntries(codes.map((c) => [c, 1])), ia: 10, sub: {}, appr: {}, notes: {}, updated: 1 });
+
+async function goPhase(page, hash) {
+  await page.evaluate((h) => { location.hash = h; }, hash);
+  await page.waitForSelector("#phase-head");
+}
+
+test("each phase view lists exactly its assigned actions", async ({ page }) => {
+  for (const p of [1, 2, 3, 4]) {
+    await goPhase(page, "#phase/" + p);
+    const shown = await page.locator(".item").evaluateAll((els) => els.map((e) => e.dataset.code).sort());
+    expect(shown).toEqual(byPhase[p].map((a) => a.code).sort());
+  }
+});
+
+test("phase totals match 150/280/415/235 single-pass points from the data", async ({ page }) => {
+  expect([1, 2, 3, 4].map(singlePass)).toEqual([150, 280, 415, 235]);
+  expect([1, 2, 3, 4].map((p) => byPhase[p].length)).toEqual([22, 39, 34, 14]);
+  for (const p of [1, 2, 3, 4]) {
+    await goPhase(page, "#phase/" + p);
+    await expect(page.locator("#phase-prog")).toHaveText(`0 of ${byPhase[p].length} checked, 0 of ${singlePass(p)} points`);
+  }
+});
+
+test("soft-lock banner appears at 60 points and disappears at 100", async ({ page }) => {
+  const sixty = tens.filter((a) => a.phase !== 2).slice(0, 6).map((a) => a.code);
+  const extra = tens.filter((a) => a.phase === 2).slice(0, 4).map((a) => a.code);
+  expect(sixty.length).toBe(6);
+  expect(extra.length).toBe(4);
+  await page.evaluate(([key, s]) => localStorage.setItem(key, JSON.stringify(s)), ["cas-planner-v2", stateWith(sixty)]);
+  await page.reload();
+  await page.waitForSelector("#total");
+  await goPhase(page, "#phase/2");
+  await expect(page.locator("#phase-lock")).toContainText("Recommended after you reach Bronze (100 points). You have 60.");
+  await expect(page.locator("#phase-head")).toHaveClass(/locked/);
+  for (const code of extra) await page.click(`#item-${code} .row`);
+  expect(num(await page.textContent("#total"))).toBe(100);
+  await expect(page.locator("#phase-lock")).toHaveCount(0);
+  await expect(page.locator("#phase-head")).not.toHaveClass(/locked/);
+});
+
+test("unlock toast fires once when crossing 100 and not again after reload", async ({ page }) => {
+  const ninety = tens.slice(0, 9).map((a) => a.code);
+  const last = tens[9].code;
+  await page.evaluate(([key, s]) => localStorage.setItem(key, JSON.stringify(s)), ["cas-planner-v2", stateWith(ninety)]);
+  await page.reload();
+  await page.waitForSelector("#total");
+  await page.click(`#item-${last} .row`);
+  await expect(page.locator("#toast.show")).toHaveText("Bronze reached. Phase 2 is open.");
+  await page.reload();
+  await page.waitForSelector("#total");
+  await page.click(`#item-${last} .row`); // back to 90
+  await page.click(`#item-${last} .row`); // crosses 100 again
+  expect(num(await page.textContent("#total"))).toBe(100);
+  await page.waitForTimeout(400);
+  await expect(page.locator("#toast.show")).toHaveCount(0);
+});
+
+test("#all still lists all 109 actions", async ({ page }) => {
+  await page.evaluate(() => { location.hash = "#all"; });
+  await expect(page.locator(".item")).toHaveCount(109);
+  const navAll = page.locator('.nav a[href="#all"]');
+  await expect(navAll).toHaveAttribute("aria-current", "page");
+});
+
 test("page reads without scripts", async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false });
   const page = await ctx.newPage();
