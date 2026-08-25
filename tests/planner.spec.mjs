@@ -217,6 +217,8 @@ test("home shows explanation, meter, phase cards, and account control within the
   await expect(cards).toHaveCount(4);
   const fourth = await cards.nth(3).boundingBox();
   expect(fourth.y + fourth.height).toBeLessThanOrEqual(844); // whole fourth card above the fold
+  expect(fourth.x + fourth.width).toBeLessThanOrEqual(390); // no horizontal overflow
+  for (let i = 0; i < 4; i++) await expect(cards.nth(i).locator(".pc-go")).toBeInViewport();
   const acct = await page.locator("#btn-account").boundingBox();
   expect(acct.y + acct.height).toBeLessThanOrEqual(844);
   const meter = await page.locator(".meter").boundingBox();
