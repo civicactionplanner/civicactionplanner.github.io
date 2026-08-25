@@ -10,12 +10,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const target = process.env.BASE_URL || "file://" + path.join(root, "index.html");
 const num = (s) => parseInt(String(s).replace(/[^0-9]/g, ""), 10);
 
+// The landing view is #home; most tests exercise the full list, so start each on #all.
 test.beforeEach(async ({ page }) => {
   await page.goto(target);
   await page.waitForSelector("#total");
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => { localStorage.clear(); location.hash = "#all"; });
   await page.reload();
-  await page.waitForSelector("#total");
+  await page.waitForSelector(".item");
 });
 
 test("loads every action with the right point totals", async ({ page }) => {
@@ -194,6 +195,67 @@ test("page reads without scripts", async ({ browser }) => {
   const page = await ctx.newPage();
   await page.goto(target);
   await expect(page.locator(".nojs")).toBeVisible();
-  expect(await page.locator(".item").count()).toBe(109);
+  // The pre-render is now the home page: explanation, meter, and the four phase cards.
+  await expect(page.locator(".home-intro")).toContainText("Civic Action Scorecard");
+  expect(await page.locator(".pcard").count()).toBe(4);
+  await expect(page.locator("#total")).toHaveText(/0\s*PTS/);
   await ctx.close();
+});
+
+// ---------- home page and navigation ----------
+test("home shows explanation, meter, phase cards, and account control within the 390x844 fold", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await page.goto(target);
+  await page.waitForSelector("#total");
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForSelector(".pcard");
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page.locator(".home-intro")).toContainText("Bronze (100)");
+  const cards = page.locator(".pcard");
+  await expect(cards).toHaveCount(4);
+  const fourth = await cards.nth(3).boundingBox();
+  expect(fourth.y + fourth.height).toBeLessThanOrEqual(844); // whole fourth card above the fold
+  const acct = await page.locator("#btn-account").boundingBox();
+  expect(acct.y + acct.height).toBeLessThanOrEqual(844);
+  const meter = await page.locator(".meter").boundingBox();
+  expect(meter.y + meter.height).toBeLessThanOrEqual(844);
+  await ctx.close();
+});
+
+test("navigation marks the active view with aria-current", async ({ page }) => {
+  await expect(page.locator('.nav a[href="#all"]')).toHaveAttribute("aria-current", "page");
+  await page.evaluate(() => { location.hash = "#phase/3"; });
+  await page.waitForSelector("#phase-head");
+  await expect(page.locator('.nav a[href="#phase/3"]')).toHaveAttribute("aria-current", "page");
+  expect(await page.locator('.nav a[aria-current="page"]').count()).toBe(1);
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector(".pcard");
+  await expect(page.locator('.nav a[href="#home"]')).toHaveAttribute("aria-current", "page");
+});
+
+test("Continue opens the lowest phase with unchecked actions", async ({ page }) => {
+  await page.evaluate(([key, s]) => localStorage.setItem(key, JSON.stringify(s)),
+    ["cas-planner-v2", stateWith(byPhase[1].map((a) => a.code))]);
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.reload();
+  await page.waitForSelector("#btn-continue");
+  await page.click("#btn-continue");
+  await page.waitForSelector("#phase-head");
+  expect(await page.evaluate(() => location.hash)).toBe("#phase/2");
+  await expect(page.locator("#phase-head h2")).toHaveText("Bronze");
+});
+
+test("import restores progress from a phase view", async ({ page }) => {
+  await page.click("#item-AC-5 .row");
+  const [download] = await Promise.all([page.waitForEvent("download"), page.click("#btn-export")]);
+  const file = await download.path();
+  await page.evaluate(() => { localStorage.clear(); location.hash = "#phase/3"; });
+  await page.reload();
+  await page.waitForSelector("#phase-head");
+  await page.setInputFiles("#file-import", file);
+  await expect(page.locator("#toast")).toContainText("imported");
+  const ac5 = scorecard.actions.find((a) => a.code === "AC-5").pts;
+  expect(num(await page.textContent("#total"))).toBe(ac5);
 });

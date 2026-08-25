@@ -22,6 +22,7 @@ const merged = {
   license: config.license,
   disclaimer: config.disclaimer,
   tiers: config.tiers || scorecard.tiers,
+  homeIntro: config.homeIntro,
   phases: config.phases,
   cats: scorecard.categories,
   actions: scorecard.actions,
@@ -46,6 +47,7 @@ for (const a of merged.actions) {
 for (const p of [1, 2, 3, 4]) {
   if (phaseSeen[p] !== PHASE_COUNTS[p]) throw new Error(`Phase ${p} has ${phaseSeen[p]} actions; expected ${PHASE_COUNTS[p]}`);
 }
+if (!merged.homeIntro) throw new Error("planner-config.json needs a homeIntro line for the home page");
 if (!Array.isArray(merged.phases) || merged.phases.length !== 4) throw new Error("planner-config.json needs a 4-entry phases array");
 for (const [i, ph] of merged.phases.entries()) {
   if (ph.number !== i + 1 || !ph.name || !Number.isInteger(ph.unlockPoints) || !ph.tagline || !ph.why)

@@ -53,8 +53,12 @@ a{color:inherit}
 .brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;flex-wrap:wrap}
 .brand h1{margin:0;font-size:26px;line-height:1}
 .brand .yr{font-size:13px;color:var(--ink-2)}
-.tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.nav{display:flex;gap:6px;flex-wrap:wrap;flex:1 0 100%}
+.tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:26px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+.nav{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.savechip{font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap;flex:none}
+.acct-box{display:flex;gap:6px;align-items:center;flex:none}
+.acct-box .btn:disabled{opacity:.6;cursor:default}
 .nav a{text-decoration:none;font-size:12.5px;padding:5px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;background:var(--surface)}
 .nav a .dot{width:8px;height:8px;border-radius:50%;background:var(--c)}
 .nav a:hover{border-color:var(--c);color:var(--ink)}
@@ -114,6 +118,26 @@ a{color:inherit}
 .ph.locked h2{color:var(--ink-3)}
 .ph.locked .ph-no{color:var(--ink-3)}
 .nav a[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* home */
+.home-intro{font-size:14.5px;line-height:1.55;color:var(--ink-2);margin:16px 0 10px;max-width:72ch}
+.cont-row{margin:0 0 10px}
+.hero.compact{padding:14px 18px 12px;gap:8px}
+.hero.compact .num{font-size:56px}
+.pcards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 10px}
+.pcard{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pc,var(--de));border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+.pcard:hover{border-color:var(--pc,var(--line-2))}
+.pcard .pc-top{display:flex;align-items:baseline;gap:8px}
+.pcard .pc-no{font-size:11.5px;color:var(--pc,var(--ink-2));flex:none}
+.pcard .pc-name{font-size:24px;line-height:1}
+.pcard .pc-state{margin-left:auto;font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+.pcard .pc-tag{font-size:12.5px;color:var(--ink-2);font-style:italic;line-height:1.35}
+.pcard .pc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.pcard .pc-stats{font-size:13px}
+.pcard.later{background:var(--surface-2);border-left-color:var(--line-2)}
+.pcard.later .pc-name{color:var(--ink-3)}
+.browse{margin:6px 0 4px;font-size:14px}
+@media (max-width:900px){.pcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* controls */
 .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
@@ -198,7 +222,25 @@ a{color:inherit}
 @media (max-width:640px){
   .wrap{padding:0 12px 60px}
   .top{position:static}
-  .nav{display:none}
+  .top-in{gap:8px}
+  .brand h1{font-size:20px}
+  .brand .yr{display:none}
+  .nav{order:3;flex:1 0 100%}
+  .acct-box .btn{font-size:12px;padding:5px 8px}
+  .top-in{padding:8px 12px}
+  .home-intro{font-size:13.5px;line-height:1.5;margin:10px 0 8px}
+  .cont-row{margin:0 0 8px}
+  .pcards{grid-template-columns:1fr;gap:6px;margin:10px 0 8px}
+  .pcard{padding:8px 12px;gap:3px}
+  .pcard .pc-name{font-size:19px}
+  .pcard .pc-tag{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pcard .pc-go{padding:4px 9px;font-size:12px}
+  .pcard .pc-stats{font-size:12.5px}
+  .hero.compact{padding:12px 14px 10px;gap:5px}
+  .hero.compact .num{font-size:40px}
+  .hero.compact .meter{margin:10px 0 20px}
+  .hero.compact .lbl{font-size:12px}
+  .hero.compact .award{font-size:13px}
   .row{grid-template-columns:28px 1fr 56px 30px;gap:10px;padding:10px 2px}
   .row .code{grid-column:2;font-size:12px}
   .row .tx{grid-column:2}
@@ -292,7 +334,7 @@ a{color:inherit}
     lastTotal = t;
     if (msg) toast(msg);
   }
-  function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); }
+  function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); updateHomeCards(); }
 
   // ---------- math ----------
   function ptsFor(a){
@@ -406,7 +448,7 @@ a{color:inherit}
     if (!r){ if (!initial){ updateNav(); return; } r = {view:"home"}; }
     if (r.bad) history.replaceState(null, "", location.pathname + location.search + "#home");
     route = {view:r.view, n:r.n};
-    renderCats(); updateNav();
+    renderView();
     if (!initial) window.scrollTo(0, 0);
   }
   function updateNav(){
@@ -423,13 +465,17 @@ a{color:inherit}
     var app = document.getElementById("app");
     var viewNav = [{h:"#home", l:"Home"}].concat(CFG.phases.map(function(p){ return {h:"#phase/"+p.number, l:p.name}; }))
       .concat([{h:"#all", l:"All"}])
-      .map(function(v){ return '<a href="'+v.h+'" data-view="1">'+esc(v.l)+'</a>'; }).join("");
-    var nav = viewNav + DATA.cats.filter(function(c){return c.id!=="IA";}).map(function(c){
-      return '<a href="#cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+')"><span class="dot"></span>'+esc(c.name)+'</a>';
-    }).join("");
+      .map(function(v){ return '<a href="'+v.h+'" data-view="1">'+esc(v.l)+'</a>'; }).join("") +
+      '<span class="savechip" id="save-chip">Saved on this device only</span>';
     app.innerHTML =
       '<div class="top"><div class="top-in">' +
         '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.edition)+' scorecard</span></div>' +
+        '<nav class="nav" aria-label="Views">'+viewNav+'</nav>' +
+        '<div class="acct-box"><button class="btn" id="btn-account" type="button" disabled title="Coming soon">Sign in to save progress</button></div>' +
+      '</div></div>' +
+      '<div class="wrap">' +
+        '<div id="banner"></div>' +
+        '<div id="view"></div>' +
         '<div class="tools">' +
           '<input class="name" id="name" type="text" placeholder="Your name" value="'+esc(state.name)+'" aria-label="Your name">' +
           '<button class="btn" id="btn-print" type="button">Print planning sheet</button>' +
@@ -439,10 +485,35 @@ a{color:inherit}
           '<button class="btn" id="btn-share" type="button">Copy share link</button>' +
           '<button class="btn" id="btn-theme" type="button">Theme: Auto</button>' +
         '</div>' +
-        '<nav class="nav" aria-label="Categories">'+nav+'</nav>' +
-      '</div></div>' +
-      '<div class="wrap">' +
-        '<div id="banner"></div>' +
+        '<footer class="foot">' +
+          '<p>Points are awarded only when an action is submitted with its documentation and reflection in the <a href="'+esc(CFG.hubUrl)+'" target="_blank" rel="noopener">'+esc(CFG.hubName)+'</a> and approved by iCED staff. Award levels: '+TIERS.map(function(t){return t.n+" "+t.p;}).join(", ")+' points.</p>' +
+          '<p>'+esc(CFG.credit)+'</p>' +
+          '<p>'+esc(CFG.license)+'</p>' +
+          '<p>'+esc(CFG.disclaimer)+'</p>' +
+        '</footer>' +
+      '</div>';
+    applyTheme(); applyRoute(true);
+    window.addEventListener("hashchange", function(){ applyRoute(false); });
+    document.getElementById("name").addEventListener("input", function(e){ state.name = e.target.value; state.updated = Date.now(); saveLocal(); });
+    document.getElementById("btn-theme").addEventListener("click", cycleTheme);
+    document.getElementById("btn-export").addEventListener("click", exportJSON);
+    document.getElementById("btn-import").addEventListener("click", function(){ document.getElementById("file-import").click(); });
+    document.getElementById("file-import").addEventListener("change", importJSON);
+    document.getElementById("btn-share").addEventListener("click", shareLink);
+    document.getElementById("btn-print").addEventListener("click", function(){ buildPrint(); window.print(); });
+    window.addEventListener("beforeprint", buildPrint);
+    setTopOffset(); window.addEventListener("resize", setTopOffset);
+    checkSharedHash();
+  }
+  function renderView(){
+    var v = document.getElementById("view");
+    if (route.view === "home"){
+      v.innerHTML = homeHtml();
+      renderSummary();
+      var bc = document.getElementById("btn-continue");
+      if (bc) bc.addEventListener("click", function(){ location.hash = "#phase/" + lowestUnfinishedPhase(); });
+    } else {
+      v.innerHTML =
         '<section class="summary" id="summary"></section>' +
         '<div class="controls">' +
           '<div class="chips" id="chips" role="group" aria-label="Filter actions"></div>' +
@@ -454,32 +525,46 @@ a{color:inherit}
           '</div>' +
         '</div>' +
         '<p class="legend">Check an action once you have completed it; the planner adds its points and tracks the next award level. Open an action to see exactly what to submit, draft your What / So what / Now what reflection, copy it for the '+esc(CFG.hubName)+', and mark it <span class="badge sub">Submitted</span> and <span class="badge appr">Approved</span> as iCED reviews it. Everything is saved in this browser; use Export backup to move it or keep a copy.</p>' +
-        '<div id="cats"></div>' +
-        '<footer class="foot">' +
-          '<p>Points are awarded only when an action is submitted with its documentation and reflection in the <a href="'+esc(CFG.hubUrl)+'" target="_blank" rel="noopener">'+esc(CFG.hubName)+'</a> and approved by iCED staff. Award levels: '+TIERS.map(function(t){return t.n+" "+t.p;}).join(", ")+' points.</p>' +
-          '<p>'+esc(CFG.credit)+'</p>' +
-          '<p>'+esc(CFG.license)+'</p>' +
-          '<p>'+esc(CFG.disclaimer)+'</p>' +
-        '</footer>' +
-      '</div>';
-    renderChips(); renderSummary(); applyTheme(); applyRoute(true);
-    window.addEventListener("hashchange", function(){ applyRoute(false); });
-    document.getElementById("name").addEventListener("input", function(e){ state.name = e.target.value; state.updated = Date.now(); saveLocal(); });
-    document.getElementById("search").addEventListener("input", function(e){ query = e.target.value.trim().toLowerCase(); applyFilter(); });
-    document.getElementById("btn-expand").addEventListener("click", function(){ DATA.actions.forEach(function(a){ openSet[a.code] = true; }); syncOpen(); });
-    document.getElementById("btn-collapse").addEventListener("click", function(){ openSet = {}; syncOpen(); });
-    armButton(document.getElementById("btn-clear"), "Clear all", "Confirm clear", function(){
-      state.counts = {}; state.sub = {}; state.appr = {}; commit(); renderCats(); renderChips(); toast("All actions unchecked. Notes were kept.");
-    });
-    document.getElementById("btn-theme").addEventListener("click", cycleTheme);
-    document.getElementById("btn-export").addEventListener("click", exportJSON);
-    document.getElementById("btn-import").addEventListener("click", function(){ document.getElementById("file-import").click(); });
-    document.getElementById("file-import").addEventListener("change", importJSON);
-    document.getElementById("btn-share").addEventListener("click", shareLink);
-    document.getElementById("btn-print").addEventListener("click", function(){ buildPrint(); window.print(); });
-    window.addEventListener("beforeprint", buildPrint);
-    setTopOffset(); window.addEventListener("resize", setTopOffset);
-    checkSharedHash();
+        '<div id="cats"></div>';
+      renderChips(); renderSummary(); renderCats();
+      document.getElementById("search").addEventListener("input", function(e){ query = e.target.value.trim().toLowerCase(); applyFilter(); });
+      document.getElementById("btn-expand").addEventListener("click", function(){ DATA.actions.forEach(function(a){ openSet[a.code] = true; }); syncOpen(); });
+      document.getElementById("btn-collapse").addEventListener("click", function(){ openSet = {}; syncOpen(); });
+      armButton(document.getElementById("btn-clear"), "Clear all", "Confirm clear", function(){
+        state.counts = {}; state.sub = {}; state.appr = {}; commit(); renderCats(); renderChips(); toast("All actions unchecked. Notes were kept.");
+      });
+    }
+    updateNav();
+  }
+  function lowestUnfinishedPhase(){
+    for (var n = 1; n <= 4; n++){
+      for (var i = 0; i < DATA.actions.length; i++){
+        var a = DATA.actions[i];
+        if (a.phase === n && !state.counts[a.code]) return n;
+      }
+    }
+    return 4;
+  }
+  function pcardHtml(p){
+    var st = phaseStats(p.number), total = totals().all.checked;
+    var later = total < p.unlockPoints;
+    return '<a class="pcard'+(later?' later':'')+'" href="#phase/'+p.number+'" style="--pc:var('+PHASE_ACCENT[p.number]+')">' +
+      '<div class="pc-top"><span class="pc-no cond">Phase '+p.number+'</span><span class="pc-name disp">'+esc(p.name)+'</span><span class="pc-state">'+(later ? 'Recommended after '+p.unlockPoints+' pts' : 'Open')+'</span></div>' +
+      '<div class="pc-tag">'+esc(p.tagline)+'</div>' +
+      '<div class="pc-foot"><span class="pc-stats">'+st.done+' of '+st.total+' checked · '+st.single+' pts available</span><span class="btn pc-go">Continue</span></div>' +
+      '</a>';
+  }
+  function homeHtml(){
+    var hasProgress = Object.keys(state.counts).length > 0;
+    return '<p class="home-intro">'+esc(CFG.homeIntro)+'</p>' +
+      (hasProgress ? '<div class="cont-row"><button class="btn primary" id="btn-continue" type="button">Continue where you left off</button></div>' : '') +
+      '<section class="summary" id="summary" data-mode="hero"></section>' +
+      '<div class="pcards" id="pcards">'+CFG.phases.map(pcardHtml).join("")+'</div>' +
+      '<p class="browse"><a href="#all">Browse all '+DATA.actions.length+' actions</a></p>';
+  }
+  function updateHomeCards(){
+    var el = document.getElementById("pcards");
+    if (el) el.innerHTML = CFG.phases.map(pcardHtml).join("");
   }
   function armButton(btn, label, confirmLabel, fn){
     var armed = false, t = null;
@@ -507,6 +592,7 @@ a{color:inherit}
     });
     var defs = [["all","All"],["done","Checked"],["todo","Unchecked"],["sub","Submitted"],["appr","Approved"],["notes","With drafts"]];
     var el = document.getElementById("chips");
+    if (!el) return;
     el.innerHTML = defs.map(function(d){
       return '<button type="button" class="chip" data-f="'+d[0]+'" aria-pressed="'+(filter===d[0])+'">'+d[1]+'<span class="n">'+c[d[0]]+'</span></button>';
     }).join("");
@@ -541,7 +627,7 @@ a{color:inherit}
   }
 
   // ---------- summary ----------
-  function renderSummary(){
+  function heroHtml(compact){
     var t = totals(), total = t.all.checked, ti = tierInfo(total);
     var pct = Math.min(total, TOP) / TOP * 100, pctA = Math.min(t.all.appr, TOP) / TOP * 100;
     var ticks = TIERS.map(function(tr){
@@ -553,6 +639,16 @@ a{color:inherit}
     if (ti.earned && ti.next) award = '<b>'+ti.earned.n+' level reached on paper.</b> '+(ti.next.p-total)+' more for '+ti.next.n+'.';
     else if (ti.earned && !ti.next) award = '<b>'+ti.earned.n+' level reached on paper.</b> '+(total-TOP)+' points past the top award.';
     else award = '<b>'+(TIERS[0].p-total)+' points to '+TIERS[0].n+'</b>, the first award level.';
+    return '<div class="hero'+(compact?' compact':'')+'">' +
+      '<div class="lbl">Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
+      '<div class="num disp" id="total">'+total+'<small>PTS</small></div>' +
+      '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
+      '<div class="award">'+award+'</div>' +
+      (compact ? '' : '<div class="stages"><span>Submitted <b>'+t.all.sub+' pts</b></span><span>Approved by iCED <b>'+t.all.appr+' pts</b></span></div>') +
+      '</div>';
+  }
+  function tilesHtml(){
+    var t = totals();
     var tiles = DATA.cats.filter(function(c){return c.id!=="IA";}).map(function(c){
       var x = t[c.id];
       return '<a class="tile" href="#cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+')">' +
@@ -562,15 +658,13 @@ a{color:inherit}
     }).join("");
     var ia = t.IA;
     tiles += '<a class="tile ia" href="#cat-IA" style="--c:var(--ia)"><div class="tn"><span>Instructor assigned</span><span>'+(ia.done?'set to '+state.ia+' pts':'not used')+'</span></div><div class="tv disp">'+ia.checked+'</div></a>';
-    document.getElementById("summary").innerHTML =
-      '<div class="hero">' +
-        '<div class="lbl">Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
-        '<div class="num disp" id="total">'+total+'<small>PTS</small></div>' +
-        '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
-        '<div class="award">'+award+'</div>' +
-        '<div class="stages"><span>Submitted <b>'+t.all.sub+' pts</b></span><span>Approved by iCED <b>'+t.all.appr+' pts</b></span></div>' +
-      '</div>' +
-      '<div class="tiles">'+tiles+'</div>';
+    return tiles;
+  }
+  function renderSummary(){
+    var el = document.getElementById("summary");
+    if (!el) return;
+    if (el.dataset.mode === "hero") el.innerHTML = heroHtml(true);
+    else el.innerHTML = heroHtml(false) + '<div class="tiles">'+tilesHtml()+'</div>';
   }
   function updateCatHeads(){
     var t = totals();
@@ -759,7 +853,7 @@ a{color:inherit}
       try {
         var obj = JSON.parse(r.result); var s = obj && obj.state ? obj.state : obj;
         state = normalize(s); state.updated = Date.now(); checkUnlocks(); saveLocal();
-        document.getElementById("name").value = state.name; renderCats(); renderChips(); renderSummary(); toast("Backup imported.");
+        document.getElementById("name").value = state.name; renderView(); toast("Backup imported.");
       } catch(err){ toast("That file isn't a planner backup."); }
       e.target.value = "";
     };
@@ -779,7 +873,7 @@ a{color:inherit}
     b.innerHTML = '<div class="banner"><span class="sp">This link carries a shared progress snapshot'+(incoming.name ? ' for <b>'+esc(incoming.name)+'</b>' : '')+' worth <b>'+t+' points</b>. Load it here? It replaces the checks saved in this browser (drafts are kept).</span><button class="btn primary" id="sh-load" type="button">Load snapshot</button><button class="btn" id="sh-ignore" type="button">Ignore</button></div>';
     document.getElementById("sh-load").addEventListener("click", function(){
       incoming.notes = state.notes; state = incoming; state.updated = Date.now(); checkUnlocks(); saveLocal();
-      document.getElementById("name").value = state.name; renderCats(); renderChips(); renderSummary(); b.innerHTML = "";
+      document.getElementById("name").value = state.name; renderView(); b.innerHTML = "";
       history.replaceState(null, "", location.pathname + location.search); toast("Snapshot loaded.");
     });
     document.getElementById("sh-ignore").addEventListener("click", function(){ b.innerHTML = ""; history.replaceState(null, "", location.pathname + location.search); });
