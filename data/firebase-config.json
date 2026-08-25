@@ -1,1 +1,8 @@
-{}
+{
+  "apiKey": "AIzaSyCglYypKHQ41NBSMhIIOlllQYgDV88cqGI",
+  "authDomain": "civic-action-planner.firebaseapp.com",
+  "projectId": "civic-action-planner",
+  "storageBucket": "civic-action-planner.firebasestorage.app",
+  "messagingSenderId": "676056823369",
+  "appId": "1:676056823369:web:b693cd1a3ae768e5757198"
+}
