@@ -1,6 +1,7 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
+  testMatch: "**/*.spec.mjs", // merge.test.mjs runs under node:test, not Playwright
   timeout: 30000,
   retries: 0,
   reporter: [["list"]],

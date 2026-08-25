@@ -4,6 +4,7 @@
 import { test, expect } from "@playwright/test";
 import path from "node:path";
 import fs from "node:fs";
+import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -219,8 +220,13 @@ test("home shows explanation, meter, phase cards, and account control within the
   expect(fourth.y + fourth.height).toBeLessThanOrEqual(844); // whole fourth card above the fold
   expect(fourth.x + fourth.width).toBeLessThanOrEqual(390); // no horizontal overflow
   for (let i = 0; i < 4; i++) await expect(cards.nth(i).locator(".pc-go")).toBeInViewport();
-  const acct = await page.locator("#btn-account").boundingBox();
-  expect(acct.y + acct.height).toBeLessThanOrEqual(844);
+  // Account control shows only when a Firebase config is built in; guest builds show the chip alone.
+  if (await page.locator("#btn-account").count()) {
+    const acct = await page.locator("#btn-account").boundingBox();
+    expect(acct.y + acct.height).toBeLessThanOrEqual(844);
+  } else {
+    await expect(page.locator(".foot")).toContainText("Saving to an account is not set up on this copy.");
+  }
   const meter = await page.locator(".meter").boundingBox();
   expect(meter.y + meter.height).toBeLessThanOrEqual(844);
   await ctx.close();
@@ -247,6 +253,54 @@ test("Continue opens the lowest phase with unchecked actions", async ({ page }) 
   await page.waitForSelector("#phase-head");
   expect(await page.evaluate(() => location.hash)).toBe("#phase/2");
   await expect(page.locator("#phase-head h2")).toHaveText("Bronze");
+});
+
+// ---------- accounts (build variants; no real Firebase project needed) ----------
+test("guest build: empty firebase config hides accounts and everything still works", async ({ browser }) => {
+  const out = path.join(root, ".guest-test.html");
+  execSync("node scripts/build.mjs", { cwd: root, env: { ...process.env, FIREBASE_CONFIG: "no-such-file.json", OUT: ".guest-test.html" } });
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  await page.goto("file://" + out);
+  await page.waitForSelector("#total");
+  expect(await page.content()).not.toContain("gstatic.com/firebasejs");
+  expect(await page.locator("#btn-account").count()).toBe(0);
+  await expect(page.locator(".foot")).toContainText("Saving to an account is not set up on this copy.");
+  await expect(page.locator("#save-chip")).toHaveText("Saved on this device only");
+  await page.evaluate(() => { location.hash = "#all"; });
+  await page.waitForSelector(".item");
+  await page.click("#item-DE-11 .row");
+  expect(num(await page.textContent("#total"))).toBe(10);
+  expect(errors).toEqual([]);
+  fs.unlinkSync(out);
+  await ctx.close();
+});
+
+test("account build: control renders, and a blocked SDK never throws", async ({ browser }) => {
+  const cfgFile = path.join(root, ".fake-firebase.json");
+  fs.writeFileSync(cfgFile, JSON.stringify({ apiKey: "fake-key", authDomain: "fake.firebaseapp.com", projectId: "fake", appId: "1:1:web:1" }));
+  const out = path.join(root, ".account-test.html");
+  execSync("node scripts/build.mjs", { cwd: root, env: { ...process.env, FIREBASE_CONFIG: ".fake-firebase.json", OUT: ".account-test.html" } });
+  const ctx = await browser.newContext();
+  await ctx.route(/gstatic\.com/, (r) => r.abort()); // simulate the SDK failing to load
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  await page.goto("file://" + out);
+  await page.waitForSelector("#total");
+  await expect(page.locator("#btn-account")).toHaveText("Sign in with Google to save progress");
+  await expect(page.locator(".foot")).toContainText("Firebase project owned by Daniel Llobet");
+  await page.click("#btn-account");
+  await expect(page.locator("#toast")).toContainText("did not load");
+  await page.evaluate(() => { location.hash = "#all"; });
+  await page.waitForSelector(".item");
+  await page.click("#item-DE-11 .row");
+  expect(num(await page.textContent("#total"))).toBe(10);
+  expect(errors).toEqual([]);
+  fs.unlinkSync(cfgFile); fs.unlinkSync(out);
+  await ctx.close();
 });
 
 test("import restores progress from a phase view", async ({ page }) => {

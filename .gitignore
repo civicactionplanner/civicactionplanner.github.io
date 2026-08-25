@@ -3,3 +3,6 @@ test-results/
 playwright-report/
 .prerender.tmp.html
 .DS_Store
+.guest-test.html
+.account-test.html
+.fake-firebase.json

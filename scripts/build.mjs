@@ -13,6 +13,16 @@ const template = read("src/planner.template.html");
 const config = JSON.parse(read("data/planner-config.json"));
 const scorecard = JSON.parse(read("data/civic-action-scorecard-2024-2025.json"));
 
+// Firebase web config (public by design). Missing/empty file => guest-only build:
+// no SDK is loaded and the account control is not rendered.
+// FIREBASE_CONFIG and OUT env vars let the tests build variants without touching index.html.
+const firebasePath = process.env.FIREBASE_CONFIG || "data/firebase-config.json";
+let firebaseCfg = null;
+try {
+  const parsed = JSON.parse(fs.readFileSync(path.join(root, firebasePath), "utf8") || "{}");
+  if (parsed && parsed.apiKey) firebaseCfg = parsed;
+} catch {}
+
 const merged = {
   title: config.title,
   edition: config.edition || scorecard.edition,
@@ -23,6 +33,8 @@ const merged = {
   disclaimer: config.disclaimer,
   tiers: config.tiers || scorecard.tiers,
   homeIntro: config.homeIntro,
+  privacy: config.privacy,
+  firebase: !!firebaseCfg,
   phases: config.phases,
   cats: scorecard.categories,
   actions: scorecard.actions,
@@ -48,6 +60,7 @@ for (const p of [1, 2, 3, 4]) {
   if (phaseSeen[p] !== PHASE_COUNTS[p]) throw new Error(`Phase ${p} has ${phaseSeen[p]} actions; expected ${PHASE_COUNTS[p]}`);
 }
 if (!merged.homeIntro) throw new Error("planner-config.json needs a homeIntro line for the home page");
+if (!merged.privacy) throw new Error("planner-config.json needs a privacy line for the footer");
 if (!Array.isArray(merged.phases) || merged.phases.length !== 4) throw new Error("planner-config.json needs a 4-entry phases array");
 for (const [i, ph] of merged.phases.entries()) {
   if (ph.number !== i + 1 || !ph.name || !Number.isInteger(ph.unlockPoints) || !ph.tagline || !ph.why)
@@ -66,6 +79,17 @@ for (const c of merged.cats) {
 
 const json = JSON.stringify(merged).replace(/<\//g, "<\\/");
 let html = template.replace("__CONFIG__", json);
+
+// Inline the pure merge function so the page and the unit tests share one source.
+const mergeSrc = read("src/merge.mjs").replace(/^export function/m, "function");
+html = html.replace("__MERGE__", () => mergeSrc);
+
+// Firebase: config JSON + the module script, or nothing at all for guest builds.
+const firebaseBlock = firebaseCfg
+  ? '<script id="cas-firebase" type="application/json">' + JSON.stringify(firebaseCfg).replace(/<\//g, "<\\/") + "</script>\n" +
+    '<script type="module">\n' + read("src/cloud.module.js") + "\n</script>"
+  : "";
+html = html.replace("__FIREBASE__", () => firebaseBlock);
 
 const wantPrerender = process.argv.includes("--prerender");
 if (wantPrerender) {
@@ -91,5 +115,6 @@ if (wantPrerender) {
   }
 }
 html = html.replace("__PRERENDER__", "");
-fs.writeFileSync(path.join(root, "index.html"), html);
-console.log(`Wrote index.html (${(html.length / 1024).toFixed(0)} KB, ${merged.actions.length} actions).`);
+const outFile = process.env.OUT || "index.html";
+fs.writeFileSync(path.join(root, outFile), html);
+console.log(`Wrote ${outFile} (${(html.length / 1024).toFixed(0)} KB, ${merged.actions.length} actions, accounts ${firebaseCfg ? "on" : "off"}).`);

@@ -7,7 +7,8 @@
   "scripts": {
     "build": "node scripts/build.mjs --prerender",
     "build:quick": "node scripts/build.mjs",
-    "test": "playwright test",
+    "test": "node --test tests/merge.test.mjs && playwright test",
+    "test:unit": "node --test tests/merge.test.mjs",
     "serve": "python3 -m http.server 8080",
     "deploy": "bash scripts/deploy.sh"
   },

@@ -57,8 +57,10 @@ a{color:inherit}
 .nav{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
 .savechip{font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap;flex:none}
-.acct-box{display:flex;gap:6px;align-items:center;flex:none}
+.acct-box{display:flex;gap:6px;align-items:center;flex:none;position:relative}
 .acct-box .btn:disabled{opacity:.6;cursor:default}
+.acct-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow);padding:6px;display:flex;flex-direction:column;gap:4px;z-index:40;min-width:200px}
+.acct-menu .btn{border:0;text-align:left}
 .nav a{text-decoration:none;font-size:12.5px;padding:5px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;background:var(--surface)}
 .nav a .dot{width:8px;height:8px;border-radius:50%;background:var(--c)}
 .nav a:hover{border-color:var(--c);color:var(--ink)}
@@ -319,7 +321,7 @@ a{color:inherit}
   var filter = "all", query = "", openSet = {};
   var route = {view:"home"};
   var lastTotal = 0;
-  function saveLocal(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){} }
+  function saveLocal(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){} queueCloudSave(); }
   function checkUnlocks(){
     var t = totals().all.checked, msg = null;
     TIERS.forEach(function(tr){
@@ -460,6 +462,86 @@ a{color:inherit}
     });
   }
 
+  // ---------- cloud save (storage adapter: local always, cloud when signed in) ----------
+  var BK_KEY = LS_KEY + "-backup";
+  var cloudUser = null, cloudTimer = null, cloudDirty = false, acctMenuOpen = false;
+  function cloudSnapshot(){ return {name:state.name, counts:state.counts, ia:state.ia, sub:state.sub, appr:state.appr, notes:state.notes, updated:state.updated}; }
+  function setChip(){
+    var c = document.getElementById("save-chip"); if (!c) return;
+    c.textContent = cloudUser ? "Saved to your account" : "Saved on this device only";
+  }
+  function queueCloudSave(){
+    if (!cloudUser || !window.casCloud) return;
+    cloudDirty = true;
+    clearTimeout(cloudTimer);
+    cloudTimer = setTimeout(flushCloud, 1500);
+  }
+  function flushCloud(){
+    if (!cloudDirty || !cloudUser || !window.casCloud) return;
+    cloudDirty = false;
+    window.casCloud.save(cloudSnapshot()).catch(function(){ cloudDirty = true; });
+  }
+__MERGE__
+  function onCloudUser(u){
+    cloudUser = u; renderAcct();
+    if (!u) return;
+    window.casCloud.load().then(function(cloudDoc){
+      var d = mergeStates(state, cloudDoc);
+      if (d.action === "uploadLocal"){
+        window.casCloud.save(cloudSnapshot()).catch(function(){ toast("Could not reach your account. Progress is safe on this device."); });
+      } else if (d.action === "useCloud"){
+        try { localStorage.setItem(BK_KEY, JSON.stringify(state)); } catch(e){}
+        state = normalize(cloudDoc);
+        try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){}
+        lastTotal = totals().all.checked;
+        TIERS.forEach(function(tr){ if (lastTotal >= tr.p) state.unlocked[tr.n.toLowerCase()] = true; });
+        var nm = document.getElementById("name"); if (nm) nm.value = state.name;
+        renderView(); toast("Progress loaded from your account.");
+      }
+    }).catch(function(){ toast("Could not load your saved progress. Working from this device."); });
+  }
+  function renderAcct(){
+    var box = document.getElementById("acct-box"); if (!box) return;
+    if (!CFG.firebase){ box.innerHTML = ""; setChip(); return; }
+    if (!cloudUser){
+      box.innerHTML = '<button class="btn" id="btn-account" type="button">Sign in with Google to save progress</button>';
+      document.getElementById("btn-account").addEventListener("click", function(){
+        if (!window.casCloud){ toast("Google sign-in did not load. Check your connection and reload."); return; }
+        window.casCloud.signIn().catch(function(){ toast("Sign-in was cancelled or blocked."); });
+      });
+    } else {
+      box.innerHTML =
+        '<button class="btn" id="btn-account" type="button" aria-haspopup="true" aria-expanded="'+acctMenuOpen+'">'+esc(cloudUser.displayName || cloudUser.email || "Account")+' ▾</button>' +
+        (acctMenuOpen ?
+          '<div class="acct-menu" id="acct-menu">' +
+            '<button class="btn" id="btn-signout" type="button">Sign out</button>' +
+            '<button class="btn" id="btn-delete" type="button">Delete my saved data</button>' +
+          '</div>' : '');
+      document.getElementById("btn-account").addEventListener("click", function(){ acctMenuOpen = !acctMenuOpen; renderAcct(); });
+      if (acctMenuOpen){
+        document.getElementById("btn-signout").addEventListener("click", function(){
+          acctMenuOpen = false; flushCloud();
+          window.casCloud.signOut().then(function(){ toast("Signed out. Your progress stays on this device."); }, function(){});
+        });
+        armButton(document.getElementById("btn-delete"), "Delete my saved data", "Confirm delete", function(){
+          acctMenuOpen = false;
+          window.casCloud.deleteMyData().then(function(){
+            toast("Your saved data was deleted and you are signed out.");
+          }, function(err){
+            if (err && err.code === "auth/requires-recent-login") toast("For security, sign in again and choose Delete again to finish removing the account.");
+            else toast("Could not delete right now. Try again.");
+          });
+        });
+      }
+    }
+    setChip();
+  }
+  window.addEventListener("cas-cloud-ready", function(){
+    if (window.casCloud) window.casCloud.onUser(onCloudUser);
+  });
+  window.addEventListener("pagehide", flushCloud);
+  document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "hidden") flushCloud(); });
+
   // ---------- shell ----------
   function renderShell(){
     var app = document.getElementById("app");
@@ -471,7 +553,7 @@ a{color:inherit}
       '<div class="top"><div class="top-in">' +
         '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.edition)+' scorecard</span></div>' +
         '<nav class="nav" aria-label="Views">'+viewNav+'</nav>' +
-        '<div class="acct-box"><button class="btn" id="btn-account" type="button" disabled title="Coming soon">Sign in to save progress</button></div>' +
+        '<div class="acct-box" id="acct-box"></div>' +
       '</div></div>' +
       '<div class="wrap">' +
         '<div id="banner"></div>' +
@@ -490,9 +572,10 @@ a{color:inherit}
           '<p>'+esc(CFG.credit)+'</p>' +
           '<p>'+esc(CFG.license)+'</p>' +
           '<p>'+esc(CFG.disclaimer)+'</p>' +
+          (CFG.firebase ? '<p>'+esc(CFG.privacy)+'</p>' : '<p>Saving to an account is not set up on this copy.</p>') +
         '</footer>' +
       '</div>';
-    applyTheme(); applyRoute(true);
+    applyTheme(); renderAcct(); applyRoute(true);
     window.addEventListener("hashchange", function(){ applyRoute(false); });
     document.getElementById("name").addEventListener("input", function(e){ state.name = e.target.value; state.updated = Date.now(); saveLocal(); });
     document.getElementById("btn-theme").addEventListener("click", cycleTheme);
@@ -909,5 +992,6 @@ a{color:inherit}
   renderShell();
 })();
 </script>
+__FIREBASE__
 </body>
 </html>
