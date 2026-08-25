@@ -12,10 +12,18 @@ const target = process.env.BASE_URL || "file://" + path.join(root, "index.html")
 const num = (s) => parseInt(String(s).replace(/[^0-9]/g, ""), 10);
 
 // The landing view is #home; most tests exercise the full list, so start each on #all.
+// Sections default to collapsed on #all, so the harness seeds them open (cas-ui-v1 is
+// UI-only state, like the localStorage.clear() next to it); the collapse tests below
+// use fresh contexts to exercise the real defaults.
+const OPEN_ALL_SECTIONS = { sections: { all: { DE: false, ES: false, CW: false, AC: false, SI: false, IA: false } } };
 test.beforeEach(async ({ page }) => {
   await page.goto(target);
   await page.waitForSelector("#total");
-  await page.evaluate(() => { localStorage.clear(); location.hash = "#all"; });
+  await page.evaluate((seed) => {
+    localStorage.clear();
+    localStorage.setItem("cas-ui-v1", JSON.stringify(seed));
+    location.hash = "#all";
+  }, OPEN_ALL_SECTIONS);
   await page.reload();
   await page.waitForSelector(".item");
 });
@@ -301,6 +309,75 @@ test("Continue opens the lowest phase with unchecked actions", async ({ page }) 
   await expect(page.locator("#phase-head h2")).toHaveText("Bronze");
 });
 
+// ---------- collapsible sections (fresh contexts: real defaults, no harness seed) ----------
+test("#all starts with six collapsed sections that still show counts", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#all");
+  await page.waitForSelector(".cat");
+  await expect(page.locator(".cat")).toHaveCount(6);
+  await expect(page.locator(".cat.closed")).toHaveCount(6);
+  await expect(page.locator("#rows-DE")).toBeHidden();
+  await expect(page.locator("#cs-DE")).toBeVisible();
+  await expect(page.locator("#cs-DE")).toContainText("0 of 34 checked");
+  await expect(page.locator("#cat-DE .cat-h")).toHaveAttribute("aria-expanded", "false");
+  await ctx.close();
+});
+
+test("#phase/2 starts with sections expanded", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#phase/2");
+  await page.waitForSelector(".cat");
+  await expect(page.locator(".cat.closed")).toHaveCount(0);
+  await expect(page.locator("#rows-DE")).toBeVisible();
+  await expect(page.locator("#cat-DE .cat-h")).toHaveAttribute("aria-expanded", "true");
+  await ctx.close();
+});
+
+test("section toggling persists across reload", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#all");
+  await page.waitForSelector(".cat");
+  await page.click("#cat-DE .cat-h");
+  await expect(page.locator("#rows-DE")).toBeVisible();
+  await page.reload();
+  await page.waitForSelector(".cat");
+  await expect(page.locator("#cat-DE")).not.toHaveClass(/closed/);
+  await expect(page.locator("#cat-ES")).toHaveClass(/closed/);
+  await ctx.close();
+});
+
+test("search blood expands only Community Well-Being", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#all");
+  await page.waitForSelector(".cat");
+  await page.fill("#search", "blood");
+  await expect(page.locator("#cat-CW")).not.toHaveClass(/closed/);
+  await expect(page.locator("#cat-DE")).toHaveClass(/closed/);
+  await expect(page.locator("#cat-CW .item:not(.hidden)")).toHaveCount(3);
+  await page.fill("#search", "");
+  await expect(page.locator("#cat-CW")).toHaveClass(/closed/);
+  await ctx.close();
+});
+
+test("keyboard toggles a section header", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#all");
+  await page.waitForSelector(".cat");
+  await page.focus("#cat-DE .cat-h");
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#rows-DE")).toBeVisible();
+  await expect(page.locator("#cat-DE .cat-h")).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press(" ");
+  await expect(page.locator("#rows-DE")).toBeHidden();
+  await expect(page.locator("#cat-DE .cat-h")).toHaveAttribute("aria-expanded", "false");
+  await ctx.close();
+});
+
 // ---------- navigation (tab bar, responsive labels, More menu) ----------
 test("bottom tab bar below 700, pill nav above", async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
@@ -398,7 +475,8 @@ test("guest build: empty firebase config hides accounts and everything still wor
   expect(await page.locator("#btn-account").count()).toBe(0);
   await expect(page.locator(".foot")).toContainText("Saving to an account is not set up on this copy.");
   await expect(page.locator("#save-chip")).toHaveText("Saved on this device only");
-  await page.evaluate(() => { location.hash = "#all"; });
+  await page.evaluate((seed) => { localStorage.setItem("cas-ui-v1", JSON.stringify(seed)); location.hash = "#all"; }, OPEN_ALL_SECTIONS);
+  await page.reload();
   await page.waitForSelector(".item");
   await page.click("#item-DE-11 .row");
   expect(num(await page.textContent("#total"))).toBe(10);
@@ -423,7 +501,8 @@ test("account build: control renders, and a blocked SDK never throws", async ({ 
   await expect(page.locator(".foot")).toContainText("Firebase project owned by Daniel Llobet");
   await page.click("#btn-account");
   await expect(page.locator("#toast")).toContainText("did not load");
-  await page.evaluate(() => { location.hash = "#all"; });
+  await page.evaluate((seed) => { localStorage.setItem("cas-ui-v1", JSON.stringify(seed)); location.hash = "#all"; }, OPEN_ALL_SECTIONS);
+  await page.reload();
   await page.waitForSelector(".item");
   await page.click("#item-DE-11 .row");
   expect(num(await page.textContent("#total"))).toBe(10);
