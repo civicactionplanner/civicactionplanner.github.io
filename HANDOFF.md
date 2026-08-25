@@ -15,7 +15,7 @@ Do the following, in order, and stop and tell me if any step fails:
 2. `npm install` and `npx playwright install chromium`.
 3. `npm run build` (this regenerates index.html with the no-JavaScript pre-render). If Playwright is missing, use `npm run build:quick` and say so.
 4. `npm test`. All tests must pass before anything is pushed. If one fails, show me the failure and propose the fix; do not change test expectations to make them pass.
-5. `bash scripts/deploy.sh civic-action-planner` to create the public repository under my GitHub account, push, turn on GitHub Pages from the main branch, wait for the site to answer, and run the test suite against the live URL.
+5. `bash scripts/deploy.sh` to create or update the public repository (this copy lives at civicactionplanner/civicactionplanner.github.io), push, turn on GitHub Pages from the main branch, wait for the site to answer, and run the test suite against the live URL.
 6. Open the live URL in a browser, take a screenshot, and confirm the total shows 0 PTS, the Democratic Engagement header shows "/ 390 pts", and clicking an action changes the total.
 7. Print the live URL and the repository URL, and list anything you changed.
 
@@ -26,8 +26,8 @@ Do not add analytics, sign-in, a build framework, or any dependency beyond what 
 
 ## What "done" looks like
 
-- A public repository named `civic-action-planner` under your GitHub account.
-- A live page at `https://<your-username>.github.io/civic-action-planner/` that shows 0 PTS and 109 actions.
+- A public repository named `civicactionplanner.github.io` in the civicactionplanner organization (a fork uses its own name).
+- A live page at `https://civicactionplanner.github.io/` that shows 0 PTS and 109 actions.
 - Nine passing Playwright tests, run once locally and once against the live URL.
 
 ## Sharing it after that

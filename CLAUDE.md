@@ -25,7 +25,7 @@ npm install
 npx playwright install chromium   # once
 npm run build                     # data + template -> index.html (with pre-render)
 npm test                          # local suite against index.html
-BASE_URL=https://<user>.github.io/civic-action-planner/ npm test   # against the live site
+BASE_URL=https://civicactionplanner.github.io/ npm test   # against the live site
 npm run deploy                    # create repo, push, enable Pages, verify
 ```
 

@@ -14,9 +14,9 @@ What it is not: a submission system. Points are only awarded when a student subm
 
 ## Host it in ten minutes
 
-Option A, GitHub Pages with one command (free, permanent URL, no server): install the GitHub CLI, run `gh auth login`, then `bash scripts/deploy.sh`. It creates the repository, pushes, turns on Pages, waits for the site, and runs the tests against it. The site lives at `https://<your-username>.github.io/civic-action-planner/`.
+Option A, GitHub Pages with one command (free, permanent URL, no server): install the GitHub CLI, run `gh auth login`, then `bash scripts/deploy.sh`. It creates the repository if needed, pushes, turns on Pages, waits for the site, and runs the tests against it. This copy deploys to `https://civicactionplanner.github.io/`; a fork can pass its own repository name (`bash scripts/deploy.sh my-planner` gives `https://<your-username>.github.io/my-planner/`, and a repository named `<your-username>.github.io` gives a root URL).
 
-Option A by hand: create a public repository named `civic-action-planner`, upload this folder, open Settings > Pages, set Source to "Deploy from a branch" with `main` and the root folder, and save. The page is live a minute later.
+Option A by hand: create a public repository, upload this folder, open Settings > Pages, set Source to "Deploy from a branch" with `main` and the root folder, and save. The page is live a minute later.
 
 Option B, any static host: Netlify Drop (drag the file into app.netlify.com/drop), Cloudflare Pages, or an MDC-hosted web folder. There is nothing to configure.
 
@@ -52,6 +52,10 @@ No accounts, no analytics, no network calls except loading three Google Fonts. E
 ## If iCED wants real submissions inside this tool
 
 The planner already holds the structured pieces a submission system needs: the action catalog, per-action documentation rules, the reflection prompts, and a per-student status model (checked, submitted, approved). Turning it into a system of record would add three things it deliberately does not have: sign-in with MDC credentials, storage for uploads and reflections outside the browser, and a staff review queue. That is a backend project with FERPA implications and belongs with MDC IT, or inside the existing GivePulse contract as a custom Impact form. Until then the honest division of labor is: the planner for preparation and progress, the Changemaker Hub for submission and approval.
+
+## Address history
+
+The planner moved to https://civicactionplanner.github.io/ on August 25, 2026, when the repository was transferred to the civicactionplanner organization. The original address, https://danielllobetv-a11y.github.io/civic-action-planner/, now redirects there and forwards shared progress links.
 
 ## License
 

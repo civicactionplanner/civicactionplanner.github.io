@@ -14,7 +14,7 @@ c. **Build → Firestore Database → Create database → production mode**,
 d. **Project settings (gear) → Your apps → Web app (</>)**, register the app as
    `planner` (no hosting needed), and copy the `firebaseConfig` object.
 e. **Authentication → Settings → Authorized domains** → add
-   `danielllobetv-a11y.github.io` (`localhost` is already there).
+   `civicactionplanner.github.io` (`localhost` is already there).
 f. **Firestore Database → Rules** → paste the contents of `firestore.rules` from this
    repository → **Publish**. (Or run `bash scripts/rules-deploy.sh` if you have
    firebase-tools set up.)

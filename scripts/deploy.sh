@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# Creates the GitHub repository, pushes this folder, turns on GitHub Pages, and waits until the site answers.
+# Creates or updates the GitHub repository, pushes this folder, turns on GitHub Pages, and waits until the site answers.
 # Requirements: git, GitHub CLI (gh) logged in (`gh auth login`), Node 18+ for the build.
 # Usage: bash scripts/deploy.sh [repo-name] [--private]
+# A repo named <owner>.github.io is a user or organization site served at https://<owner>.github.io/;
+# any other name is a project site at https://<owner>.github.io/<repo-name>/. The live URL is read
+# from the Pages API either way. This copy defaults to the civicactionplanner organization site.
 set -euo pipefail
 
-REPO_NAME="${1:-civic-action-planner}"
+REPO_NAME="${1:-civicactionplanner.github.io}"
 VISIBILITY="--public"
 if [[ "${2:-}" == "--private" ]]; then VISIBILITY="--private"; fi
 
@@ -12,7 +15,8 @@ cd "$(dirname "$0")/.."
 
 command -v gh >/dev/null || { echo "GitHub CLI (gh) is not installed. See https://cli.github.com/"; exit 1; }
 gh auth status >/dev/null 2>&1 || { echo "Run: gh auth login   (then re-run this script)"; exit 1; }
-OWNER="$(gh api user --jq .login)"
+# For a *.github.io repo the owner is baked into the name; otherwise deploy under the signed-in user.
+if [[ "$REPO_NAME" == *.github.io ]]; then OWNER="${REPO_NAME%.github.io}"; else OWNER="$(gh api user --jq .login)"; fi
 
 echo "== Building index.html"
 if [[ -d node_modules/playwright ]]; then node scripts/build.mjs --prerender; else node scripts/build.mjs; fi

@@ -1,6 +1,6 @@
 // End-to-end checks for the planner. Runs against the built index.html.
 // Local:   npm test                      (opens the file directly)
-// Hosted:  BASE_URL=https://user.github.io/civic-action-planner/ npm test
+// Hosted:  BASE_URL=https://civicactionplanner.github.io/ npm test
 import { test, expect } from "@playwright/test";
 import path from "node:path";
 import fs from "node:fs";
