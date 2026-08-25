@@ -1,0 +1,2019 @@
+{
+ "source": "The 2024-2025 Civic Action Scorecard, Institute for Civic Engagement & Democracy (iCED), Miami Dade College. Used under CC BY-NC-SA 4.0.",
+ "edition": "2024-2025",
+ "tiers": [
+  {
+   "name": "Bronze",
+   "points": 100
+  },
+  {
+   "name": "Silver",
+   "points": 200
+  },
+  {
+   "name": "Gold",
+   "points": 300
+  }
+ ],
+ "categories": [
+  {
+   "id": "DE",
+   "name": "Democratic Engagement",
+   "tag": "Preparing you to take an active role in political processes",
+   "possible": 390
+  },
+  {
+   "id": "ES",
+   "name": "Environment & Sustainability",
+   "tag": "Discovering your role within the story of Earth",
+   "possible": 280
+  },
+  {
+   "id": "CW",
+   "name": "Community Well-Being",
+   "tag": "Contributing to the positive and healthy development of your community",
+   "possible": 350
+  },
+  {
+   "id": "AC",
+   "name": "Arts & Culture",
+   "tag": "Discovering how the arts strengthen and enrich our communities",
+   "possible": 160
+  },
+  {
+   "id": "SI",
+   "name": "Social Innovation",
+   "tag": "Developing solutions to challenging issues in support of social progress",
+   "possible": 115
+  },
+  {
+   "id": "IA",
+   "name": "Instructor Assigned",
+   "tag": "A civic action assigned by a course instructor",
+   "possible": 15
+  }
+ ],
+ "actions": [
+  {
+   "code": "DE-1A",
+   "cat": "DE",
+   "title": "Explore mdc.edu/vote and review its resources",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences describe at least four things you can find on this website?",
+   "sowhat": "In at least 2-3 sentences describe some of the things you learned from the website and from the short video on the site? What are some of the reasons it is important to vote and the possible consequences when you do not vote?",
+   "nowwhat": "In at least 2-3 sentences what information did you learn from this site that you could share with others. Does the information provided give you more confidence that you can be ready for future elections, why or why not?",
+   "aside": [
+    "www.mdc.edu/VOTE"
+   ]
+  },
+  {
+   "code": "DE-1B",
+   "cat": "DE",
+   "title": "Register to vote, or show proof your registration is current",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of Voter Registration Card or screenshot of Board of Elections online registration check. Note: Blur out or cover personal information (other than your name) in your submission.",
+   "what": "In at least 2-3 sentences, what steps did you take to register? How did you register (online, by mail, in-person, etc.)?",
+   "sowhat": "In at least 2-3 sentences, describe why it is important to vote? How did registering to vote make you feel? What might you change about the registration process?",
+   "nowwhat": "In at least 2-3 sentences, what are your next steps to vote in an upcoming election? (Check out action DE-5 to create a voting plan.) Would you consider helping a friend or family member register to vote, why or why not?",
+   "aside": [
+    "You can register in your country of origin if you are not a US citizen.",
+    "www.mdc.edu/VOTE"
+   ]
+  },
+  {
+   "code": "DE-2",
+   "cat": "DE",
+   "title": "Help someone register to vote",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation. Optional: upload a photo of you and the person you helped.",
+   "what": "In at least 2-3 sentences, describe who you helped register to vote, and how.",
+   "sowhat": "In at least 2-3 sentences, describe how it made you feel to help someone register to vote? Identify any lessons you learned from this experience. Explain why it’s important to encourage others to register and vote.",
+   "nowwhat": "In at least 2-3 sentences, how might you approach future election cycles? Will you encourage others to register to vote? If someone were to ask you, “how do you register to vote?” what would you tell them?",
+   "aside": [
+    "www.mdc.edu/VOTE"
+   ]
+  },
+  {
+   "code": "DE-3",
+   "cat": "DE",
+   "title": "Find the sample ballot for an upcoming local or state election",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Image of sample ballot from Elections Department website.",
+   "what": "In at least 2-3 sentences, reflect on the items on your sample ballot. What election did you choose? Which ballot items make sense to you? Which items require more research?",
+   "sowhat": "In 2-3 sentences, did any items on your ballot surprise you? Did you learn something new from reviewing your sample ballot? How does reviewing your sample ballot prior to an election help you be an informed voter?",
+   "nowwhat": "In 2-3 sentences, how will you ensure you are informed before voting (or if you aren’t eligible to vote, how would you prepare)? What resources are available to help you decode and make sense of the ballot items you do not understand? What will your plan to vote be (vote-by-mail, early voting, or on election day) and why?",
+   "aside": [
+    "If you aren't eligible to vote, you can still find and review the sample ballot for where you live and share it with others.",
+    "Miami-Dade Sample Ballots",
+    "Broward County Sample Ballots"
+   ]
+  },
+  {
+   "code": "DE-4",
+   "cat": "DE",
+   "title": "Create a voting plan for an upcoming election",
+   "pts": 5,
+   "max": 4,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, describe your voting plan. How do you plan to vote (vote-by-mail, early voting, or on election day), when will you vote, and how will you inform yourself about the candidates and issues?",
+   "sowhat": "In at least 2-3 sentences, explain why you chose this voting method (vote-by-mail, early voting, or election day) over the other options? Why do you think it’s important to create a voting plan and what lessons did you learn from this experience?",
+   "nowwhat": "In at least 2-3 sentences, explain why you would, or would not, recommend creating a voting plan to your friends and family. How will you make sure you are prepared for future elections? Now that you’ve created your voting plan, what is the next step you need to take to ensure you are ready to cast your vote?",
+   "aside": [
+    "Engage Miami: \"What's Your Plan to Vote?\""
+   ]
+  },
+  {
+   "code": "DE-5",
+   "cat": "DE",
+   "title": "Attend, watch, or listen to a candidate debate, legislative session, or citizen address",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Take a photo of yourself at event (or screenshot of event).",
+   "what": "In at least 2-3 sentences, describe the event? What was the topic, who spoke, when and where did it take place? Why did you choose this event?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned from this experience? How did it help you prepare to be active in political and/or civic processes? Why does this experience matter to you, and to our community?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might share with others some of the insights you gained through this experience? Is there anything you are going to do differently as a result of what you learned?",
+   "aside": [
+    "Examples: Local, state, or Presidential candidate debates, Florida House of Reps hearing, Congressional session, State of the Union Address, etc."
+   ]
+  },
+  {
+   "code": "DE-6",
+   "cat": "DE",
+   "title": "Know your elected officials at city, county, state, and federal level",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Complete and upload the “Elected Officials Worksheet” of all your elected officials at the city, county, state, and federal level.",
+   "what": "In at least 2-3 sentences, reflect on your elected officials' names, photos, and backgrounds. What do you notice? What expectations did you have and what was different than what you expected?",
+   "sowhat": "In at least 3-4 sentences, do you feel that these individuals are representative of you and your community? Why or why not? Why is it important to be aware of who our local elected officials are? What are some of the ways these elected officials impact your life?",
+   "nowwhat": "In at least 3-4 sentences, describe what you might do differently as a result of knowing who your elected officials are. Do you plan to vote in the next election so you can have a say in who represents you, why or why not? Is there an issue you feel strongly about that you might share with one of your elected officials?",
+   "aside": [
+    "Find and Contact Elected Officials website",
+    "Elected Officials Worksheet"
+   ]
+  },
+  {
+   "code": "DE-7",
+   "cat": "DE",
+   "title": "Research two of your current elected officials (from DE-6)",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, who were the two elected officials you researched? Why did you choose these two? Identify your local elected officials’ roles, length of their terms, and two issues each official supports.",
+   "sowhat": "In at least 3-4 sentences, in what ways do you agree or disagree with the elected officials on the issues they support? Which issues do you wish your elected officials focused on more than they do? Why is it important to know the views of your elected officials?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might share what you learned with family and friends. What else would you like to learn about your elected officials’ viewpoints? Would you consider volunteering on one of their campaigns, why or why not?",
+   "aside": []
+  },
+  {
+   "code": "DE-8",
+   "cat": "DE",
+   "title": "Call or e-mail one of your elected officials about an issue of concern",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Copy of the email you sent, or if you called, a photo or image of the issue you reported.",
+   "what": "In at least 2-3 sentences, describe which officials you contacted, the issue you reported, and why you chose this official and issue. Did you call or email them? If you called them, include the phone number of officials contacted, date & time of contact, name and role of person spoken to, and description of what you said. Did you get a response? Were you satisfied?",
+   "sowhat": "In at least 2-3 sentences, why is it important to make your perspective on an issue known to your elected officials? What did you learn and feel as a result of this action?",
+   "nowwhat": "In at least 2-3 sentences, what are other issues of concern that you might contact your elected officials about in the future? What did you learn from this experience that you could share with your family and friends?",
+   "aside": [
+    "You must be considerate and civil in your communication",
+    "Contact Elected Officials"
+   ]
+  },
+  {
+   "code": "DE-9",
+   "cat": "DE",
+   "title": "Report an issue or concern in your community to the proper governmental authority",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reported via portal or email: Photo of the issue you reported and copy of sent submission; Reported via phone call: Photo of the issue you reported.",
+   "what": "In at least 2 to 3 sentences, what was the issue? To whom did you report it? If you called them, include the phone number of the authority you contacted, date & time of contact, name and role of person spoken to, and description of what you said. Did you receive a response? Has any action been taken yet to address the issue?",
+   "sowhat": "In at least 2 to 3 sentences, describe what you learned and felt as a result of this action? What happens if community members don’t report issues of concern to the authorities?",
+   "nowwhat": "In at least 2 to 3 sentences, what other issues impacting your community might you want to report? How will you follow up on the issue you reported? In the future, will you be more likely to take action to get community problems addressed? Why or why not?",
+   "aside": [
+    "Examples: potholes, streetlights, illegal trash dumping, unsafe intersection, etc.",
+    "City of Miami “Solve Problems”",
+    "Miami-Dade County “Report Problems”"
+   ]
+  },
+  {
+   "code": "DE-10",
+   "cat": "DE",
+   "title": "Research the most recent proposed or finalized budget from your city or county",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation. Please include link to the budget you are reviewing in your reflection.",
+   "what": "In at least 2 to 3 sentences, describe which budget you researched and key components that drew your attention. When is the next budget hearing? *Include link to the budget you reviewed in your reflection.",
+   "sowhat": "In at least 3 to 4 sentences, reflect on the budget and whether it considers the best interests of the community at large. What changes, if any, would you like to see? How might these changes better serve you and your community? Why is it important for community members to share their opinions about budget allocations?",
+   "nowwhat": "In at least 3 to 4 sentences, in what ways can you share what you learned? How might you influence budget decisions in the future?",
+   "aside": [
+    "Miami-Dade County budget page"
+   ]
+  },
+  {
+   "code": "DE-11",
+   "cat": "DE",
+   "title": "Attend, watch, or listen to a live community, city, county, or state meeting",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Take a photo of yourself at meeting (or screenshot of meeting).",
+   "what": "In at least 2 to 3 sentences, identify which meeting you attended. Who was present, who spoke, when was it, where? What topics were discussed?",
+   "sowhat": "In at least 3 to 4 sentences, describe what topics or issues interested you the most? Why? Why was this meeting necessary for the community? What did you learn and how did you feel by completing this action?",
+   "nowwhat": "In at least 3 to 4 sentences, describe how you might share with others some of the insights you gained through this experience. How might it impact your involvement in your community in the future?",
+   "aside": [
+    "Examples: Neighborhood associations, budget forums, town halls, commission meetings, School Board meetings, etc.",
+    "County government meetings",
+    "City of Miami meetings",
+    "State of Florida meetings"
+   ]
+  },
+  {
+   "code": "DE-12",
+   "cat": "DE",
+   "title": "Present a prepared speech at a community, city, county, or state meeting",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo/recording of yourself, or link to public record video, and copy of speech outline.",
+   "what": "In at least 3-4 sentences, describe where you presented (date, time, audience, type of meeting) and the topic you presented on. How long was your presentation?",
+   "sowhat": "In 3 to 4 sentences, how did you feel when preparing a speech and presenting it to public officials? What kind of impact or feedback did you notice from your presentation? Was it the outcome you expected or desired? Why? What did you learn from this experience? Why is it important to speak up at meetings like this?",
+   "nowwhat": "In 3 to 4 sentences, discuss how this experience might influence your actions in the future. Would you consider speaking up on another topic, and how can you apply what you learned from making this presentation? What next steps do you plan to take?",
+   "aside": [
+    "Examples: Neighborhood associations, budget forums, town halls, commission meetings, School Board meetings, etc.",
+    "How to Prepare & Make a Public Comment"
+   ]
+  },
+  {
+   "code": "DE-13",
+   "cat": "DE",
+   "title": "Serve as a Miami-Dade County Department of Elections poll worker",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "7 hour minimum",
+   "doc": "Proof of training and attendance such as orientation paperwork and a photo of yourself at polling station.",
+   "what": "In at least 3-4 sentences, describe what you did as a poll worker. Was this your first time? What was your assignment, what training did you receive, and where did you serve? Why did you sign up to be a poll worker?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned from your experience. Did anything surprise you? How did serving as a poll worker make you feel? Why are poll workers important to upholding democracy?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might share with others what you learned from this experience. Will you continue to serve as a poll worker in future elections, why or why not?",
+   "aside": [
+    "www.mdc.edu/vote (Poll Worker Tab)"
+   ]
+  },
+  {
+   "code": "DE-14A",
+   "cat": "DE",
+   "title": "Attend a workshop, training, or informational event on democratic engagement",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the workshop, training, or event topic, including when and where it was, how you heard about it, and why you attended.",
+   "sowhat": "In at least 3-4 sentences, describe what you learned about the topic. How did participating make you feel? Did it help prepare you to be active in political and/or civic processes, why or why not? Would you recommend it to a friend, why or why not?",
+   "nowwhat": "In at least 3-4 sentences, what might you do differently in the future as a result of attending? What did you learn that you can incorporate into your life?",
+   "aside": [
+    "Examples: National Voter Registration Day, Get Out the Vote, Women and the Vote, etc.",
+    "Contact your iCED office or Instagram (@mdc_iced) for suggestions, or check the MDC Events Calendar."
+   ]
+  },
+  {
+   "code": "DE-14B",
+   "cat": "DE",
+   "title": "Attend a 1-day workshop, training, or informational event on democratic engagement",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 day / 7 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the workshop, training, or event topic, including when and where it was, how you heard about it, and why you attended.",
+   "sowhat": "In at least 3-4 sentences, describe what you learned about the topic. How did participating make you feel? Did it help prepare you to be active in political and/or civic processes, why or why not? Would you recommend it to a friend, why or why not?",
+   "nowwhat": "In at least 3-4 sentences, what might you do differently in the future as a result of attending? What did you learn that you can incorporate into your life?",
+   "aside": [
+    "For ideas, contact your iCED office or Instagram (@mdc_iced)."
+   ]
+  },
+  {
+   "code": "DE-14C",
+   "cat": "DE",
+   "title": "Complete an MDC campus or community leadership or fellowship program on democratic engagement",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "15 hour minimum",
+   "doc": "Proof of participation and completion (e.g., a letter, certificate, etc.).",
+   "what": "In at least 3-4 sentences, provide the name of the host organization, location, dates, and times of leadership or fellowship program. What about this program inspired you to participate? What topics were discussed? What did you contribute to the program?",
+   "sowhat": "In at least 3-4 sentences, how were your skills enhanced and what did you learn? How does this program contribute to the positive and healthy development of your community? How did you feel being part of this program?",
+   "nowwhat": "In at least 3-4 sentences, how will this experience inform your next steps in your academic and/or professional journey? How will this experience impact your future civic participation?",
+   "aside": [
+    "Examples: Voter engagement internship or fellowship with iCED or community partner, SGA E-Board, political party internship or fellowship, etc.",
+    "Contact your iCED office for suggestions"
+   ]
+  },
+  {
+   "code": "DE-15",
+   "cat": "DE",
+   "title": "Sign at least 5 political, environmental, or social-issue petitions for causes you support",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot or photo of petitions signed.",
+   "what": "In at least 2-3 sentences, describe each of the 5 petitions you chose to sign and why you selected them.",
+   "sowhat": "In at least 2-3 sentences, describe what you learned. Did anything surprise you? What are your thoughts on petitions to make a positive change in our communities?",
+   "nowwhat": "In at least 2-3 sentences, describe something you learned that you could put into practice in your life. In the future, would you consider starting a petition, and what would it be and why?",
+   "aside": [
+    "Change.org",
+    "DoSomething.org"
+   ]
+  },
+  {
+   "code": "DE-16",
+   "cat": "DE",
+   "title": "Serve with a local or state political campaign",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5 hour minimum; counts as volunteer service too",
+   "doc": "Screenshot of verified Changemaker Hub impact.",
+   "what": "In at least 2-3 sentences describe what you did. What campaign did you volunteer on? Why did you choose this campaign?",
+   "sowhat": "In at least 3-4 sentences, what did volunteering on a campaign teach you about our democracy and running for office? What did you like most and least about the experience? Why is it important to volunteer for political campaigns?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might convince more students to volunteer for a campaign. Do you plan to volunteer on a campaign again in the future, why or why not? What did you learn that you can put into practice in your life moving forward?",
+   "aside": [
+    "5 hour minimum. Counts as volunteer service and 10 points on the Scorecard."
+   ]
+  },
+  {
+   "code": "DE-17",
+   "cat": "DE",
+   "title": "Join a local or state voter engagement organization or political party and attend 2+ meetings",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo or screenshot of yourself at each meeting (or proof of attendance).",
+   "what": "In at least 3-4 sentences, describe each meeting/event that you attended (include name, location, and date) and why you chose this organization. What issues were discussed? Was the meeting what you expected it would be? Why or why not?",
+   "sowhat": "In at least 3-4 sentences, explain what you learned. Would you attend again? Why was the topic of this meaning important to you, to society as a whole?",
+   "nowwhat": "In at least 3-4 sentences explain what you might do differently in the future as a result of this experience. Describe how participating impacts your future self.",
+   "aside": [
+    "Examples: FL Republican Party, FL Democratic Party, League of Women Voters, League of Conservation Voters, Young America’s Foundation, local/state political party, etc."
+   ]
+  },
+  {
+   "code": "DE-18",
+   "cat": "DE",
+   "title": "Peacefully attend a rally, protest, or demonstration with positive signage",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of yourself at event.",
+   "what": "In at least 2-3 sentences, describe the event you attended. Where was it, when? Why did you attend? Were there speakers and what was their message? How did you hear about it?",
+   "sowhat": "In at least 3-4 sentences, describe what you felt and learned from this experience. What impact did this event have on the issue and/or people’s awareness level? Why is it important to peacefully protest about issues you feel strongly about?",
+   "nowwhat": "In at least 3-4 sentences, explain whether you will attend other peaceful rallies/demonstrations in the future and if so, why. Expand on why it is important to remain peaceful during a rally like this.",
+   "aside": []
+  },
+  {
+   "code": "DE-19",
+   "cat": "DE",
+   "title": "Write an op-ed or letter to the editor on a topic of local or societal importance",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Copy of letter and a screenshot of submission page (if submitted on a website) or screenshot if sent via email.",
+   "what": "In at least 2-3 sentences, describe the topic you wrote about and where it was submitted. Why did you choose that topic?",
+   "sowhat": "In at least 3-4 sentences, what did you learn in this process? How did you feel taking this action? Do you think an op-ed is still relevant in the age of social media? What other approach might you take? What kind of response did you receive, and was your letter published?",
+   "nowwhat": "In at least 3-4 sentences, explain whether you would express yourself again this way in the future? Why or why not, and on which topics?",
+   "aside": [
+    "Op-ed vs Letter to the Editor",
+    "Miami Herald – Letters to the Editor",
+    "Sun Sentinel – Letters to the Editor"
+   ]
+  },
+  {
+   "code": "DE-20",
+   "cat": "DE",
+   "title": "Read two news articles on a civic topic of importance",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, briefly summarize and compare the articles. Include the link or citation of each article. Why did you choose these topics? Explain why you chose the source of the articles and why or why not you consider the sources reliable?",
+   "sowhat": "In at least 2-3 sentences, what did you learn on the topic? How did the information surprise you, impact you, or influence your opinion? Why is staying up to date on current events important?",
+   "nowwhat": "In at least 2-3 sentences, what might you do differently as a result of the information you learned? Is there an action you could take as a result of what you learned?",
+   "aside": [
+    "Subject of articles should be related to political, environmental, and/or social issues"
+   ]
+  },
+  {
+   "code": "DE-21",
+   "cat": "DE",
+   "title": "Summarize media fact-checking after reading about the process from 2 sites",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, summarize how the organizations check facts and describe “fact-checking” in your own words.",
+   "sowhat": "In at least 2-3 sentences, describe what the terms “disinformation” and “misinformation” mean. How does this impact our democracy? Why is it important to fact-check information, and what happens when you don’t?",
+   "nowwhat": "In at least 2-3 sentences, describe how this process will or will not help you stay informed when consuming media in the future. Is there anything you will do differently in the future based on what you’ve learned?",
+   "aside": [
+    "Read about the process at PolitiFact.com and FactCheck.org (or other fact-checking sources) first."
+   ]
+  },
+  {
+   "code": "DE-22",
+   "cat": "DE",
+   "title": "Review the SIFT method and verify a news story shared on social media",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, use the SIFT method to critically review your news story of choice and whether it appears valid or not based on your analysis. Provide a link or citation to the social media post or news article.",
+   "sowhat": "In at least 3-4 sentences, reflect on what was learned from using the SIFT method for verifying news. Describe the implications of sharing unverified information. Why is it important for you to know and use the SIFT method?",
+   "nowwhat": "In at least 3-4 sentences, will this change how you consume and share media? How? What other topics would you want to review using this method?",
+   "aside": [
+    "SIFT Method",
+    "SIFT Through Misinformation"
+   ]
+  },
+  {
+   "code": "DE-23",
+   "cat": "DE",
+   "title": "Read and summarize one of the United States founding documents",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, include the name of the document and provide a short summary.",
+   "sowhat": "In at least 2-3 sentences, reflect on a founding document and the era in which it was written. What did freedom mean during this time, and who was free? How were those freedoms expanded to more people over the years? Is it important for everyone to be familiar with these founding documents, why or why not? How do these founding documents influence your life? What did you learn from this experience?",
+   "nowwhat": "In at least 2-3 sentences, what might you do differently in the future as a result of what you learned through this experience? How can you use this information in your own life?",
+   "aside": [
+    "Preamble to the Constitution",
+    "Bill of Rights",
+    "Declaration of Independence",
+    "Essay from the Federalist Papers"
+   ]
+  },
+  {
+   "code": "DE-24",
+   "cat": "DE",
+   "title": "Take the practice Citizenship Exam with a passing score",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "Passing score required",
+   "doc": "Screenshot of your score (appears once you finish the 20 questions) showing 80% or higher.",
+   "what": "In at least 2-3 sentences, reflect on the questions from the practice exam. Was it easy or challenging for you? Did you prepare for the exam ahead of time?",
+   "sowhat": "In at least 2-3 sentences, what are your thoughts and/or feelings on the exam, as well as the topics naturalized citizens are required to learn? What did you learn that you didn’t know before? Why is it important for everyone to know these basic facts about the United States?",
+   "nowwhat": "In at least 2-3 sentences, describe if the knowledge of the exam helps you to be a more effective community member and changemaker. Why or why not?",
+   "aside": [
+    "USCIS: Civics Practice Test"
+   ]
+  },
+  {
+   "code": "DE-25",
+   "cat": "DE",
+   "title": "Compare the ideologies of political parties in the United States",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, describe some of the main political parties in the United States and how they differ. What similarities did you find (you could compare specific issues, such as - role of government, economics, international affairs, voter rights, healthcare, immigration, environment, abortion, LGBTQ+ rights, etc.)?",
+   "sowhat": "In at least 3-4 sentences, what new insights did you gain from this research? Why is it important to be informed about the different political parties?",
+   "nowwhat": "In at least 3-4 sentences, how might this research impact your political engagement in the future (e.g., vote, join a political party, or encourage others to vote, etc.)? Would you be willing to join one of the parties, or volunteer for a candidate, why or why not?",
+   "aside": [
+    "Differences/similarities between the Democratic and Republican parties",
+    "Differences of Democrats & Republicans",
+    "Independent Party: who are they and what do they think?"
+   ]
+  },
+  {
+   "code": "DE-26",
+   "cat": "DE",
+   "title": "Research two political activists who helped individuals secure the right to vote",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, reflect on the information gathered on both activists you selected. Who are they and what did they do? What challenges did they face?",
+   "sowhat": "In at least 3-4 sentences, why was their work important? What qualities did they possess and what can you learn from them to put into practice in your own life?",
+   "nowwhat": "In at least 3-4 sentences, if you were to take on an advocacy role today, describe what issues stand out to you. Are they local, national or global issues? What kind of change would you like to see and how might you go about doing so?",
+   "aside": [
+    "E.g., minority groups, returning citizens, women, etc.",
+    "MDC alum Desmond Meade",
+    "Civil rights activists",
+    "Women voting activists"
+   ]
+  },
+  {
+   "code": "DE-27",
+   "cat": "DE",
+   "title": "Take the Florida Civic Literacy Exam (FCLE) practice test",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot of your practice test results.",
+   "what": "In at least 2-3 sentences describe your experience taking the FCLE practice test. How did you do? What resources are found on the MDC FCLE Resource Page? How could these resources be helpful to you for the FCLE requirement?",
+   "sowhat": "In at least 3-4 sentences, what are ways you can prepare yourself to pass the actual exam? Why do you think the FL Department of Education implemented the FCLE requirement?",
+   "nowwhat": "In at least 3-4 sentences, describe if the knowledge of civics and the Constitution helps you to be a more effective community member and changemaker. Why or why not?",
+   "aside": [
+    "FCLE Resource Page"
+   ]
+  },
+  {
+   "code": "DE-28",
+   "cat": "DE",
+   "title": "Attend a free FCLE bootcamp for MDC students",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Proof of attendance (email from Continuing Education you receive after completing the Bootcamp).",
+   "what": "In at least 2-3 sentences describe the Bootcamp you attended. When and where was it? What was covered?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned. How did you feel about the experience? Would you recommend it to other students? Do you feel prepared to take the FCLE exam? Why or why not?",
+   "nowwhat": "In at least 3-4 sentences, describe your plan for meeting the FCLE requirement and passing the exam. When will you take the exam? Is there more that you would like to learn? How might meeting the FCLE requirement help you in the future?",
+   "aside": [
+    "FCLE Resource Page"
+   ]
+  },
+  {
+   "code": "DE-29",
+   "cat": "DE",
+   "title": "Vote in a local, state, or federal election (primary or general)",
+   "pts": 10,
+   "max": 10,
+   "unlimited": true,
+   "variable": false,
+   "req": "10 points per election, no limit",
+   "doc": "Photo of your “I voted” sticker or signed mail-in ballot or screenshot of your vote received by Department of Elections.",
+   "what": "In at least 2-3 sentences, reflect on the voting process. What election did you participate in? Which method did you use to vote (vote-by-mail, early voting, election day)? Why?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned from this experience. How did you feel? Why do you think it’s important to vote? How do our elected officials impact our everyday lives? What happens when people choose not to vote?",
+   "nowwhat": "In at least 3-4 sentences, describe how this experience has influenced your likelihood of participating in future elections. Have your views on voting changed after this experience? How might you encourage your friends and family to vote in upcoming elections?",
+   "aside": [
+    "For a current or upcoming primary or general election.",
+    "You can vote in your country of origin if you are not a US citizen.",
+    "10 points per election; no limit on this action."
+   ]
+  },
+  {
+   "code": "DE-30",
+   "cat": "DE",
+   "title": "Earn a \"Leadership & No-Blame Problem-Solving\" certificate from The Citizens Campaign",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "Self-paced online, 2 to 4 hours",
+   "doc": "Upload 1) the Course Certificate that you receive once you complete the modules, and 2) the “Solution Worksheet”.",
+   "what": "In at least 3-4 sentences describe what you did? Describe what this Certificate is about and what it covers. What was your process for completing the 10 modules?",
+   "sowhat": "In at least 3-4 sentences describe what you learned about local government, including strategies to make it easier to facilitate change in your community? Has this course changed your approach to problem solving, why or why not?",
+   "nowwhat": "In at least 3-4 sentences describe how can you apply what you have learned to creating solutions to problems in your community in the future?",
+   "aside": [
+    "Self-paced, online, 2 to 4 hours.",
+    "Steps: review the 1-page course description, enroll in the course, complete the required \"Solution Worksheet\"."
+   ]
+  },
+  {
+   "code": "DE-31",
+   "cat": "DE",
+   "title": "Watch Eric Liu's 7-minute TED talk \"How to Understand Power\"",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Upload of screenshot of “Thank You! All Done” after you finish the 9 questions in the “ Think ” section.",
+   "what": "In at least 2-3 sentences describe what you learned about power from this video and lesson. What is power and what are some of the six sources of power discussed, and which ones do you think are most effective for true civic power?",
+   "sowhat": "At least 3-4 sentences, share what you learned about civic power and why it is important to exercise your civic power. Is power a good thing or a bad thing? The presenter states “power plus character equals a great citizen” – what do you think he means by that.",
+   "nowwhat": "In at least 3-4 sentences, what can you do to exercise your power? What are issues you care about and how might you use your civic power to address those issues?",
+   "aside": [
+    "1. Watch: https://ed.ted.com/lessons/how-to-understand-power-eric-liu",
+    "2. Sign up for a free TED-Ed account and answer the 9 \"Think\" questions (Think tab beside the video).",
+    "3. Review the \"Dig Deeper\" tab."
+   ]
+  },
+  {
+   "code": "ES-1",
+   "cat": "ES",
+   "title": "Discover the native plants of your community",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Upload list of 10 native plant species with sources cited and an interesting fact about each one (this list can include native flowers, shrubs, trees, vines, and/or grasses).",
+   "what": "In at least 2-3 sentences, what native plants did you research? Why did you select these native plants?",
+   "sowhat": "In at least 2-3 sentences, describe what you learned about the benefits of native plants for our ecosystems and wildlife.",
+   "nowwhat": "In at least 2-3 sentences, describe what you can do to promote the use of native plants in your community.",
+   "aside": [
+    "Natives For Your Neighborhood",
+    "Florida-friendly Plant Database",
+    "Florida’s Wild Edible Plants"
+   ]
+  },
+  {
+   "code": "ES-2",
+   "cat": "ES",
+   "title": "Plant a South Florida native species and maintain it for at least 1 month",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "Maintain for 1 month",
+   "doc": "Before photo of the space planted and a photo every week (including a photo of you planting the plant) documenting the plant’s progress over the 1-month period (a total of five photos).",
+   "what": "In at least 3-4 sentences, describe what native plant you selected and why. Where did you plant it, and did you have to get any special permission to plant in the location you chose? What expectations did you have of this experience and were they met? What was different than you expected?",
+   "sowhat": "In at least 3-4 sentences, what did you learn while caring for this plant as it was getting established? What lessons did you learn? How did it make you feel?",
+   "nowwhat": "In at least 3-4 sentences, what follow-up is needed to address possible challenges to the plant's continued growth and survival? Do you see yourself planting more native plants in the future, why or why not? How are you different as a result of this experience?",
+   "aside": [
+    "Examples: native flowers, shrubs, trees, vines, or grasses.",
+    "Must be planted somewhere you have permission to plant.",
+    "Natives For Your Neighborhood",
+    "Dade Chapter of the Florida Native Plant Society",
+    "Bound by Beauty website"
+   ]
+  },
+  {
+   "code": "ES-3",
+   "cat": "ES",
+   "title": "Visit a local farmer's market",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Name and location of farmer’s market, date visited, and photo of yourself attending.",
+   "what": "In at least 2-3 sentences, what farmer’s market did you visit - when, where was it? What did you observe? Was this your first time at a farmer's market? What expectations did you have and were they met?",
+   "sowhat": "In at least 2-3 sentences, what did you learn and feel as a result of this experience? Compare and contrast the farmer’s market you visited to your usual grocery store. Why might someone choose to go to a farmer’s market instead of a traditional grocery store?",
+   "nowwhat": "In at least 2-3 sentences, would you choose to shop there again? Why or why not? What might you do differently in the future as a result of this action?",
+   "aside": [
+    "A farmers' market is a physical retail marketplace where farmers sell food directly to consumers.",
+    "South Florida Farmer's Markets",
+    "Florida Farmers Markets"
+   ]
+  },
+  {
+   "code": "ES-4",
+   "cat": "ES",
+   "title": "Review the 17 UN Sustainable Development Goals and watch \"We the People for the Global Goals\"",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, summarize the SDGs, citing your source(s). Which four SDGs are most important to you? Why?",
+   "sowhat": "In at least 2-3 sentences, describe whether or not the SDGs are important. How might your four chosen goals support a healthy planet, social equity, a fair and just economy, or cultural diversity?",
+   "nowwhat": "In at least 2-3 sentences, what specific steps can you take to help meet the SDG goals? What might you do differently moving forward as a result of this action?",
+   "aside": [
+    "United Nations Sustainable Development Goals",
+    "\"We the People\" for Global Goals video"
+   ]
+  },
+  {
+   "code": "ES-5",
+   "cat": "ES",
+   "title": "Complete the UN Sustainable Communities Checklist",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot of completed checklist.",
+   "what": "In at least 2-3 sentences, how do the questions asked in the Sustainable Communities Checklist apply to your community? What expectations did you have of this experience and were they met?",
+   "sowhat": "In at least 2-3 sentences, what questions on the checklist helped you identify real issues specific to your community? How are these issues being addressed in your community that you know of? What did you learn and how did you feel as you completed this action?",
+   "nowwhat": "In at least 2-3 sentences, now that these issues have been brought to your attention, what actions will you take to address them?",
+   "aside": [
+    "United Nations Communities Checklist"
+   ]
+  },
+  {
+   "code": "ES-6",
+   "cat": "ES",
+   "title": "Complete the Miami Waterkeeper quiz and read \"Best Management Practices\"",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot of quiz results.",
+   "what": "In at least 2-3 sentences, what was your reaction to the results of the Miami Waterkeeper’s Quiz? What expectations did you have and were they met? What was different than what you expected?",
+   "sowhat": "In at least 2-3 sentences, what did you learn and feel as a result of this experience? Why is keeping our water clean and pollution free important?",
+   "nowwhat": "In at least 2-3 sentences, as a result of this experience, might your future actions, mindsets, thoughts or behaviors be changed? What actions might you take to improve your impact on water quality?",
+   "aside": [
+    "Article at the end of the quiz",
+    "Miami Waterkeepers Quiz"
+   ]
+  },
+  {
+   "code": "ES-7",
+   "cat": "ES",
+   "title": "Participate in an organized citizen science project",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "15 hour minimum",
+   "doc": "A sample of the data collected and a photo of you participating in the project.",
+   "what": "In at least 3-4 sentences, summarize the Citizen Science project (including title and description). Why did you choose this project?",
+   "sowhat": "In at least 3-4 sentences, what did you learn participating in this project? How did it help you understand your role/contribution to science? How did participating make you feel?",
+   "nowwhat": "In at least 3-4 sentences, what actions are you inspired to take in the future because of participating in the Citizen Science program?",
+   "aside": [
+    "Tip: search \"citizen science projects Miami\" for local opportunities.",
+    "Citizen Science Projects",
+    "Additional: Key Biscayne, Frost Science Museum Volunteers for the Environment (MUVE), City Nature Challenge, University of Miami"
+   ]
+  },
+  {
+   "code": "ES-8",
+   "cat": "ES",
+   "title": "Calculate your ecological footprint",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot of ecological footprint results.",
+   "what": "In at least 2-3 sentences, reflect on the factors that contribute to your ecological footprint. What was your reaction to learning your ecological footprint? What expectations did you have of this experience and were they met? What was different than you expected?",
+   "sowhat": "In at least 3-4 sentences, what did you learn? What surprised you about the degree of impact some activities have? What was the most significant contributor to your ecological footprint? How did completing this action make you feel?",
+   "nowwhat": "In at least 3-4 sentences, what actions could you take to reduce your ecological footprint in the future? Will you take them, why or why not?",
+   "aside": [
+    "Global Footprint Network",
+    "Footprint Calculator"
+   ]
+  },
+  {
+   "code": "ES-9",
+   "cat": "ES",
+   "title": "Read and reflect on \"Individuals Are Not to Blame for the Climate Crisis\"",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what are the main points of this article?",
+   "sowhat": "In at least 2-3 sentences, do you agree or disagree with the perspective of the article? Why or why not? Who is most likely to be impacted by climate change? Why is it important to understand who is responsible for the impacts of climate change?",
+   "nowwhat": "In at least 2-3 sentences, what efforts might you take to address your individual and/or collective responsibility towards the climate crisis?",
+   "aside": [
+    "Article: \"Individuals Are Not to Blame for the Climate Crisis\""
+   ]
+  },
+  {
+   "code": "ES-10",
+   "cat": "ES",
+   "title": "Watch two Story of Stuff Project videos and take the Changemaker Personality Quiz",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot of completed quiz.",
+   "what": "In at least 2-3 sentences, what videos did you watch (cite the name and provide an overview of each video you watched).",
+   "sowhat": "In at least 3-4 sentences, what did you learn from each video you watched? What results surprised you from your Changemaker Personality Quiz?",
+   "nowwhat": "In at least 3-4 sentences, what changes are you inspired to make in your actions after watching the Story of Stuff videos and taking the Changemaker Personality Quiz?",
+   "aside": [
+    "Story of Stuff videos",
+    "Changemaker Personality Quiz"
+   ]
+  },
+  {
+   "code": "ES-11",
+   "cat": "ES",
+   "title": "Clean up trash in your community (neighborhood, park, or waterway)",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Before and after photos of the area and of all trash collected (show us how much trash you picked up).",
+   "what": "In at least 2-3 sentences, describe what you did, including where and when. How much trash did you collect, what were the most common items?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? How did it make you feel? Who or what do you believe is most responsible for trash in public places?",
+   "nowwhat": "In at least 3-4 sentences, what solutions do you propose to reduce trash in public spaces? How can we address the root causes of this problem? What are you willing to do?",
+   "aside": [
+    "As an individual or with a group.",
+    "Clean Miami Beach",
+    "VolunteersCleanUp.org",
+    "Check the Changemaker Hub Community Partners section for more cleanup opportunities."
+   ]
+  },
+  {
+   "code": "ES-12A",
+   "cat": "ES",
+   "title": "Watch the CBS News report \"The Tragic Costs of E-waste\"",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what are the main points of this video?",
+   "sowhat": "In at least 2-3 sentences, discuss what you learned from this video. Who is most likely to be impacted by e-waste? What information surprised you?",
+   "nowwhat": "In at least 2-3 sentences, what efforts might you take to address your individual and/or collective responsibility towards e-waste?",
+   "aside": [
+    "The Tragic Costs of E-Waste - CBS NEWS Video"
+   ]
+  },
+  {
+   "code": "ES-12B",
+   "cat": "ES",
+   "title": "Properly recycle household electronics (computer accessories, TVs, batteries)",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of items at donation site and/or receipt from organization.",
+   "what": "In at least 2-3 sentences, describe what you did and what items you recycled. Provide the name and location of the organization with whom you recycled. Describe your experience recycling these items.",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this action, and what did you feel? What are the impacts of electronic waste on the environment and humans?",
+   "nowwhat": "In at least 3-4 sentences, now that you have learned about E-waste, will you continue to properly recycle your electronic items—why or why not? What else might you be willing to do to properly recycle E-waste?",
+   "aside": [
+    "Miami-Dade County Chemical Collection Centers"
+   ]
+  },
+  {
+   "code": "ES-13",
+   "cat": "ES",
+   "title": "Properly dispose of household hazardous waste or chemicals and read two articles",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of items at disposal site and/or receipt from organization.",
+   "what": "In at least 2-3 sentences, what household hazardous waste items did you properly dispose of and where did you take the items? What did you observe at the disposal site?",
+   "sowhat": "In at least 3-4 sentences, why is it important to properly dispose of household hazardous waste? What are some possible negative impacts of improperly disposed household hazardous waste on the environment and people? What lessons did you learn and what did you feel?",
+   "nowwhat": "In at least 3-4 sentences, what additional steps can you take to help address the problems associated with household hazardous waste and disposal of these items? What might you be willing to do differently in the future?",
+   "aside": [
+    "E.g., cleaners, disinfectants, pest control chemicals, lawn/yard chemicals, etc.",
+    "Read: EPA Household Hazardous Waste Information",
+    "Read: \"Do You Have Hazardous Waste In Your House?\" (Earth911)",
+    "Collection centers: County Chemical Collection Centers"
+   ]
+  },
+  {
+   "code": "ES-14",
+   "cat": "ES",
+   "title": "Eliminate animal products for at least two meals a day for 7 continuous days",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "7 continuous days",
+   "doc": "Submit a 7-day food log listing meals and a photo of your favorite meal each day.",
+   "what": "In at least 3-4 sentences, detail the ways in which you changed your diet for the week. What kinds of foods/meals did you purchase, prepare, and consume? What expectations did you have and were they met? What was different than expected?",
+   "sowhat": "In at least 3-4 sentences, what are the impacts of animal product consumption on the environment and humans? How are the animals themselves treated? What are the benefits of a vegetarian and/or vegan diet? How did you feel about the experience before, during and after the seven days? What did you learn from this experience?",
+   "nowwhat": "In at least 3-4 sentences, in what ways has this experience changed your thoughts about your typical diet? What, if any, dietary changes might you consider adopting following this experience?",
+   "aside": [
+    "WikiHow: How to Keep a Food Diary",
+    "Vegan Outreach",
+    "Budget Bytes vegan recipes",
+    "7-day Food Log Template (required; download and submit as documentation)"
+   ]
+  },
+  {
+   "code": "ES-15",
+   "cat": "ES",
+   "title": "Reduce your home energy use for one billing cycle",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "1)Screenshots of your energy usage comparison from your current utility bill (this is included as a section in your bill) and 2)completed “Energy Reduction Log” showing what daily actions you have taken to reduce your energy usage. Note: cover confidential account information in your submission.",
+   "what": "In at least 3-4 sentences, describe the specific changes you made to reduce your home energy use. By how much did your energy use go down in kilowatt hours? What impact on your lifestyle did this exercise have?",
+   "sowhat": "In at least 3-4 sentences, what did you learn about your energy consumption by doing this exercise? How did this experience make you feel? Why does reducing energy use matter to you? To society as a whole?",
+   "nowwhat": "In at least 3-4 sentences, what changes in your lifestyle might you make moving forward? What information and recommendations could you share with others?",
+   "aside": [
+    "FPL: Top Energy Saving Tips",
+    "FPL's Energy Manager Tool",
+    "FPL Onsite Energy Survey",
+    "Energy Reduction Log (required; download and submit as documentation)"
+   ]
+  },
+  {
+   "code": "ES-16",
+   "cat": "ES",
+   "title": "Eliminate or reduce single-use plastic for 7 continuous days",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "7 continuous days",
+   "doc": "Submit the 7-day Plastic Reduction Log listing the ways in which you reduced or eliminated single-use plastic products; include photos of yourself using at least three sustainable alternatives.",
+   "what": "In at least 3-4 sentences, describe what you did and how you did it. What single-use plastic items were you able to replace or reuse during the week?",
+   "sowhat": "In at least 3-4 sentences, what did you learn regarding how many items in your daily life are made from single-use plastic? What are the impacts of single-use plastic on the environment and on humans?",
+   "nowwhat": "In at least 3-4 sentences, what changes will you make in your lifestyle choices after having done this exercise? What actions might you be able to take to alleviate the problem of plastic pollution in our community?",
+   "aside": [
+    "EPA: Ten Ways to Unpackage Your Life",
+    "7-day Plastic Reduction Log (download and submit as documentation)"
+   ]
+  },
+  {
+   "code": "ES-17",
+   "cat": "ES",
+   "title": "Use public or self-powered transportation five times within one week",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5 trips in one week",
+   "doc": "Create a transportation log including dates public transit or self-powered transportation were used, photos of yourself, and/or receipts.",
+   "what": "In at least 2-3 sentences, describe exactly what you did and how, where, and when you chose to use public/ self-powered transportation. What was the experience of reducing your transportation footprint like? Were all the places you normally visit accessible?",
+   "sowhat": "In at least 3-4 sentences, reflect on the impacts of private vehicles on the environment. How does the built infrastructure in your city or county support or hinder public transit and bicycle use? What did you learn from this experience?",
+   "nowwhat": "In at least 3-4 sentences, what might you be willing to do to reduce your transportation footprint? What could you do to help improve public transportation and/or self-powered transportation in South Florida?",
+   "aside": [
+    "Public transit: bus, train, trolley, etc. No ride-sharing (Uber/Lyft), carpooling, or other car use.",
+    "Self-powered: walking, bicycling, skating, etc. (not e-bikes or powered scooters).",
+    "C2ES: Reducing Your Transportation Footprint"
+   ]
+  },
+  {
+   "code": "ES-18A",
+   "cat": "ES",
+   "title": "Attend a workshop, training, or event on environment and sustainability",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 2-3 sentences, summarize the event that you attended. What was it, where, when, who were the speakers, what was the topic?",
+   "sowhat": "In at least 3-4 sentences, reflect on the workshop, training, or event topic. What did you learn? Why does this experience matter to you? To the community? To society? How did it help you understand your role in the story of our planet and natural surroundings?",
+   "nowwhat": "In at least 3-4 sentences, what actions might you take as a result of this experience?",
+   "aside": [
+    "Contact your Earth Ethics Institute (EEI) office for details."
+   ]
+  },
+  {
+   "code": "ES-18B",
+   "cat": "ES",
+   "title": "Attend a 1-day workshop, fellowship, or immersive experience on environment and sustainability",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 day / 7 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 3-4 sentences, summarize the event that you attended. What was it, where, when, who were the speakers, what was the topic?",
+   "sowhat": "In at least 3-4 sentences, reflect on the workshop, training, or event topic. What did you learn? Why does this experience matter to you? To the community? To society? How did it help you understand your role in the story of our planet and natural surroundings?",
+   "nowwhat": "In at least 3-4 sentences, what actions might you take as a result of this experience?",
+   "aside": [
+    "Contact your Earth Ethics Institute (EEI) office for details."
+   ]
+  },
+  {
+   "code": "ES-18C",
+   "cat": "ES",
+   "title": "Attend a 2-day workshop, fellowship, or immersive experience on environment and sustainability",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "2 days / 14 hour minimum",
+   "doc": "Proof of participation and completion (e.g., a letter, certificate, etc.).",
+   "what": "In at least 3-4 sentences, summarize the event you attended. What was it, where, when, who were the speakers, what was the topic?",
+   "sowhat": "In at least 3-4 sentences, reflect on the workshop, training, or event topic. What did you learn? Why does this experience matter to you? To the community? To society? How did it help you understand your role in the story of our planet and natural surroundings?",
+   "nowwhat": "In at least 3-4 sentences, what actions might you take as a result of this experience?",
+   "aside": [
+    "Contact your Earth Ethics Institute (EEI) office for details."
+   ]
+  },
+  {
+   "code": "ES-19",
+   "cat": "ES",
+   "title": "Complete a biodiversity mini-audit and identify at least five species",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5+ species documented",
+   "doc": "Conduct a biodiversity mini-audit by using the Biodiversity Log provided and listing five species you found.",
+   "what": "In at least 2-3 sentences, describe what you did. What species did you see? Describe what surprised you while doing this audit. Were any of the species you found native to South Florida, which ones? Were any of the species you found considered invasive in South Florida, which ones?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? Why are native species considered to be good for the environment while invasive species are not?",
+   "nowwhat": "In at least 3-4 sentences, what might you be willing to do to make your neighborhoods more native species and/or wildlife-friendly? Has your mindset changed as a result of this experience? How?",
+   "aside": [
+    "List and describe at least five species (plant or animal) using the Biodiversity Log.",
+    "Biodiversity Log (complete and upload as documentation)",
+    "Backyard Biodiversity Audit",
+    "iNaturalist \"Seek\" app"
+   ]
+  },
+  {
+   "code": "ES-20",
+   "cat": "ES",
+   "title": "Volunteer with a nonprofit that supports environmental or sustainability efforts",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5 hour minimum",
+   "doc": "Screenshot of verified Changemaker Hub impact – must meet iCED’s Standards of Service. Note: Service must meet iCED’s Standards for Service and must be uploaded into the Hub.",
+   "what": "In at least 2-3 sentences, which organization did you serve with and why? What did you do during your service? How many hours did you complete? Did anything surprise or disappoint you?",
+   "sowhat": "In at least 3-4 sentences, what did you learn, and what did you feel from this experience? Why is the work of this organization important? Why is it important for people to volunteer with environmental organizations? How can volunteering positively impact your life?",
+   "nowwhat": "In at least 3-4 sentences, might you be willing to continue to volunteer in the future with this organization, or others like it? Why or why not?",
+   "aside": [
+    "Service required for student club is acceptable."
+   ]
+  },
+  {
+   "code": "ES-21",
+   "cat": "ES",
+   "title": "Read an environmental justice article related to your neighborhood or community",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, describe the article you read —include the name and citation of the article. What are the main points of the article?",
+   "sowhat": "In at least 2-3 sentences, what did you learn from the article? Was there anything that surprised you? How does the issue relate to your role as a global citizen? How does the issue addressed in the article impact you personally?",
+   "nowwhat": "In at least 2-3 sentences, what actions can you take in your community to bring awareness to this issue? How might you share any insights you learned with others?",
+   "aside": [
+    "Examples of environmental justice issues: food equity, climate gentrification, sea level rise, pollution, urban heat island effect, community health."
+   ]
+  },
+  {
+   "code": "ES-22A",
+   "cat": "ES",
+   "title": "Design and implement an environmental action project pre-approved by Earth Ethics Institute",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "An outline of your project following the project proposal form and photo of yourself participating in the project",
+   "what": "In at least 3-4 sentences, describe your project and let us know when and where it took place. How successful was your project? What could have been better?",
+   "sowhat": "In at least 3-4 sentences, describe what inspired you to take this on? What did you learn doing this project? Who or what did it help?",
+   "nowwhat": "In at least 3-4 sentences, tell us what comes next for you after this project and why that is. How can the information be shared with a wider audience?",
+   "aside": [
+    "EEI Project Proposal Form"
+   ]
+  },
+  {
+   "code": "ES-22B",
+   "cat": "ES",
+   "title": "Participate in an environmental action project pre-approved by Earth Ethics Institute",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "A photo of yourself participating in the project.",
+   "what": "In at least 2-3 sentences, describe the project in which you participated (including when and where it took place).",
+   "sowhat": "In at least 2-3 sentences, tell us why you decided to participate in this project. What did you learn from the topic being discussed and why it was important?",
+   "nowwhat": "In at least 3-4 sentences, what might you do differently in the future due to this experience and/or the information provided in this project? If you were to conduct this project, what would you have done differently? How can the information presented be reached to a wider audience?",
+   "aside": [
+    "A preexisting ongoing project, or one designed by one of your peers.",
+    "Contact EEI for a list of pre-approved projects."
+   ]
+  },
+  {
+   "code": "CW-1",
+   "cat": "CW",
+   "title": "Complete a significant act of kindness (two steps in the scorecard)",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "Each act and reflection must be unique",
+   "doc": "Photo or recording of the act of kindness if possible (not required).",
+   "what": "In at least 2-3 sentences, summarize the act of kindness that was completed. Why did you choose this action and the person who received it? What is a “random act of kindness” according to the Positive Psychology article you read?",
+   "sowhat": "In at least 2-3 sentences, explain how it felt to complete this act. How does your action relate to the Positive Psychology article? Why are random acts of kindness important, to you, to the community, and to society as a whole?",
+   "nowwhat": "In at least 2-3 sentences, how might your future actions, thoughts, behavior, or mindset be changed? Describe how your future self might be a little different because of this action.",
+   "aside": [
+    "Each act of kindness and reflection must be unique.",
+    "1. Read: positivepsychology.com/random-acts-kindness/",
+    "2. Complete an act of kindness; examples at berkeleywellbeing.com/random-acts-of-kindness.html"
+   ]
+  },
+  {
+   "code": "CW-2",
+   "cat": "CW",
+   "title": "Donate non-perishable food to the MDC Food Pantry or a local food bank",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of yourself with food donations and/or receipt from pantry or food bank.",
+   "what": "In at least 2-3 sentences, what did you donate? Where? When? What was the process like?",
+   "sowhat": "In at least 2-3 sentences, share how it felt to donate to a food pantry. What did you learn from this experience and the MDC Hunger Awareness website? What impact does food insecurity have on the healthy development of your community?",
+   "nowwhat": "In at least 2-3 sentences, describe what you might do differently in the future as a result of this experience. Will you consider supporting causes related to food insecurity in the future, why or why not?",
+   "aside": [
+    "Valuing at least $5. Review the MDC Hunger Awareness Resource page on food insecurity in South Florida.",
+    "Donate: MDC Food Pantries"
+   ]
+  },
+  {
+   "code": "CW-3",
+   "cat": "CW",
+   "title": "Donate in kind to a nonprofit or community organization ($5+ value)",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of yourself with in-kind donations and/or receipt(s) from nonprofit or organization.",
+   "what": "In at least 2-3 sentences, explain the process to donate non-monetary items. What did you donate? Where? Why did you choose this place to donate?",
+   "sowhat": "In at least 2-3 sentences, reflect on the experience of donating. Why are donations needed in your community? Where would your personal items have ended up if they were not donated? What did you learn from this experience?",
+   "nowwhat": "In at least 2-3 sentences, describe how your approach might be different, going forward, when it comes to donating. How might you share what you learned with others?",
+   "aside": [
+    "In kind: non-monetary donations like clothing, furniture, household goods, etc.",
+    "Need suggestions? See nonprofits in the Changemaker Hub."
+   ]
+  },
+  {
+   "code": "CW-4",
+   "cat": "CW",
+   "title": "Participate in a fundraising campaign bringing in over $100 for a nonprofit",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5+ donors; funds not raised from yourself",
+   "doc": "1)Documentation of your campaign (e.g., photo or recording of you raising funds, or screenshot of email campaign) and 2)documentation (receipt) that the funds were delivered to the organization.",
+   "what": "In at least 2-3 sentences, how much did you raise, when and how did you raise the funds? What organization did it support? Why did you choose to help raise funds for this organization?",
+   "sowhat": "In at least 3-4 sentences, reflect on the experience of participating in a fundraising campaign. What did you learn, how did it make you feel? Why is raising funds for causes like this important? How will the funds raised make a difference in the community?",
+   "nowwhat": "In at least 3-4 sentences, describe what you might do differently in the future as a result of this experience. Are there other organizations you might help raise funds for, and if so, what might they be?",
+   "aside": [
+    "Through a single event or an ongoing campaign.",
+    "Must engage multiple donors (minimum of 5); funds may not come exclusively from a single donor or only from your family, friends, or club."
+   ]
+  },
+  {
+   "code": "CW-5",
+   "cat": "CW",
+   "title": "Serve with a local or state nonprofit",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5 hour minimum; must meet iCED's Standards for Service",
+   "doc": "Screenshot of verified Changemaker Hub impact – must meet iCED’s Standards of Service. Note: Service must meet iCED’s Standards for Service.",
+   "what": "In at least 2-3 sentences, explain where you served, what you did, and why you chose this organization. What expectations did you have and were they met?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? Why does volunteer service matter to you to the organization, and to society as a whole? Do you feel that the organization is being effective in achieving its goals in serving their targeted population? Why or why not?",
+   "nowwhat": "In at least 3-4 sentences describe what you might do differently in the future as a result of this experience. Will you continue to volunteer, why or why not? What can you do to encourage others to volunteer?",
+   "aside": [
+    "Service must meet iCED's Standards for Service."
+   ]
+  },
+  {
+   "code": "CW-6",
+   "cat": "CW",
+   "title": "Serve in a local, national, or international day of service",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "5 hour minimum",
+   "doc": "Screenshot of verified Changemaker Hub impact Note: Service must meet iCED’s Standards for Service.",
+   "what": "In at least 2-3 sentences, describe your experience. Where did you serve, when, what was the project you completed? Why did you choose this project? What is the history and background of this special day?",
+   "sowhat": "In at least 3-4 sentences, how has this experience shaped your thinking about service holidays? Why are days of service like this important and what difference do they make?",
+   "nowwhat": "In at least 3-4 sentences, what new skills and perspectives have you gained that can be beneficial to your career and your community? Might you volunteer in the future with days of service like this, why or why not?",
+   "aside": [
+    "Examples: MLK Day of Service, 9/11 Day of Service and Remembrance, Global Youth Service Day, etc.",
+    "Cannot be completed in conjunction with serving a local or state nonprofit (CW-5)."
+   ]
+  },
+  {
+   "code": "CW-7",
+   "cat": "CW",
+   "title": "Serve on a community board or committee",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5 hour minimum",
+   "doc": "Proof of Board or committee participation (meeting schedules or documentation) and photo of yourself at meetings.",
+   "what": "In at least 2-3 sentences, what board or committee did you serve on? Explain your role and your duties. How were you selected for this position? Why did you choose this particular board or committee? What impact did you have?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? How did it make you feel? Why are community boards or committees like this important?",
+   "nowwhat": "In at least 3-4 sentences, now that you have served, will you seek more board/committee opportunities in the future? Why or why not? What would you change or keep about future boards you may elect to serve on?",
+   "aside": [
+    "Examples: Commission for Women, the Children’s Trust, Engage Miami, Hospital Boards, Nonprofit Boards, etc."
+   ]
+  },
+  {
+   "code": "CW-8",
+   "cat": "CW",
+   "title": "Complete a health screening or health test",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, reflect on the process of completing a health screening. How easy or hard was it to find a screening location near your home?",
+   "sowhat": "In at least 2-3 sentences, describe what you have learned from this experience. What did you find most interesting? Do you feel that healthcare is accessible to all individuals living in America? Do you feel people in all communities receive the same quality of care?",
+   "nowwhat": "In at least 2-3 sentences, describe what impact this health screening or test has on you or your community. Has this act inspired someone else in your life to complete a health screening? How can you let others know the importance of screenings/health tests?",
+   "aside": [
+    "Examples: glucose, mammogram, blood sugar, TB, HIV, STI, COVID-19, flu shot.",
+    "Results are not required for documentation or reflection."
+   ]
+  },
+  {
+   "code": "CW-9A",
+   "cat": "CW",
+   "title": "Donate blood",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of you donating or proof of donation. Note: cover confidential medical information in your submission.",
+   "what": "In at least 2-3 sentences, describe what you did. What company/organization did you donate to and how did you find them? Have you donated before? What expectations did you have and were they met?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned from this experience. How did it feel? Why do you think it’s important for people to donate blood?",
+   "nowwhat": "In at least 3-4 sentences, describe how this experience has influenced your likelihood of donating again in the future. Will you encourage friends and family to donate, why or why not?",
+   "aside": [
+    "One Blood",
+    "Red Cross"
+   ]
+  },
+  {
+   "code": "CW-9B",
+   "cat": "CW",
+   "title": "Donate plasma",
+   "pts": 15,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of you donating or proof of donation. Note: cover confidential medical information in your submission.",
+   "what": "In at least 3-4 sentences, describe what you did. What company/organization did you donate to and how did you find them? Have you donated before? What expectations did you have and were they met?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned from this experience. How did it feel? Why do you think it’s important for people to donate plasma?",
+   "nowwhat": "In at least 3-4 sentences, describe how this experience has influenced your likelihood of donating again in the future. Will you encourage friends and family to donate, why or why not?",
+   "aside": [
+    "One Blood",
+    "Red Cross"
+   ]
+  },
+  {
+   "code": "CW-9C",
+   "cat": "CW",
+   "title": "Join the bone marrow registry, or sign up to be an organ donor",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Proof of registration. Note: cover confidential medical information in your submission.",
+   "what": "In at least 2-3 sentences, describe what you did. Why did you choose that option? What expectations did you have and were they met?",
+   "sowhat": "In at least 2-3 sentences, describe what you learned from this experience. How did it feel? Why do you think it’s important for people to sign up for registries like this?",
+   "nowwhat": "In at least 2-3 sentences, describe how this experience has influenced your likelihood of signing up for other registries. Will you encourage friends and family to sign up, why or why not?",
+   "aside": [
+    "Join the Bone Marrow Registry (Gift of Life)",
+    "Sign up to be an Organ Donor"
+   ]
+  },
+  {
+   "code": "CW-10",
+   "cat": "CW",
+   "title": "Participate in the Unify America College Bowl and talk with someone you disagree with",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, summarize your experience. When did you participate and who were you matched with? How long did the conversation last? Was it what you expected, why or why not?",
+   "sowhat": "? In at least 3-4 sentences, explain how it felt to have this conversation. What did you learn from speaking to someone who may or may not share your same opinions? Why is it important to have civil conversations with someone with whom you might disagree?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might use and/or apply what you learned going forward? How might your future self be a little different going forward? Will you recommend this experience to others, why or why not?",
+   "aside": [
+    "Learn more and sign up: libraryguides.mdc.edu/unifychallengebowl"
+   ]
+  },
+  {
+   "code": "CW-11",
+   "cat": "CW",
+   "title": "Host a community meeting for a diverse audience on an issue of community relevance",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5+ people, 1 hour minimum",
+   "doc": "Group photo of attendees and copy of the meeting agenda with date, time, and location.",
+   "what": "In at least 3-4 sentences, describe what you did, when, where, and what the relevant topic was. Why did you choose this action?",
+   "sowhat": "In at least 3-4 sentences, explain how it felt to complete this action. What did you learn from hosting a community meeting and how did it feel? What resolutions or actions resulted from the meeting? Why are neighborhood/ community meetings important to you, to your community, and to society?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might share with others some of the insights you gained through this experience. How might your future self be a little different because of this experience?",
+   "aside": [
+    "Diverse audience: must benefit from the information presented and engage multiple people (minimum of 5).",
+    "Example: 10 Days of Connection, each summer"
+   ]
+  },
+  {
+   "code": "CW-12",
+   "cat": "CW",
+   "title": "Complete a community well-being certification (mental health, first aid, CPR, suicide prevention)",
+   "pts": 15,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Photo/screenshot of certificate of completion.",
+   "what": "In at least 3-4 sentences, describe the certification you completed. What was it, when and where was it? Why did you choose this certification?",
+   "sowhat": "In at least 3-4 sentences, explain how it felt to complete this action. What did you learn from taking this training? Why are community well-being certifications like this important?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might you use what you learned in the future. Will you encourage others to complete certifications like this, why or why not? How will this certification prepare you to contribute to the positive and healthy development of your community?",
+   "aside": [
+    "Examples: mental health, first aid, CPR, suicide prevention, etc.",
+    "Check out MDC Student Wellness Resources"
+   ]
+  },
+  {
+   "code": "CW-13A",
+   "cat": "CW",
+   "title": "Attend a workshop, training, or event on community well-being or a social issue",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the event. What was the topic, where and when was it? Why did you choose to participate?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from participating in this event? Was the content covered important to you and to the community, why or why not?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might approach things differently in the future based on what you learned. How will this experience help you prepare to contribute to the positive and healthy development of your community?",
+   "aside": [
+    "Examples: Public health, housing, public transit, public education, civic engagement expo, Diversity & Inclusion workshop, etc."
+   ]
+  },
+  {
+   "code": "CW-13B",
+   "cat": "CW",
+   "title": "Attend a 1-day workshop, training, or event on community well-being or a social issue",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 day / 7 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 3-4 sentences, describe the event. What was it, when, where, and what was the topic? Why did you choose it?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from participating in this training? What new knowledge or skills were learned? How was participating important to you, to the community, and to society?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might approach things differently in the future based on what you learned. How will this experience help you prepare to contribute to the positive and healthy development of your community?",
+   "aside": [
+    "( 1 day / 7 hr. minimum)"
+   ]
+  },
+  {
+   "code": "CW-13C",
+   "cat": "CW",
+   "title": "Complete an MDC campus or community leadership or fellowship program on community well-being",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "2 days / 14 hour minimum",
+   "doc": "Proof of participation and completion (e.g., a letter, certificate, etc.).",
+   "what": "In at least 3-4 sentences, describe the program you participated in. When and where was it, and what was it about? What about this program inspired you to participate? What topics were discussed in the program?",
+   "sowhat": "In at least 3-4 sentences, share what you learned from participating, including the skills and insights you gained. Why is participating in a program like this important to you, to the community, and to society?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might do things differently in the future based on what you learned. How might you share the insights you learned with others?",
+   "aside": [
+    "(2 days, 14 hr. minimum)"
+   ]
+  },
+  {
+   "code": "CW-14",
+   "cat": "CW",
+   "title": "Present a workshop, training, or informational event to an authentic audience",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5+ people, diverse audience",
+   "doc": "Photo or recording of you conducting the presentation.",
+   "what": "In at least 3-4 sentences, describe what you did. What was the topic? When and where did you present it, and to whom? Why did you choose this topic?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from preparing and presenting this event? How did it make you feel? What about this issue inspired you to take this action? Why is it important for others to learn about this topic?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might share with others some of the insights you’ve gained. Will you continue to take actions like this in the future, why or why not?",
+   "aside": [
+    "Through a single event or an ongoing campaign.",
+    "Authentic audience: must benefit from the information and engage multiple, diverse people (minimum of 5).",
+    "Presentation must include factual, cited information and a call to action or proposed solution."
+   ]
+  },
+  {
+   "code": "CW-15",
+   "cat": "CW",
+   "title": "Be hurricane and emergency prepared (plan plus kit)",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Submit your Hurricane Preparedness Plan and submit a photo of your kit.",
+   "what": "In 3-4 sentences, describe the process to build your Emergency Preparedness Plan and Kit. What are your arrangements to leave your area if you’re stuck? What is in your Hurricane Preparedness Kit?",
+   "sowhat": "In 3-4 sentences, what did you learn from this experience of preparing for an emergency? How did it make you feel? Why is it important to be prepared for hurricanes and emergencies, for you, for our community, and for society?",
+   "nowwhat": "In at least 3-4 sentences, what might you do differently in the future as a result of this experience? How might you share some of what you learned with others?",
+   "aside": [
+    "1. Review MDC's Hurricane Preparedness site: mdc.edu/safety/in-case-of-emergency/hurricane-preparedness/",
+    "2. Create a preparedness kit (recommended items in the link above).",
+    "3. Create a plan: miamidade.gov/global/emergency/hurricane/home.page",
+    "Suggested: CLEO Institute extreme weather training (cleoinstitute.org)"
+   ]
+  },
+  {
+   "code": "CW-16",
+   "cat": "CW",
+   "title": "Donate hair for people who have lost theirs to cancer or other ailments",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of yourself donating hair/haircut process.",
+   "what": "In at least 3-4 sentences, describe what you did and who you made the donation to. What inspired you to donate your hair? What did you find most interesting about your experience? What is required to donate hair for the program/organization that you chose?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned from this experience. How did it feel to donate a part of yourself? Why is it important to participate in programs like this, for you, for the community, and for society?",
+   "nowwhat": "In at least 3-4 sentences, describe how you might share with others some of the insights you gained through this experience. In the future, will you donate to this program or others like it, why or why not?",
+   "aside": [
+    "Examples: Wigs for Kids (wigsforkids.org), Locks of Love (locksoflove.org)"
+   ]
+  },
+  {
+   "code": "CW-17",
+   "cat": "CW",
+   "title": "Understanding empathy: watch two short videos and read \"What is Empathy\"",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, describe some of the main things you learned from the short videos and article. What did you connect with in the videos and article? What did you find most interesting?",
+   "sowhat": "In at least 3-4 sentences, reflect on and explain something new or different you learned regarding empathy from the article and videos. Why do you think empathy is an important attribute for being a changemaker?",
+   "nowwhat": "In at least 3-4 sentences, describe either a time when you've been empathetic in your life (e.g., at home, school, or work) or a time when you could have shown more empathy. How might you share with others some of the insights you gained through this experience? How might your future self be slightly different because of this experience?",
+   "aside": [
+    "1. \"What is Empathy\" article (VeryWellMind, Kendra Cherry)",
+    "2. Brene Brown on Empathy (video)",
+    "3. Empathy: The Human Connection to Patient Care (video)"
+   ]
+  },
+  {
+   "code": "CW-18",
+   "cat": "CW",
+   "title": "Learn about public service opportunities with AmeriCorps and Peace Corps",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences describe what AmeriCorps and Peace Corps are, including some of the similarities and differences between the two?",
+   "sowhat": "In at least 2-3 sentences what did you learn, what was new to you, did you know about these public service opportunities? Why are programs like AmeriCorps and Peace Corps important and what impact do they have? If you were to serve in the Peace Corps or AmeriCorps, which country or program would you like to serve in and why?",
+   "nowwhat": "In at least 2-3 sentences might you consider joining AmeriCorps or Peace Corps in the future, why or why not? How might you be able to share what you learned about public service with others?",
+   "aside": [
+    "Watch the two short videos and explore both websites:",
+    "1-minute video about the Peace Corps",
+    "1-minute video about AmeriCorps",
+    "Peace Corps website, AmeriCorps website, American Climate Corps website"
+   ]
+  },
+  {
+   "code": "CW-19",
+   "cat": "CW",
+   "title": "Read and reflect on Adam Davis's \"What We Don't Talk About When We Don't Talk About Service\"",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what are the reasons people serve according to the author? Do you agree with these explanations?",
+   "sowhat": "In at least 2-3 sentences, reflect on what the author says about the fact that service can be demeaning to others (serving a meal to a homeless person) and can make us feel better about ourselves and better than others, without addressing the inequality that exists in the world, or the fact that sometimes people do service to make themselves look good.",
+   "nowwhat": "In at least 2-3 sentences, reflect on the author’s message that service is complex and nuanced and that we must think about and talk about service, rather than just “do service.” How might you approach service differently in the future as a result of this article?",
+   "aside": []
+  },
+  {
+   "code": "CW-20A",
+   "cat": "CW",
+   "title": "Watch a TED talk about mental health",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as a documentation.",
+   "what": "In at least 2-3 sentences, summarize the main points from the TED talk, what did you learn about mental health awareness, stigma or coping strategies? Did it resonate with your own experiences or those of others close to you?",
+   "sowhat": "In at least 2-3 sentences, how does this knowledge impact your perception of mental well-being? Why is it essential to address mental health openly and compassionately in our communities?",
+   "nowwhat": "In at least 2-3 sentences, how can you apply the insights gained from the TED Talk to promote mental health awareness? How might your future actions be influenced by this experience? How can you contribute to creating a healthier and more supportive mental health environment?",
+   "aside": [
+    "Search and choose a video related to mental health.",
+    "TED.com"
+   ]
+  },
+  {
+   "code": "CW-20B",
+   "cat": "CW",
+   "title": "Attend a mental health-related event on campus or in the community",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the event you attended. What was it about, when and where did it take place, and what were the main topics covered?",
+   "sowhat": "In at least 3-4 sentences, describe any insights or knowledge gained. Did you discover new information about mental health, coping strategies, or self-care? What is the significance of mental health and how does it impact our overall well-being and quality of life?",
+   "nowwhat": "In at least 3-4 sentences, what are some practical steps you can take moving forward based on what you learned – for yourself but also for your family and the community?",
+   "aside": []
+  },
+  {
+   "code": "CW-21",
+   "cat": "CW",
+   "title": "Use CircleIn to submit 5 course feedback submissions to your professor",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Screenshot of your CircleIn Course Feeback History.",
+   "what": "In at least 2-3 sentences describe the feedback you provided through your submissions and how it might have contributed to the well-being of your professor and classmates.",
+   "sowhat": "In at least 3-4 sentences what did you learn from this experience? Why do you believe giving feedback matters? How do you feel about your own \"voice\" and ability to speak up for others?",
+   "nowwhat": "In at least 3-4 sentences explain how you will continue to use your voice to speak up on behalf of your classmates and others? What might you do differently when you start a new course? How might you help more students and professors to use CircleIn?",
+   "aside": [
+    "CircleInApp.app.link",
+    "Send your professors course feedback that helps your academic well-being and your classmates'. Five submissions are required for this action."
+   ]
+  },
+  {
+   "code": "AC-1",
+   "cat": "AC",
+   "title": "Watch a film or documentary about a political, environmental, social, or cultural issue",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what film or documentary did you watch? What was it about? What political, environmental, social, or cultural issues were addressed?",
+   "sowhat": "In at least 3-4 sentences, describe what you learned. What feelings came up while watching it? Why is this film or documentary important to you, to the community, and to society as a whole?",
+   "nowwhat": "In at least 3-4 sentences, describe the impact that this film may have on you going forward. What might you do differently because of what you learned? What other civic topics are you interested in learning about after watching this film/documentary?",
+   "aside": [
+    "Access Kanopy through your MDC library account."
+   ]
+  },
+  {
+   "code": "AC-2A",
+   "cat": "AC",
+   "title": "Read a nonfiction or fiction book (100+ pages) about a political, environmental, social, or cultural issue",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "100+ pages",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 3-4 sentences, what book did you read and what was it about? What political, environmental, social, or cultural issue(s) did it address and why did you choose this book?",
+   "sowhat": "In at least 3-4 sentences, what did you learn? What feelings came up while reading it? Why is the topic covered in this book important to you, to the community, and to society as a whole? How can literary arts and storytelling strengthen and enrich our communities?",
+   "nowwhat": "In at least 3-4 sentences, what might you do differently as a result of reading this book? Is there an action you might take as a result, why or why not? Will you read other books on these topics, why or why not?",
+   "aside": [
+    "PEN America Index of School Book Bans",
+    "Earth Ethics Institute Booklist",
+    "MDC Learning Resources",
+    "Additional 5 points for a banned or challenged book by completing AC-2B."
+   ]
+  },
+  {
+   "code": "AC-2B",
+   "cat": "AC",
+   "title": "Bonus: the book in AC-2A is a banned or challenged book",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "Requires AC-2A",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what book did you select from the banned or challenged list? Where is this book banned? Summarize why some view it as controversial.",
+   "sowhat": "In at least 2-3 sentences, describe how you felt about the content covered and about it being banned. What are the pros and cons of challenging or banning books? Why/why not is freedom of expression through books important?",
+   "nowwhat": "In at least 2-3 sentences, what might you do differently in the future as a result of reading a challenged or banned book?",
+   "aside": [
+    "Pen America Index of School Book Bans"
+   ]
+  },
+  {
+   "code": "AC-3",
+   "cat": "AC",
+   "title": "Research the indigenous people and tribe(s) of your community",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, provide name(s) and location of each tribe of your community. Include a summary of their history and whether they are active today. Do the tribes have any public-facing spaces and/or events that others can attend/participate in?",
+   "sowhat": "In at least 3-4 sentences, describe what surprised you about their historical background and/or current activity. What did you learn from this experience that stood out to you? Why is it important to know about the indigenous tribes of our communities?",
+   "nowwhat": "In at least 3-4 sentences, describe how this knowledge might impact your perception of tribal issues moving forward. How might your future actions, thoughts, behavior, or mindset be changed because of what you learned? How might your future self be a little different because of what you learned?",
+   "aside": [
+    "Use your zip code with the Native Land Map (native-land.ca)."
+   ]
+  },
+  {
+   "code": "AC-4",
+   "cat": "AC",
+   "title": "Create and present a land acknowledgement to an audience of 5+ people",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5+ people, in person or online",
+   "doc": "Upload a copy of the land acknowledgement you wrote and a photo and/or video of presentation with audience present (min. 5 people).",
+   "what": "In at least 2-3 sentences, describe what you did and how you did it. Describe your process of writing a land acknowledgement for the indigenous tribe(s) of your community.",
+   "sowhat": "In at least 2-3 sentences, explain the importance of creating and sharing a land acknowledgement. What did you learn about their significance?",
+   "nowwhat": "In at least 2-3 sentences, describe how learning about and creating a land acknowledgement might change the way you think about your “place” in the world. Will this experience change anything for you going forward? Why or why not?",
+   "aside": [
+    "Native Governance Center's Land Acknowledgement guide",
+    "\"Whose Land Are You On\" video"
+   ]
+  },
+  {
+   "code": "AC-5",
+   "cat": "AC",
+   "title": "Visit a park, museum, or site of environmental or cultural significance",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, receipt of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the site you visited. What was it, when did you visit, where is it located, what did you do there, and why did you pick this site?",
+   "sowhat": "In at least 3-4 sentences, share what you learned. What feelings came up during your visit? Why is it important to visit sites like this? How do sites like this enrich our community. How did this visit inform or impact the connection you have with your community?",
+   "nowwhat": "In at least 3-4 sentences, will you visit other environmental/cultural sites again in the future, why or why not? What types of sites would you like to visit in the future?",
+   "aside": [
+    "Cultural significance: a site with historic, scientific, social, or spiritual value.",
+    "Visit Museums for Free",
+    "Historic Places to Visit in Miami",
+    "Historic Treasures in Homestead & Florida City"
+   ]
+  },
+  {
+   "code": "AC-6",
+   "cat": "AC",
+   "title": "Join a community art or cultural collective and attend at least 2 meetings or events",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "2+ meetings or events",
+   "doc": "Evidence of joining (official letter or email, membership card, etc.), photo of yourself at each meeting, and/or receipt of attendance with date.",
+   "what": "In at least 3-4 sentences, what group did you join? Describe the group and its purpose and what inspired you to join. Provide a description of each meeting/event you attended and the topics covered. Did any of the topics addressed surprise you? If so, why?",
+   "sowhat": "In at least 3-4 sentences, what did you learn about the arts and your community’s culture from joining? How did joining and participating make you feel? What contributions did your membership and presence bring to the collective? Why do you think it is important for there to be cultural collectives in the community?",
+   "nowwhat": "In at least 3-4 sentences, will you continue to participate in this group or others, why or why not? How might you encourage your peers to participate in a collective like this?",
+   "aside": [
+    "Examples: O, Miami; Miami Film Society; a book club; your campus literary magazine, etc.",
+    "15 points for joining and attending at least 2 meetings."
+   ]
+  },
+  {
+   "code": "AC-7",
+   "cat": "AC",
+   "title": "Present original art on a civic issue for an authentic audience",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "5+ people",
+   "doc": "Photo or recording of art and photo and/or video of presentation with audience present (min. 5 people).",
+   "what": "In at least 3-4 sentences, provide the date, time, and location of your presentation. Who were the audience? What piece of art did you present? What was the message you conveyed. How did others react to the art and information you presented? What about this issue inspired you to present original art?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? How did it make you feel? What impact can art have on political, environmental, and/or social issues? Why is it important to use art for positive change?",
+   "nowwhat": "In at least 3-4 sentences, how might you be different because of this experience? Can you envision yourself continuing to present your art to promote the common good in the future? How can we more effectively use art to bring about social change and reach more students?",
+   "aside": [
+    "Art: 2D, 3D, digital, print, writing, or performance art (musical, theatre, dance, poetry, etc.), plus a call to action or proposed solution.",
+    "Authentic audience: must benefit from the message and engage multiple, diverse people (minimum of 5) who are not only your family, friends, class, or club (online or in person)."
+   ]
+  },
+  {
+   "code": "AC-8",
+   "cat": "AC",
+   "title": "Attend a local art or cultural fair, festival, or event",
+   "pts": 10,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, receipt of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the event you attended. Where was it, when, what was the purpose of the event. What about it inspired you to attend or participate?",
+   "sowhat": "In at least 3-4 sentences, what did you learn? How did attending make you feel? Are art and cultural events like this important to the well-being of our community, why or why not? Did this experience influence any cultural perceptions you had before attending?",
+   "nowwhat": "In at least 3-4 sentences, will you attend other events like this in the future, why or why not? What did this experience inspire you to do moving forward? What might you do differently in the future because of this experience? What other similar events are you aware of that you might like to attend?",
+   "aside": [
+    "LiveArtsMiami.org",
+    "Miami Book Fair",
+    "MOAD",
+    "HistoryMiami Museum",
+    "Culture Shock Miami (mdc.edu/arts-culture/)"
+   ]
+  },
+  {
+   "code": "AC-9",
+   "cat": "AC",
+   "title": "Fast in recognition of a spiritual or faith-based practice (sunrise to sunset)",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "Sunrise to sunset",
+   "doc": "Reflection will count as documentation.",
+   "what": "In 2-3 sentences, what does it exactly mean to fast from sunrise to sunset for the spiritual/faith-based practice you selected (e.g., Ramadan, Lent, Yom Kippur, etc.)? What is it exactly that the group/faith fast/abstain from? What other examples of faith-based fasting practices exist?",
+   "sowhat": "In at least 3-4 sentences, what is the significance of fasting for those who observe it? What are the potential health, mental, and spiritual benefits (and/or challenges) associated with fasting from sunrise to sunset? What impact does fasting have on the broader community and on interfaith understanding?",
+   "nowwhat": "In at least 3-4 sentences, now that you have completed your fast, how do you feel physically and emotionally? How might this practice impact your daily routine and lifestyle? How has this experience influenced your understanding of the spiritual or faith-based practice behind fasting?",
+   "aside": [
+    "Fasting means abstaining from a chosen activity to bring greater attention to one's spiritual or faith-based practice."
+   ]
+  },
+  {
+   "code": "AC-10",
+   "cat": "AC",
+   "title": "Read two articles on an interfaith dialogue initiative",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, describe the articles you read – include the name and citation of each article. What were the main points of these articles?",
+   "sowhat": "In at least 2-3 sentences, what did you learn from these articles? Was there anything that surprised you? How does the issue relate to your role as a global citizen? Does the issue addressed in the article impact you personally? Is it important to know about other faiths/religions, why or why not?",
+   "nowwhat": "In at least 3-4 sentences, what actions can you take in your community to bring awareness to this issue? How might you share any insights you learned with others?",
+   "aside": [
+    "unesco.org/interculturaldialogue/en/publications",
+    "interfaithamerica.org/magazine/",
+    "un.org/en/observances/interfaith-harmony-week",
+    "abrahamicfamilyhouse.ae/"
+   ]
+  },
+  {
+   "code": "AC-11",
+   "cat": "AC",
+   "title": "Learn about Ramadan",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what and when is Ramadan, and what are its key practices and significance? What are the daily routines and rituals observed by Muslims during Ramadan? What is the historical and cultural background of Ramadan?",
+   "sowhat": "In at least 2-3 sentences, what is the importance of Ramadan in the Islamic faith? What impact does observing Ramadan have on the lives of Muslims, both spiritually and socially? What can be learned from understanding Ramadan about the broader Islamic culture and traditions?",
+   "nowwhat": "In 2-3 sentences, now that you have learned about Ramadan, how can you show respect and support for classmates or colleagues who are observing it? What further steps can you take to deepen your understanding of Ramadan and its significance? How might you apply the principles of empathy and cultural awareness gained from learning about Ramadan in other areas of your life?",
+   "aside": [
+    "See AC-9 if you choose to fast while learning about Ramadan.",
+    "What and when is Ramadan?",
+    "Jaffer Institute website"
+   ]
+  },
+  {
+   "code": "AC-12",
+   "cat": "AC",
+   "title": "Attend a worship service of another faith, or an interfaith activity or event",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what service or event did you attend? When, where? Summarize the main tenets of the faith and describe the experience. Was there anything about the service/event that surprised you? Did this experience change your approach/attitude to other religions?",
+   "sowhat": "In at least 3-4 sentences, what did you learn? How did attending make you feel? Did attending increase your curiosity about other religions? Was there anything in the service/event that was familiar to you, or similar to a practice in your own life? Why is it important to know about other faiths (interfaith literacy)?",
+   "nowwhat": "In at least 3-4 sentences, what might you do differently in the future as a result of this experience? What insights did you gain and how might you share them with others? Will you attend other services of different faiths, why or why not?",
+   "aside": [
+    "Jaffer Institute Website"
+   ]
+  },
+  {
+   "code": "SI-1",
+   "cat": "SI",
+   "title": "Learn about social innovation: watch the video and read both articles",
+   "pts": 5,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, describe the video you watched and articles you read. How would you define social innovation in your own words. What is an example of social innovation that you liked from the examples provided, why?",
+   "sowhat": "In at least 2-3 sentences, what did you learn? Does what you learned make you more hopeful about our future, why or why not? Why does the concept of social innovation matter to you, to our community, and to society as a whole?",
+   "nowwhat": "In at least 2-3 sentences, describe how you might share with others some of the insights you gained through this experience. Do you have an idea for a social innovation project you would like to see happen in your community, and what would it be?",
+   "aside": [
+    "Video: \"Solving the World's Toughest Problems\"",
+    "Articles: \"What is Social Innovation and why is it important?\" and \"5 Social Innovation Examples\""
+   ]
+  },
+  {
+   "code": "SI-2",
+   "cat": "SI",
+   "title": "Read two articles on the same topic from Solutions Journalism",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, which two articles did you read? Describe what solutions journalism is and how it advances social innovation across the world. What specific theme did you choose to identify your two articles.",
+   "sowhat": "In at least 2-3 sentences, what insights did you gain about the particular theme that you chose? How did the solutions described in the articles make you feel about the theme you chose?",
+   "nowwhat": "In at least 2-3 sentences, describe how you might share with others some of the insights you gained through this experience. Is there anything more you would like to learn about regarding either your theme of choice or the articles you selected?",
+   "aside": [
+    "At least 2 pages (about 1,000 words) each.",
+    "Examples of topics: hunger, climate change, etc.",
+    "Solutions Journalism U"
+   ]
+  },
+  {
+   "code": "SI-3",
+   "cat": "SI",
+   "title": "Learn about Ashoka Fellows and identify one working on an issue that matters to you",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, what do Ashoka Fellows do and how are they important participants in the space of social innovation? Share about the Ashoka Fellow you selected and why they were of interest to you.",
+   "sowhat": "In at least 2-3 sentences, what did you learn from this experience? How did learning about Ashoka Fellows make you feel? Why is it important for all of us to be social innovators and what can we learn from Ashoka Fellows?",
+   "nowwhat": "In at least 2-3 sentences, what might you do differently in the future now that you have learned about Ashoka Fellows. How might your mindset be different moving forward? How might you share your new insights with others?",
+   "aside": [
+    "Examples of issues: homelessness, gun violence, etc.",
+    "Who are Ashoka Fellows? (ashoka.org)"
+   ]
+  },
+  {
+   "code": "SI-4",
+   "cat": "SI",
+   "title": "Watch a TED talk on any social innovation project",
+   "pts": 5,
+   "max": 2,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Reflection will count as documentation.",
+   "what": "In at least 2-3 sentences, summarize your video selection (and include link of the video) – who is behind the social innovation and what challenge is the work trying to address? What makes this an example of social innovation?",
+   "sowhat": "In at least 2-3 sentences, what did you learn from this experience? Why does this project, and social innovation in general, matter to you, to our community, and to society as a whole?",
+   "nowwhat": "In at least 2-3 sentences, describe how you might share with others some of the insights you gained through this experience. Do you have an idea for a social innovation project you would like to see happen in your community, and what would it be?",
+   "aside": [
+    "Search and choose a video related to a social/environmental topic of interest to you.",
+    "TED.com"
+   ]
+  },
+  {
+   "code": "SI-5A",
+   "cat": "SI",
+   "title": "Attend a workshop, training, or event on social innovation or social entrepreneurship",
+   "pts": 10,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 2-3 sentences, describe the event you attended and its topic. Why did you choose this event – what was your interest in the topic?",
+   "sowhat": "In at least 3-4 sentences, share what you learned. Is what you learned important to you, to the community, and to society as a whole? Why or why not?",
+   "nowwhat": "In at least 3-4 sentences, might your future actions, thoughts, behaviors, or mindset be changed because of this experience? Describe how your future self might be a little different, and if not, share why not.",
+   "aside": [
+    "Examples: hackathons, design-thinking boot camps, social innovation workshops, etc.",
+    "MDC Changemaking / Social Innovation Instagram",
+    "Venture Cafe Miami"
+   ]
+  },
+  {
+   "code": "SI-5B",
+   "cat": "SI",
+   "title": "Attend a 1-day workshop, training, or event on social innovation or social entrepreneurship",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "1 day / 7 hour minimum",
+   "doc": "Photo of yourself at event and/or documented confirmation you attended (e.g., photo of sign in sheet, certificate of attendance, or email).",
+   "what": "In at least 3-4 sentences, describe the event you attended and its topic. Why did you choose this event – what was your interest in the topic?",
+   "sowhat": "In at least 3-4 sentences, share what you learned. Is what you learned important to you, to the community, and to society as a whole? Why or why not?",
+   "nowwhat": "In at least 3-4 sentences, might your future actions, thoughts, behaviors, or mindset be changed because of this experience? Describe how your future self might be a little different, and if not, share why not.",
+   "aside": [
+    "Examples: hackathons, design-thinking boot camps, social innovation workshops, etc."
+   ]
+  },
+  {
+   "code": "SI-5C",
+   "cat": "SI",
+   "title": "Complete a 2-day training or fellowship on social innovation or social entrepreneurship",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "2 days / 14 hour minimum",
+   "doc": "Proof of participation and completion (e.g., a letter, certificate, etc.).",
+   "what": "In at least 3-4 sentences, describe the event you attended and summarize the topics covered. Why did you choose this event – what was your interest in the topic?",
+   "sowhat": "In at least 3-4 sentences, share what you learned. Is what you learned important to you, to the community, and to society as a whole? Why or why not?",
+   "nowwhat": "In at least 3-4 sentences, might your future actions, thoughts, behaviors, or mindset be changed because of this experience? Describe how your future self might be a little different, and if not, share why not.",
+   "aside": [
+    "Examples: CGI U, hackathons, boot camps or fellowships on design thinking or social innovation, etc."
+   ]
+  },
+  {
+   "code": "SI-6A",
+   "cat": "SI",
+   "title": "Submit a Commitment to Action to CGI U, or a proposal to any social innovation challenge",
+   "pts": 15,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "",
+   "doc": "Submit a copy of your final Commitment to Action application or proposal.",
+   "what": "In at least 3-4 sentences, describe your “commitment to action” (or social innovation project). What issue was addressed? What about this issue inspired you to apply? Describe your process for preparing the Commitment to Action.",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? Why does this experience matter to you, to the community, and to society as a whole? Why are social innovation programs like this important, especially for college students?",
+   "nowwhat": "In at least 3-4 sentences, describe your plans to implement your social innovation project? How might you raise awareness and find solutions for the issue you are focusing on?",
+   "aside": [
+    "Apply to CGI U (contact iCED for assistance)",
+    "UpPrize Social Innovation Challenge",
+    "MIT IDEAS Social Innovation Challenge",
+    "The Resolution Project (Resolution Fellows)",
+    "youthlead.org",
+    "youngaworld.com/youthdelegate/"
+   ]
+  },
+  {
+   "code": "SI-6B",
+   "cat": "SI",
+   "title": "Implement your social innovation project from SI-6A",
+   "pts": 20,
+   "max": 1,
+   "unlimited": false,
+   "variable": false,
+   "req": "15 hour minimum",
+   "doc": "Submit proof of implementation and completion.",
+   "what": "In at least 3-4 sentences, describe your social innovation project and what you did. What specific actions did you take to complete the project? When, where, and how?",
+   "sowhat": "In at least 3-4 sentences, what did you learn from this experience? Why does this experience matter to you, to the community, and to society as a whole? Why are social innovation projects like this important to you, to our community, and to society as a whole?",
+   "nowwhat": "In at least 3-4 sentences, describe how your future self might be different as a result of this experience and how you might share your new insights with others.",
+   "aside": []
+  },
+  {
+   "code": "IA-1",
+   "cat": "IA",
+   "title": "Course instructor-assigned civic action item (not already in the scorecard)",
+   "pts": 0,
+   "max": 1,
+   "unlimited": false,
+   "variable": true,
+   "req": "5 to 15 points, set by the instructor",
+   "doc": "Documentation assigned by the course instructor.",
+   "what": "",
+   "sowhat": "",
+   "nowwhat": "",
+   "aside": [
+    "For something not already in the Scorecard.",
+    "5 to 15 points depending on time, effort, and impact of the action."
+   ]
+  }
+ ]
+}

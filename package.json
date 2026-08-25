@@ -1,0 +1,19 @@
+{
+  "name": "civic-action-planner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-file planner for the MDC iCED Civic Action Scorecard: every action, its points, documentation rules, reflection prompts, and live progress toward Bronze, Silver, and Gold.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs --prerender",
+    "build:quick": "node scripts/build.mjs",
+    "test": "playwright test",
+    "serve": "python3 -m http.server 8080",
+    "deploy": "bash scripts/deploy.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "playwright": "^1.47.0"
+  },
+  "license": "CC-BY-NC-SA-4.0"
+}
