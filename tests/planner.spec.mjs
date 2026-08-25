@@ -301,6 +301,89 @@ test("Continue opens the lowest phase with unchecked actions", async ({ page }) 
   await expect(page.locator("#phase-head h2")).toHaveText("Bronze");
 });
 
+// ---------- navigation (tab bar, responsive labels, More menu) ----------
+test("bottom tab bar below 700, pill nav above", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await page.goto(target);
+  await page.waitForSelector("#total");
+  await expect(page.locator(".tabbar")).toBeVisible();
+  await expect(page.locator(".tabbar a")).toHaveCount(6);
+  await expect(page.locator(".nav")).toBeHidden();
+  await expect(page.locator('.tabbar a[href="#home"]')).toHaveAttribute("aria-current", "page");
+  const bar = await page.locator(".tabbar").boundingBox();
+  expect(Math.round(bar.y + bar.height)).toBeGreaterThanOrEqual(843); // pinned to the viewport bottom
+  expect(bar.height).toBeGreaterThanOrEqual(44);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(page.locator(".tabbar")).toBeHidden();
+  await expect(page.locator(".nav")).toBeVisible();
+  await ctx.close();
+});
+
+test("sign-in label matches the width", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await page.goto(target);
+  await page.waitForSelector("#btn-account");
+  const label = () => page.evaluate(() => {
+    const b = document.getElementById("btn-account");
+    return {
+      after: getComputedStyle(b, "::after").content,
+      spanShown: getComputedStyle(b.querySelector(".al")).display !== "none",
+    };
+  });
+  let l = await label();
+  expect(l.spanShown).toBe(false);
+  expect(l.after).toBe('"Sign in"');
+  await page.setViewportSize({ width: 900, height: 900 });
+  l = await label();
+  expect(l.spanShown).toBe(false);
+  expect(l.after).toBe('"Sign in to save"');
+  await page.setViewportSize({ width: 1280, height: 900 });
+  l = await label();
+  expect(l.spanShown).toBe(true);
+  expect(l.after).toBe("none");
+  await ctx.close();
+});
+
+test("More menu folds the tools between 1100 and 1279", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+  const page = await ctx.newPage();
+  await page.goto(target);
+  await page.waitForSelector("#total");
+  const more = page.locator("#more-menu");
+  await expect(more).toBeVisible();
+  await page.click("#more-menu summary");
+  await expect(page.locator(".more-list")).toBeVisible();
+  await expect(page.locator(".more-list [data-more]")).toHaveCount(5);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".more-list")).toBeHidden();
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(more).toBeHidden();
+  await ctx.close();
+});
+
+test("top bar stays one row under 64px from 768 to 1400", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 768, height: 900 } });
+  const page = await ctx.newPage();
+  await page.goto(target);
+  await page.waitForSelector("#total");
+  for (const width of [768, 900, 1100, 1200, 1280, 1400]) {
+    await page.setViewportSize({ width, height: 900 });
+    const m = await page.evaluate(() => {
+      const bar = document.querySelector(".top-in");
+      const b = bar.getBoundingClientRect();
+      const tops = Array.from(bar.children)
+        .filter((k) => getComputedStyle(k).display !== "none")
+        .map((k) => Math.round(k.getBoundingClientRect().top - b.top));
+      return { h: b.height, tops };
+    });
+    expect(m.h, `bar height at ${width}`).toBeLessThan(64);
+    for (const t of m.tops) expect(t, `child top at ${width}`).toBeLessThan(20);
+  }
+  await ctx.close();
+});
+
 // ---------- accounts (build variants; no real Firebase project needed) ----------
 test("guest build: empty firebase config hides accounts and everything still works", async ({ browser }) => {
   const out = path.join(root, ".guest-test.html");

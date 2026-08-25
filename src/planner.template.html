@@ -12,6 +12,7 @@
   --line:#E9DFD0; --line-2:#D9CDBB; --focus:#1B3F7A;
   --de:#2C5AA0; --es:#0E8F7A; --cw:#E0401C; --ac:#D4A400; --si:#7A4DB8; --ia:#5B6472;
   --de-soft:#E3EBF7; --es-soft:#DDF2ED; --cw-soft:#FBE3DC; --ac-soft:#F8EFCF; --si-soft:#ECE3F7; --ia-soft:#E6E8EC;
+  --primary:#2C5AA0;
   --ok:#0E8F7A; --ok-bg:#DDF2ED; --warn:#8A6A00; --warn-bg:#F8EFCF; --info-bg:#E3EBF7;
   --bronze:#B06F3B; --silver:#7C8794; --gold:#C79A16;
   --shadow:0 1px 0 rgba(26,26,46,.04), 0 6px 20px rgba(26,26,46,.06);
@@ -22,6 +23,7 @@
     --line:#2C3150; --line-2:#3A4062; --focus:#9DB8F0;
     --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#7C8698;
     --de-soft:#232E4A; --es-soft:#1B3A38; --cw-soft:#3C2429; --ac-soft:#373120; --si-soft:#2E2748; --ia-soft:#272B3A;
+    --primary:#5E86D6;
     --ok:#3BD3B5; --ok-bg:#1B3A38; --warn:#E3B84A; --warn-bg:#373120; --info-bg:#232E4A;
     --bronze:#D08A52; --silver:#A9B3BF; --gold:#E4B534;
     --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.35);
@@ -32,6 +34,7 @@
   --line:#2C3150; --line-2:#3A4062; --focus:#9DB8F0;
   --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#7C8698;
   --de-soft:#232E4A; --es-soft:#1B3A38; --cw-soft:#3C2429; --ac-soft:#373120; --si-soft:#2E2748; --ia-soft:#272B3A;
+  --primary:#5E86D6;
   --ok:#3BD3B5; --ok-bg:#1B3A38; --warn:#E3B84A; --warn-bg:#373120; --info-bg:#232E4A;
   --bronze:#D08A52; --silver:#A9B3BF; --gold:#E4B534;
   --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.35);
@@ -54,11 +57,46 @@ a{color:inherit}
 .brand h1{margin:0;font-size:26px;line-height:1}
 .brand .yr{font-size:13px;color:var(--ink-2)}
 .tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:26px 0 0;padding-top:16px;border-top:1px solid var(--line)}
-.nav{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.nav{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow-x:auto;flex:1 1 0;min-width:0;max-width:100%;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.savechip{font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap;flex:none}
+.savechip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap;flex:none}
+.savechip .sc-dot{width:9px;height:9px;border-radius:50%;background:var(--ink-3);flex:none}
+.savechip.acct .sc-dot{background:var(--ok)}
+@media (max-width:1279px){
+  .savechip{border:0;padding:4px 0}
+  .savechip .sc-txt{display:none}
+  .brand h1{font-size:22px}
+}
 .acct-box{display:flex;gap:6px;align-items:center;flex:none;position:relative}
 .acct-box .btn:disabled{opacity:.6;cursor:default}
+@media (min-width:700px) and (max-width:1099px){
+  #btn-account.out .al{display:none}
+  #btn-account.out::after{content:"Sign in to save"}
+}
+.more{display:none;position:relative;flex:none}
+.more summary{list-style:none;cursor:pointer}
+.more summary::-webkit-details-marker{display:none}
+.more-list{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow);padding:6px;display:flex;flex-direction:column;gap:4px;z-index:40;min-width:190px}
+.more-list .btn{border:0;text-align:left}
+@media (min-width:1100px) and (max-width:1279px){.more{display:block}}
+.tabbar{display:none}
+@media (max-width:699px){
+  .top{position:static}
+  .top-in{padding:8px 10px;gap:6px}
+  .brand{gap:6px}
+  .brand h1{font-size:17px}
+  .brand .yr{font-size:12px}
+  .nav{display:none}
+  .acct-box .btn{font-size:12px;padding:5px 8px}
+  #btn-account .al{display:none}
+  #btn-account.out::after{content:"Sign in"}
+  #btn-account.in::after{content:attr(data-first) " ▾"}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  .tabbar a{flex:1;display:flex;align-items:center;justify-content:center;height:44px;min-width:0;font-size:12.5px;text-decoration:none;color:var(--ink-2);border-top:2px solid transparent}
+  .tabbar a[aria-current="page"]{color:var(--ink);border-top-color:var(--primary);font-weight:600}
+  .wrap{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .toast{bottom:calc(56px + env(safe-area-inset-bottom))}
+}
 .acct-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow);padding:6px;display:flex;flex-direction:column;gap:4px;z-index:40;min-width:200px}
 .acct-menu .btn{border:0;text-align:left}
 .nav a{text-decoration:none;font-size:12.5px;padding:5px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;background:var(--surface)}
@@ -217,9 +255,6 @@ a{color:inherit}
 .foot p{margin:0 0 8px}
 #print{display:none}
 
-@media (min-width:641px) and (max-width:1099px){
-  .nav{flex:1 1 200px;min-width:0}
-}
 @media (max-width:820px){
   .summary{grid-template-columns:1fr}
   .hero .num{font-size:88px}
@@ -228,15 +263,7 @@ a{color:inherit}
   .item.open .det{grid-template-columns:1fr}
 }
 @media (max-width:640px){
-  .wrap{padding:0 12px 60px}
-  .top{position:static}
-  .top-in{gap:8px}
-  .brand h1{font-size:20px}
-  .brand .yr{display:none}
-  .nav{order:3;flex:1 1 90px;min-width:0}
-  .acct-box{order:4}
-  .acct-box .btn{font-size:12px;padding:5px 8px}
-  .top-in{padding:8px 12px;row-gap:6px}
+  .wrap{padding:0 12px calc(64px + env(safe-area-inset-bottom))}
   .home-intro{font-size:13px;line-height:1.45;margin:6px 0 5px}
   .cont-row{margin:0 0 6px}
   .pcards{gap:4px;margin:7px 0 6px}
@@ -463,7 +490,7 @@ a{color:inherit}
     if (!initial) window.scrollTo(0, 0);
   }
   function updateNav(){
-    Array.prototype.forEach.call(document.querySelectorAll('.nav a[data-view]'), function(a){
+    Array.prototype.forEach.call(document.querySelectorAll('.nav a[data-view], .tabbar a[data-view]'), function(a){
       var h = a.getAttribute("href");
       var active = (route.view === "home" && h === "#home") || (route.view === "all" && h === "#all") ||
         (route.view === "phase" && h === "#phase/"+route.n);
@@ -477,7 +504,10 @@ a{color:inherit}
   function cloudSnapshot(){ return {name:state.name, counts:state.counts, ia:state.ia, sub:state.sub, appr:state.appr, notes:state.notes, updated:state.updated}; }
   function setChip(){
     var c = document.getElementById("save-chip"); if (!c) return;
-    c.textContent = cloudUser ? "Saved to your account" : "Saved on this device only";
+    var t = cloudUser ? "Saved to your account" : "Saved on this device only";
+    c.classList.toggle("acct", !!cloudUser);
+    c.setAttribute("aria-label", t);
+    var tx = c.querySelector(".sc-txt"); if (tx) tx.textContent = t;
   }
   function queueCloudSave(){
     if (!cloudUser || !window.casCloud) return;
@@ -513,14 +543,15 @@ __MERGE__
     var box = document.getElementById("acct-box"); if (!box) return;
     if (!CFG.firebase){ box.innerHTML = ""; setChip(); return; }
     if (!cloudUser){
-      box.innerHTML = '<button class="btn" id="btn-account" type="button">Sign in with Google to save progress</button>';
+      box.innerHTML = '<button class="btn out" id="btn-account" type="button"><span class="al">Sign in with Google to save progress</span></button>';
       document.getElementById("btn-account").addEventListener("click", function(){
         if (!window.casCloud){ toast("Google sign-in did not load. Check your connection and reload."); return; }
         window.casCloud.signIn().catch(function(){ toast("Sign-in was cancelled or blocked."); });
       });
     } else {
+      var acctName = cloudUser.displayName || cloudUser.email || "Account";
       box.innerHTML =
-        '<button class="btn" id="btn-account" type="button" aria-haspopup="true" aria-expanded="'+acctMenuOpen+'">'+esc(cloudUser.displayName || cloudUser.email || "Account")+' ▾</button>' +
+        '<button class="btn in" id="btn-account" type="button" aria-haspopup="true" aria-expanded="'+acctMenuOpen+'" data-first="'+esc(acctName.split(/\s+/)[0])+'"><span class="al">'+esc(acctName)+' ▾</span></button>' +
         (acctMenuOpen ?
           '<div class="acct-menu" id="acct-menu">' +
             '<button class="btn" id="btn-signout" type="button">Sign out</button>' +
@@ -554,16 +585,24 @@ __MERGE__
   // ---------- shell ----------
   function renderShell(){
     var app = document.getElementById("app");
-    var viewNav = [{h:"#home", l:"Home"}].concat(CFG.phases.map(function(p){ return {h:"#phase/"+p.number, l:p.name}; }))
+    var viewLinks = [{h:"#home", l:"Home"}].concat(CFG.phases.map(function(p){ return {h:"#phase/"+p.number, l:p.name}; }))
       .concat([{h:"#all", l:"All"}])
-      .map(function(v){ return '<a href="'+v.h+'" data-view="1">'+esc(v.l)+'</a>'; }).join("") +
-      '<span class="savechip" id="save-chip">Saved on this device only</span>';
+      .map(function(v){ return '<a href="'+v.h+'" data-view="1">'+esc(v.l)+'</a>'; }).join("");
     app.innerHTML =
       '<div class="top"><div class="top-in">' +
         '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.displayYear)+'</span></div>' +
-        '<nav class="nav" aria-label="Views">'+viewNav+'</nav>' +
+        '<nav class="nav" aria-label="Views">'+viewLinks+'</nav>' +
+        '<span class="savechip" id="save-chip" role="status" aria-label="Saved on this device only"><span class="sc-dot" aria-hidden="true"></span><span class="sc-txt">Saved on this device only</span></span>' +
+        '<details class="more" id="more-menu"><summary class="btn" aria-label="More tools">More</summary><div class="more-list">' +
+          '<button class="btn" type="button" data-more="export">Export backup</button>' +
+          '<button class="btn" type="button" data-more="import">Import backup</button>' +
+          '<button class="btn" type="button" data-more="share">Copy share link</button>' +
+          '<button class="btn" type="button" data-more="print">Print planning sheet</button>' +
+          '<button class="btn" type="button" data-more="theme">Theme</button>' +
+        '</div></details>' +
         '<div class="acct-box" id="acct-box"></div>' +
       '</div></div>' +
+      '<nav class="tabbar" aria-label="Views">'+viewLinks+'</nav>' +
       '<div class="wrap">' +
         '<div id="banner"></div>' +
         '<div id="view"></div>' +
@@ -593,6 +632,20 @@ __MERGE__
     document.getElementById("file-import").addEventListener("change", importJSON);
     document.getElementById("btn-share").addEventListener("click", shareLink);
     document.getElementById("btn-print").addEventListener("click", function(){ buildPrint(); window.print(); });
+    var more = document.getElementById("more-menu");
+    more.addEventListener("click", function(e){
+      var b = e.target.closest("[data-more]"); if (!b) return;
+      more.open = false;
+      if (b.dataset.more === "export") exportJSON();
+      else if (b.dataset.more === "import") document.getElementById("file-import").click();
+      else if (b.dataset.more === "share") shareLink();
+      else if (b.dataset.more === "print"){ buildPrint(); window.print(); }
+      else if (b.dataset.more === "theme") cycleTheme();
+    });
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && more.open){ more.open = false; more.querySelector("summary").focus(); }
+    });
+    document.addEventListener("click", function(e){ if (more.open && !more.contains(e.target)) more.open = false; });
     window.addEventListener("beforeprint", buildPrint);
     setTopOffset(); window.addEventListener("resize", setTopOffset);
     checkSharedHash();
