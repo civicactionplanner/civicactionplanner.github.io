@@ -1,6 +1,7 @@
 {
   "title": "Civic Action Scorecard Planner",
   "edition": "2024-2025",
+  "displayYear": "2026-2027",
   "hubName": "Changemaker Hub (EngageMDC)",
   "hubUrl": "https://mdc.givepulse.com/group/722217-civic-action-scorecard",
   "homeIntro": "The Civic Action Scorecard is Miami Dade College's menu of 109 civic actions, each worth points. Reach Bronze (100), Silver (200), or Gold (300); awards are granted by iCED through the Changemaker Hub once you submit your documentation there.",
@@ -9,7 +10,7 @@
       "number": 1,
       "name": "Start",
       "unlockPoints": 0,
-      "tagline": "Get informed and registered — online, under an hour each",
+      "tagline": "Get informed and registered: online, under an hour each",
       "why": "Everything here can be done from a phone or laptop in under an hour, so you can get informed, registered, and moving before committing to anything bigger."
     },
     {
@@ -24,7 +25,7 @@
       "name": "Silver",
       "unlockPoints": 200,
       "tagline": "Commit: week-long habits, 5-hour service, memberships, certifications, day-long trainings, a book",
-      "why": "With Bronze behind you, these longer commitments build real depth — habits kept for a week, five hours of service, memberships, trainings, and a book."
+      "why": "With Bronze behind you, these longer commitments build real depth: habits kept for a week, five hours of service, memberships, trainings, and a book."
     },
     {
       "number": 4,

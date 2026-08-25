@@ -232,6 +232,52 @@ test("home shows explanation, meter, phase cards, and account control within the
   await ctx.close();
 });
 
+test("phase card status pill stays inside its card at every width", async ({ page }) => {
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector(".pcard");
+  for (const width of [390, 768, 1100, 1400]) {
+    await page.setViewportSize({ width, height: 900 });
+    const boxes = await page.evaluate(() =>
+      Array.from(document.querySelectorAll(".pcard")).map((card) => ({
+        card: card.getBoundingClientRect().toJSON(),
+        pill: card.querySelector(".pc-pill").getBoundingClientRect().toJSON(),
+        name: card.querySelector(".pc-name").getBoundingClientRect().toJSON(),
+      }))
+    );
+    expect(boxes.length).toBe(4);
+    for (const { card, pill, name } of boxes) {
+      for (const el of [pill, name]) {
+        expect(el.left, `width ${width}`).toBeGreaterThanOrEqual(card.left - 1);
+        expect(el.right, `width ${width}`).toBeLessThanOrEqual(card.right + 1);
+        expect(el.top, `width ${width}`).toBeGreaterThanOrEqual(card.top - 1);
+        expect(el.bottom, `width ${width}`).toBeLessThanOrEqual(card.bottom + 1);
+      }
+    }
+    // Equal heights within each row: cards sharing a row top must share a bottom.
+    const rows = new Map();
+    for (const b of boxes) {
+      const key = Math.round(b.card.top);
+      if (!rows.has(key)) rows.set(key, []);
+      rows.get(key).push(Math.round(b.card.height));
+    }
+    for (const heights of rows.values()) expect(new Set(heights).size).toBe(1);
+  }
+});
+
+test("top bar shows the display year and the footer credits the source edition", async ({ page }) => {
+  await expect(page.locator(".brand .yr")).toHaveText("2026-2027");
+  await expect(page.locator(".brand .yr")).not.toContainText("scorecard");
+  await expect(page.locator(".foot")).toContainText("2024-2025 Civic Action Scorecard");
+  await page.click("#item-DE-13 .row");
+  await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")));
+  const sheet = await page.textContent("#print");
+  expect(sheet).toContain("2026-2027 planning sheet");
+  expect(sheet).toContain("2024-2025 Civic Action Scorecard");
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector(".pcard");
+  await expect(page.locator(".hero .lbl")).toContainText("2026-2027");
+});
+
 test("navigation marks the active view with aria-current", async ({ page }) => {
   await expect(page.locator('.nav a[href="#all"]')).toHaveAttribute("aria-current", "page");
   await page.evaluate(() => { location.hash = "#phase/3"; });

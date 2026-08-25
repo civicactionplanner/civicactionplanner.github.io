@@ -126,20 +126,23 @@ a{color:inherit}
 .cont-row{margin:0 0 10px}
 .hero.compact{padding:14px 18px 12px;gap:8px}
 .hero.compact .num{font-size:56px}
-.pcards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 10px}
-.pcard{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pc,var(--de));border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+.pcards{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:14px 0 10px;align-items:stretch}
+@media (min-width:700px){.pcards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media (min-width:1100px){.pcards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pcard{display:flex;flex-direction:column;gap:6px;min-width:0;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pc,var(--de));border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+.pcard>*{min-width:0}
 .pcard:hover{border-color:var(--pc,var(--line-2))}
-.pcard .pc-top{display:flex;align-items:baseline;gap:8px}
+.pcard .pc-top{display:flex;align-items:baseline;gap:8px;min-width:0}
 .pcard .pc-no{font-size:11.5px;color:var(--pc,var(--ink-2));flex:none}
 .pcard .pc-name{font-size:24px;line-height:1}
-.pcard .pc-state{margin-left:auto;font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+.pcard .pc-pill{display:block;font-size:11px;padding:3px 8px;border-radius:6px;background:var(--ok-bg);color:var(--ok);line-height:1.4}
+.pcard.later .pc-pill{background:transparent;border:1px solid var(--line-2);color:var(--ink-2);padding:2px 7px}
 .pcard .pc-tag{font-size:12.5px;color:var(--ink-2);font-style:italic;line-height:1.35}
 .pcard .pc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
 .pcard .pc-stats{font-size:13px}
 .pcard.later{background:var(--surface-2);border-left-color:var(--line-2)}
 .pcard.later .pc-name{color:var(--ink-3)}
 .browse{margin:6px 0 4px;font-size:14px}
-@media (max-width:900px){.pcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* controls */
 .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
@@ -214,6 +217,9 @@ a{color:inherit}
 .foot p{margin:0 0 8px}
 #print{display:none}
 
+@media (min-width:641px) and (max-width:1099px){
+  .nav{flex:1 1 200px;min-width:0}
+}
 @media (max-width:820px){
   .summary{grid-template-columns:1fr}
   .hero .num{font-size:88px}
@@ -227,22 +233,25 @@ a{color:inherit}
   .top-in{gap:8px}
   .brand h1{font-size:20px}
   .brand .yr{display:none}
-  .nav{order:3;flex:1 0 100%}
+  .nav{order:3;flex:1 1 90px;min-width:0}
+  .acct-box{order:4}
   .acct-box .btn{font-size:12px;padding:5px 8px}
-  .top-in{padding:8px 12px}
-  .home-intro{font-size:13.5px;line-height:1.5;margin:10px 0 8px}
-  .cont-row{margin:0 0 8px}
-  .pcards{grid-template-columns:minmax(0,1fr);gap:6px;margin:10px 0 8px}
-  .pcard{padding:8px 12px;gap:3px}
+  .top-in{padding:8px 12px;row-gap:6px}
+  .home-intro{font-size:13px;line-height:1.45;margin:6px 0 5px}
+  .cont-row{margin:0 0 6px}
+  .pcards{gap:4px;margin:7px 0 6px}
+  .pcard{padding:6px 10px;gap:2px}
   .pcard .pc-name{font-size:19px}
-  .pcard .pc-tag{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pcard .pc-go{padding:4px 9px;font-size:12px}
+  .pcard .pc-tag{font-size:12px;line-height:1.3}
+  .pcard .pc-pill{font-size:10.5px;padding:2px 6px}
+  .pcard.later .pc-pill{padding:1px 5px}
+  .pcard .pc-go{padding:3px 8px;font-size:12px}
   .pcard .pc-stats{font-size:12.5px}
-  .hero.compact{padding:12px 14px 10px;gap:5px}
-  .hero.compact .num{font-size:40px}
-  .hero.compact .meter{margin:10px 0 36px}
-  .hero.compact .lbl{font-size:12px}
-  .hero.compact .award{font-size:13px}
+  .hero.compact{padding:10px 12px 8px;gap:3px}
+  .hero.compact .num{font-size:36px}
+  .hero.compact .award{font-size:12.5px}
+  .hero.compact .lbl{font-size:11px}
+  .hero.compact .meter{margin:8px 0 33px}
   .row{grid-template-columns:28px 1fr 56px 30px;gap:10px;padding:10px 2px}
   .row .code{grid-column:2;font-size:12px}
   .row .tx{grid-column:2}
@@ -551,7 +560,7 @@ __MERGE__
       '<span class="savechip" id="save-chip">Saved on this device only</span>';
     app.innerHTML =
       '<div class="top"><div class="top-in">' +
-        '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.edition)+' scorecard</span></div>' +
+        '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.displayYear)+'</span></div>' +
         '<nav class="nav" aria-label="Views">'+viewNav+'</nav>' +
         '<div class="acct-box" id="acct-box"></div>' +
       '</div></div>' +
@@ -631,8 +640,10 @@ __MERGE__
   function pcardHtml(p){
     var st = phaseStats(p.number), total = totals().all.checked;
     var later = total < p.unlockPoints;
+    var status = p.unlockPoints === 0 ? "Open" : later ? "Recommended after "+p.unlockPoints+" pts" : "Reached";
     return '<a class="pcard'+(later?' later':'')+'" href="#phase/'+p.number+'" style="--pc:var('+PHASE_ACCENT[p.number]+')">' +
-      '<div class="pc-top"><span class="pc-no cond">Phase '+p.number+'</span><span class="pc-name disp">'+esc(p.name)+'</span><span class="pc-state">'+(later ? 'Recommended after '+p.unlockPoints+' pts' : 'Open')+'</span></div>' +
+      '<div class="pc-top"><span class="pc-no cond">Phase '+p.number+'</span><span class="pc-name disp">'+esc(p.name)+'</span></div>' +
+      '<span class="pc-pill cond">'+status+'</span>' +
       '<div class="pc-tag">'+esc(p.tagline)+'</div>' +
       '<div class="pc-foot"><span class="pc-stats">'+st.done+' of '+st.total+' checked · '+st.single+' pts available</span><span class="btn pc-go">Continue</span></div>' +
       '</a>';
@@ -723,7 +734,7 @@ __MERGE__
     else if (ti.earned && !ti.next) award = '<b>'+ti.earned.n+' level reached on paper.</b> '+(total-TOP)+' points past the top award.';
     else award = '<b>'+(TIERS[0].p-total)+' points to '+TIERS[0].n+'</b>, the first award level.';
     return '<div class="hero'+(compact?' compact':'')+'">' +
-      '<div class="lbl">Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
+      '<div class="lbl">'+(compact ? esc(CFG.displayYear)+' · ' : '')+'Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
       '<div class="num disp" id="total">'+total+'<small>PTS</small></div>' +
       '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
       '<div class="award">'+award+'</div>' +
@@ -978,7 +989,7 @@ __MERGE__
     });
     if (!rows) rows = '<tr><td colspan="5">No actions checked yet.</td></tr>';
     document.getElementById("print").innerHTML =
-      '<h1>Civic Action Planning Sheet</h1>' +
+      '<h1>'+esc(CFG.displayYear)+' planning sheet</h1>' +
       '<p class="sub">'+esc(CFG.edition)+' Civic Action Scorecard · '+(state.name ? 'Student: '+esc(state.name)+' · ' : '')+'Printed '+todayISO()+'</p>' +
       '<table><thead><tr><th>#</th><th>Civic action</th><th class="r">Points</th><th>Submitted</th><th>Approved</th></tr></thead><tbody>'+rows+'</tbody></table>' +
       '<p class="tot">Total points: <b>'+total+'</b> · Submitted: '+t.all.sub+' · Approved: '+t.all.appr+'</p>' +
