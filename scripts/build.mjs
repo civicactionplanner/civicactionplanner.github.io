@@ -50,6 +50,21 @@ for (const a of merged.actions) {
   if (!a.variable && !(Number.isInteger(a.pts) && a.pts > 0)) throw new Error(`${a.code}: points must be a positive integer`);
   if (!(Number.isInteger(a.max) && a.max >= 1)) throw new Error(`${a.code}: max must be an integer >= 1`);
 }
+// Theme guard: every custom property set in a dark-theme block must first exist on
+// bare :root, so no color lives only inside a media query or [data-theme] block.
+{
+  const css = /<style>([\s\S]*?)<\/style>/.exec(template)[1];
+  const rootBlock = /:root\{([\s\S]*?)\}/.exec(css);
+  const rootProps = new Set([...rootBlock[1].matchAll(/--([\w-]+)\s*:/g)].map((m) => m[1]));
+  const darkRe = /:root(?::not\(\[data-theme="light"\]\)|\[data-theme="dark"\])\{([\s\S]*?)\}/g;
+  const missing = new Set();
+  let dm;
+  while ((dm = darkRe.exec(css))) {
+    for (const p of dm[1].matchAll(/--([\w-]+)\s*:/g)) if (!rootProps.has(p[1])) missing.add(p[1]);
+  }
+  if (missing.size) throw new Error("Colors defined only in a dark theme block (add them to bare :root): --" + [...missing].join(", --"));
+}
+
 // Every action carries a phase, and the split is exactly the reviewed 22/39/34/14.
 const PHASE_COUNTS = { 1: 22, 2: 39, 3: 34, 4: 14 };
 const phaseSeen = { 1: 0, 2: 0, 3: 0, 4: 0 };

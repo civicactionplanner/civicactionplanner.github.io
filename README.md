@@ -57,6 +57,10 @@ The planner already holds the structured pieces a submission system needs: the a
 
 The planner moved to https://civicactionplanner.github.io/ on August 25, 2026, when the repository was transferred to the civicactionplanner organization. The original address, https://danielllobetv-a11y.github.io/civic-action-planner/, now redirects there and forwards shared progress links.
 
+## Design
+
+The planner uses Miami Dade College's brand colors and typefaces without any MDC or iCED logo, seal, or wordmark: MDC Blue #0032A0 for the top bar, links, and primary controls, MDC Gray for secondary text, a navy dark theme, and a warm orange accent (#C8690A) for phase status highlights, chosen by sampling the iCED site's computed styles (docs/iced-color-sample.md). Type is EB Garamond for display and Jost for text, falling back to MDC's official Garamond and Futura. Category hues carry identity on stripes and meters; where a hue is used as text it switches to a darker or lighter variant so every pair passes WCAG contrast, enforced by tests/contrast.spec.mjs in both themes.
+
 ## License
 
 The action list, point values, documentation requirements, and reflection prompts come from The 2024-2025 Civic Action Scorecard, copyright 2017-2025 Institute for Civic Engagement & Democracy, Miami Dade College, used under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. This planner is shared under the same license. Built by Daniel Llobet, School for Advanced Studies, MDC Wolfson.
