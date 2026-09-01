@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { checkFloors } from "../src/floors.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
@@ -34,6 +35,10 @@ const merged = {
   disclaimer: config.disclaimer,
   tiers: config.tiers || scorecard.tiers,
   homeIntro: config.homeIntro,
+  phaseFloors: config.phaseFloors,
+  floorExceptions: config.floorExceptions,
+  floorNote: config.floorNote,
+  suggestPriority: config.suggestPriority,
   privacy: config.privacy,
   firebase: !!firebaseCfg,
   phases: config.phases,
@@ -65,8 +70,8 @@ for (const a of merged.actions) {
   if (missing.size) throw new Error("Colors defined only in a dark theme block (add them to bare :root): --" + [...missing].join(", --"));
 }
 
-// Every action carries a phase, and the split is exactly the reviewed 22/39/34/14.
-const PHASE_COUNTS = { 1: 22, 2: 39, 3: 34, 4: 14 };
+// Every action carries a phase, and the split is exactly the reviewed 24/36/35/14.
+const PHASE_COUNTS = { 1: 24, 2: 36, 3: 35, 4: 14 };
 const phaseSeen = { 1: 0, 2: 0, 3: 0, 4: 0 };
 for (const a of merged.actions) {
   if (!Number.isInteger(a.phase) || a.phase < 1 || a.phase > 4) throw new Error(`${a.code}: missing or invalid phase (must be 1-4)`);
@@ -75,6 +80,26 @@ for (const a of merged.actions) {
 for (const p of [1, 2, 3, 4]) {
   if (phaseSeen[p] !== PHASE_COUNTS[p]) throw new Error(`Phase ${p} has ${phaseSeen[p]} actions; expected ${PHASE_COUNTS[p]}`);
 }
+
+// Category floors per phase (IA excluded), bendable only through listed exceptions.
+if (!merged.phaseFloors) throw new Error("planner-config.json needs phaseFloors");
+const floorErr = checkFloors(merged.actions, merged.phaseFloors, merged.floorExceptions);
+if (floorErr) throw new Error(floorErr);
+if (!merged.floorNote || !merged.floorNote.includes("{category}")) throw new Error("planner-config.json needs a floorNote with a {category} placeholder");
+if (!Array.isArray(merged.suggestPriority) || merged.suggestPriority.length !== 5) throw new Error("planner-config.json needs a 5-entry suggestPriority");
+
+// Each phase's cumulative single-pass points must reach the next award threshold,
+// so the recommended path always carries enough points to unlock the next phase.
+{
+  let cum = 0;
+  const tiers = merged.tiers;
+  for (const p of [1, 2, 3]) {
+    cum += merged.actions.filter((a) => a.phase === p).reduce((s, a) => s + a.pts, 0);
+    if (cum < tiers[p - 1].points)
+      throw new Error(`Phases 1-${p} carry ${cum} single-pass points, below the ${tiers[p - 1].name} threshold of ${tiers[p - 1].points}`);
+  }
+}
+
 if (!merged.homeIntro) throw new Error("planner-config.json needs a homeIntro line for the home page");
 if (!merged.displayYear) throw new Error("planner-config.json needs a displayYear for the top bar");
 if (!merged.privacy) throw new Error("planner-config.json needs a privacy line for the footer");

@@ -149,9 +149,9 @@ test("each phase view lists exactly its assigned actions", async ({ page }) => {
   }
 });
 
-test("phase totals match 150/280/415/235 single-pass points from the data", async ({ page }) => {
-  expect([1, 2, 3, 4].map(singlePass)).toEqual([150, 280, 415, 235]);
-  expect([1, 2, 3, 4].map((p) => byPhase[p].length)).toEqual([22, 39, 34, 14]);
+test("phase totals match 150/270/430/230 single-pass points from the data", async ({ page }) => {
+  expect([1, 2, 3, 4].map(singlePass)).toEqual([150, 270, 430, 230]);
+  expect([1, 2, 3, 4].map((p) => byPhase[p].length)).toEqual([24, 36, 35, 14]);
   for (const p of [1, 2, 3, 4]) {
     await goPhase(page, "#phase/" + p);
     await expect(page.locator("#phase-prog")).toHaveText(`0 of ${byPhase[p].length} checked, 0 of ${singlePass(p)} points`);
@@ -307,6 +307,54 @@ test("Continue opens the lowest phase with unchecked actions", async ({ page }) 
   await page.waitForSelector("#phase-head");
   expect(await page.evaluate(() => location.hash)).toBe("#phase/2");
   await expect(page.locator("#phase-head h2")).toHaveText("Bronze");
+});
+
+// ---------- balanced phases: coverage, suggestions, breadth, floor notes ----------
+const firstOf = (phase, cat) => byPhase[phase].find((a) => a.cat === cat);
+const lowestOf = (phase, cat) => byPhase[phase].filter((a) => a.cat === cat).reduce((b, a) => (!b || a.pts < b.pts ? a : b), null);
+
+test("coverage dots fill as categories get checked in a phase", async ({ page }) => {
+  await goPhase(page, "#phase/1");
+  await expect(page.locator("#phase-head .cov-dot")).toHaveCount(5);
+  await expect(page.locator("#phase-head .cov-dot.on")).toHaveCount(0);
+  await page.click(`#item-${firstOf(1, "ES").code} .row`);
+  await expect(page.locator("#phase-head .cov-dot.on")).toHaveCount(1);
+  await expect(page.locator("#phase-head .cov-cap")).toHaveText("1 of 5 areas");
+  await expect(page.locator("#phase-head .covstrip")).toHaveAttribute("aria-label", "Coverage: 1 of 5 areas in this phase");
+});
+
+test("suggestion line follows the ES-first priority and disappears at full coverage", async ({ page }) => {
+  const de = byPhase[1].filter((a) => a.cat === "DE").slice(0, 2);
+  for (const a of de) await page.click(`#item-${a.code} .row`);
+  await goPhase(page, "#phase/1");
+  const sug = page.locator("#phase-sug");
+  await expect(sug).toContainText("Nothing from Environment & Sustainability yet.");
+  await expect(sug).toContainText(lowestOf(1, "ES").code);
+  await page.click(`#item-${firstOf(1, "ES").code} .row`);
+  await expect(sug).toContainText("Nothing from Community Well-Being yet.");
+  for (const cat of ["CW", "AC", "SI"]) await page.click(`#item-${firstOf(1, cat).code} .row`);
+  await expect(page.locator("#phase-sug")).toHaveCount(0);
+  await expect(page.locator("#phase-head .cov-cap")).toHaveText("5 of 5 areas");
+});
+
+test("breadth chip counts categories across phases and turns ok at four", async ({ page }) => {
+  await expect(page.locator("#breadth-chip")).toHaveText("Breadth: 0 of 5 areas");
+  for (const cat of ["DE", "ES", "CW", "AC"]) {
+    await page.click(`#item-${scorecard.actions.find((a) => a.cat === cat).code} .row`);
+  }
+  await expect(page.locator("#breadth-chip")).toHaveText("Breadth: 4 of 5 areas");
+  await expect(page.locator("#breadth-chip")).toHaveClass(/on/);
+});
+
+test("floor note appears only on phases with a listed exception", async ({ page }) => {
+  await goPhase(page, "#phase/2");
+  await expect(page.locator("#floor-note")).toContainText("Social Innovation has fewer starter actions");
+  await goPhase(page, "#phase/3");
+  await expect(page.locator("#floor-note")).toContainText("Social Innovation");
+  await goPhase(page, "#phase/1");
+  await expect(page.locator("#floor-note")).toHaveCount(0);
+  await goPhase(page, "#phase/4");
+  await expect(page.locator("#floor-note")).toHaveCount(0);
 });
 
 // ---------- collapsible sections (fresh contexts: real defaults, no harness seed) ----------

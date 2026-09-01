@@ -196,6 +196,23 @@ a{color:var(--primary)}
 .pcard .pc-stats{font-size:13px}
 .pcard.later{background:var(--surface-2);border-left-color:var(--line-2)}
 .pcard.later .pc-name{color:var(--ink-3)}
+
+/* coverage, breadth, suggestions */
+.covwrap{display:inline-flex;align-items:center;gap:7px}
+.covstrip{display:inline-flex;gap:4px;align-items:center}
+.cov-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--c);display:inline-block;background:transparent}
+.cov-dot.on{background:var(--c)}
+.cov-cap{font-size:12px;color:var(--ink-2)}
+.ph-cov{margin-top:6px}
+.pc-cov{margin-top:1px}
+.pc-breadth{font-size:11.5px;color:var(--ink-3);line-height:1.35}
+.ph-breadth{font-size:13px;color:var(--ink-2);margin-top:4px}
+.sug{font-size:13.5px;margin-top:8px;line-height:1.45}
+#home-sug .sug{margin:2px 0 8px}
+.floor-note{font-size:12.5px;color:var(--ink-3);font-style:italic;margin-top:6px}
+.num-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.bchip{font-size:12px;color:var(--ink-2);border:1px solid var(--line-2);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.bchip.on{color:var(--ok);border-color:var(--ok)}
 .browse{margin:6px 0 4px;font-size:14px}
 
 /* controls */
@@ -297,6 +314,11 @@ a{color:var(--primary)}
   .pcard.later .pc-pill{padding:1px 5px}
   .pcard .pc-go{padding:3px 8px;font-size:12px}
   .pcard .pc-stats{font-size:12.5px}
+  .pcard .pc-breadth{display:none}
+  .pcard .pc-tag{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cov-dot{width:8px;height:8px;border-width:1.5px}
+  .cov-cap{font-size:11px}
+  .bchip{font-size:11px;padding:2px 7px}
   .hero.compact{padding:10px 12px 8px;gap:3px}
   .hero.compact .num{font-size:36px}
   .hero.compact .award{font-size:12.5px}
@@ -479,6 +501,48 @@ a{color:var(--primary)}
     });
     return s;
   }
+  var COV_CATS = ["DE", "ES", "CW", "AC", "SI"];
+  var BREADTH_LINE = "Also recommended: at least one action from four of the five areas.";
+  function phaseCoverage(n){
+    return COV_CATS.map(function(cat){
+      var has = DATA.actions.some(function(a){ return a.phase === n && a.cat === cat && state.counts[a.code]; });
+      return {cat: cat, has: has};
+    });
+  }
+  function covStripHtml(n){
+    var cov = phaseCoverage(n), got = cov.filter(function(c){ return c.has; }).length;
+    return '<span class="covwrap"><span class="covstrip" role="img" aria-label="Coverage: '+got+' of 5 areas in this phase">' +
+      cov.map(function(c){ return '<i class="cov-dot'+(c.has?' on':'')+'" style="--c:var('+CATVAR[c.cat]+')"></i>'; }).join("") +
+      '</span><span class="cov-cap">'+got+' of 5 areas</span></span>';
+  }
+  function breadthCount(){
+    return COV_CATS.filter(function(cat){
+      return DATA.actions.some(function(a){ return a.cat === cat && state.counts[a.code]; });
+    }).length;
+  }
+  function suggestionHtml(n){
+    var checkedIn = 0;
+    DATA.actions.forEach(function(a){ if (a.phase === n && state.counts[a.code]) checkedIn++; });
+    if (checkedIn < 2) return "";
+    var covered = {};
+    phaseCoverage(n).forEach(function(c){ covered[c.cat] = c.has; });
+    var cat = null;
+    CFG.suggestPriority.forEach(function(c){ if (!cat && covered[c] === false) cat = c; });
+    if (!cat) return "";
+    var pick = null;
+    DATA.actions.forEach(function(a){
+      if (a.phase !== n || a.cat !== cat || state.counts[a.code]) return;
+      if (!pick || a.pts < pick.pts) pick = a; // scorecard order breaks ties
+    });
+    if (!pick) return "";
+    return '<div class="sug" id="phase-sug">Nothing from '+esc(catOf(cat).name)+' yet. Try <a class="sug-link" href="#phase/'+n+'" data-code="'+pick.code+'" data-cat="'+cat+'">'+pick.code+' '+esc(pick.title)+'</a> ('+pick.pts+' pts).</div>';
+  }
+  function floorNoteHtml(n){
+    var cats = [];
+    (CFG.floorExceptions || []).forEach(function(e){ if (e.phase === n && cats.indexOf(e.cat) < 0) cats.push(e.cat); });
+    if (!cats.length) return "";
+    return '<div class="floor-note" id="floor-note">'+cats.map(function(c){ return esc(CFG.floorNote.replace("{category}", catOf(c).name)); }).join(" ")+'</div>';
+  }
   function phaseHeadHtml(){
     if (route.view !== "phase") return "";
     var p = phaseDef(route.n), st = phaseStats(p.number), total = totals().all.checked;
@@ -487,8 +551,12 @@ a{color:var(--primary)}
     var html = '<section class="ph'+(locked?' locked':'')+'" id="phase-head" style="--pc:var('+PHASE_ACCENT[p.number]+')">' +
       '<div class="ph-top"><span class="ph-no cond">Phase '+p.number+'</span><h2 class="disp">'+esc(p.name)+'</h2><span class="ph-tag">'+esc(p.tagline)+'</span></div>' +
       '<div class="ph-rule">'+rule+'</div>' +
+      '<div class="ph-breadth">'+BREADTH_LINE+'</div>' +
       '<div class="ph-prog" id="phase-prog">'+st.done+' of '+st.total+' checked, '+st.pts+' of '+st.single+' points</div>' +
+      '<div class="ph-cov">'+covStripHtml(p.number)+'</div>' +
+      suggestionHtml(p.number) +
       '<div class="ph-why">'+esc(p.why)+'</div>' +
+      floorNoteHtml(p.number) +
       '</section>';
     if (locked) html += '<div class="banner" id="phase-lock"><span class="sp">Recommended after you reach '+esc(p.name)+' ('+p.unlockPoints+' points). You have '+total+'. Everything here still works if you have already done it.</span></div>';
     return html;
@@ -497,6 +565,22 @@ a{color:var(--primary)}
     var el = document.getElementById("phase-hd");
     if (el && route.view === "phase") el.innerHTML = phaseHeadHtml();
   }
+  // Suggestion links expand their category section and scroll to the row;
+  // from the home page they first navigate to the phase view.
+  var pendingSuggest = null;
+  function revealSuggested(code, cat){
+    var it = document.getElementById("item-" + code);
+    if (!it) return false;
+    toggleSection(cat, false);
+    it.scrollIntoView({block: "center"});
+    return true;
+  }
+  document.addEventListener("click", function(e){
+    var l = e.target.closest(".sug-link");
+    if (!l) return;
+    if (route.view === "phase" && revealSuggested(l.dataset.code, l.dataset.cat)) e.preventDefault();
+    else pendingSuggest = {code: l.dataset.code, cat: l.dataset.cat};
+  });
   // ---------- section collapse state (UI only; stored under its own key, never synced) ----------
   var UI_KEY = "cas-ui-v1";
   function loadUI(){ try { var r = localStorage.getItem(UI_KEY); if (r) return JSON.parse(r) || {}; } catch(e){} return {}; }
@@ -732,6 +816,10 @@ __MERGE__
         '<p class="legend">Check an action once you have completed it; the planner adds its points and tracks the next award level. Open an action to see exactly what to submit, draft your What / So what / Now what reflection, copy it for the '+esc(CFG.hubName)+', and mark it <span class="badge sub">Submitted</span> and <span class="badge appr">Approved</span> as iCED reviews it. Everything is saved in this browser; use Export backup to move it or keep a copy.</p>' +
         '<div id="cats"></div>';
       renderChips(); renderSummary(); renderCats();
+      if (pendingSuggest && route.view === "phase"){
+        var ps = pendingSuggest; pendingSuggest = null;
+        revealSuggested(ps.code, ps.cat);
+      }
       document.getElementById("search").addEventListener("input", function(e){ query = e.target.value.trim().toLowerCase(); applyFilter(); });
       document.getElementById("btn-expand").addEventListener("click", function(){
         DATA.cats.forEach(function(c){ toggleSection(c.id, false); });
@@ -763,9 +851,17 @@ __MERGE__
     return '<a class="pcard'+(later?' later':'')+'" href="#phase/'+p.number+'" style="--pc:var('+PHASE_ACCENT[p.number]+')">' +
       '<div class="pc-top"><span class="pc-no cond">Phase '+p.number+'</span><span class="pc-name disp">'+esc(p.name)+'</span></div>' +
       '<span class="pc-pill cond">'+status+'</span>' +
+      '<div class="pc-breadth">'+BREADTH_LINE+'</div>' +
       '<div class="pc-tag">'+esc(p.tagline)+'</div>' +
+      '<div class="pc-cov">'+covStripHtml(p.number)+'</div>' +
       '<div class="pc-foot"><span class="pc-stats">'+st.done+' of '+st.total+' checked · '+st.single+' pts available</span><span class="btn pc-go">Continue</span></div>' +
       '</a>';
+  }
+  // The home suggestion sits outside the card anchors (nested links are invalid HTML)
+  // and only for the phase the Continue button would open.
+  function homeSugContent(){
+    if (!Object.keys(state.counts).length) return "";
+    return suggestionHtml(lowestUnfinishedPhase());
   }
   function homeHtml(){
     var hasProgress = Object.keys(state.counts).length > 0;
@@ -773,11 +869,14 @@ __MERGE__
       (hasProgress ? '<div class="cont-row"><button class="btn primary" id="btn-continue" type="button">Continue where you left off</button></div>' : '') +
       '<section class="summary" id="summary" data-mode="hero"></section>' +
       '<div class="pcards" id="pcards">'+CFG.phases.map(pcardHtml).join("")+'</div>' +
+      '<div id="home-sug">'+homeSugContent()+'</div>' +
       '<p class="browse"><a href="#all">Browse all '+DATA.actions.length+' actions</a></p>';
   }
   function updateHomeCards(){
     var el = document.getElementById("pcards");
     if (el) el.innerHTML = CFG.phases.map(pcardHtml).join("");
+    var s = document.getElementById("home-sug");
+    if (s) s.innerHTML = homeSugContent();
   }
   function armButton(btn, label, confirmLabel, fn){
     var armed = false, t = null;
@@ -856,7 +955,7 @@ __MERGE__
     else award = '<b>'+(TIERS[0].p-total)+' points to '+TIERS[0].n+'</b>, the first award level.';
     return '<div class="hero'+(compact?' compact':'')+'">' +
       '<div class="lbl">'+(compact ? esc(CFG.displayYear)+' · ' : '')+'Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
-      '<div class="num disp" id="total">'+total+'<small>PTS</small></div>' +
+      '<div class="num-row"><div class="num disp" id="total">'+total+'<small>PTS</small></div><span class="bchip'+(breadthCount()>=4?' on':'')+'" id="breadth-chip">Breadth: '+breadthCount()+' of 5 areas</span></div>' +
       '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
       '<div class="award">'+award+'</div>' +
       (compact ? '' : '<div class="stages"><span>Submitted <b>'+t.all.sub+' pts</b></span><span>Approved by iCED <b>'+t.all.appr+' pts</b></span></div>') +

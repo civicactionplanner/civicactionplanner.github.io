@@ -10,31 +10,38 @@
       "number": 1,
       "name": "Start",
       "unlockPoints": 0,
-      "tagline": "Get informed and registered: online, under an hour each",
-      "why": "Everything here can be done from a phone or laptop in under an hour, so you can get informed, registered, and moving before committing to anything bigger."
+      "tagline": "Get informed across all five areas: online, under an hour each",
+      "why": "Four to six short actions in every area, all doable from a phone or laptop, so your first Bronze points come from the whole scorecard rather than one corner of it."
     },
     {
       "number": 2,
       "name": "Bronze",
       "unlockPoints": 100,
-      "tagline": "Show up: one-off visits, contacts, donations, one-hour events",
-      "why": "Once you know the landscape, these one-off visits, contacts, donations, and one-hour events turn what you learned into showing up."
+      "tagline": "Broaden and show up: the rest of the online basics, plus visits, contacts, donations, and one-hour events",
+      "why": "With a taste of every area, finish the online basics and start showing up in person: a meeting, a market, a donation, a one-hour event."
     },
     {
       "number": 3,
       "name": "Silver",
       "unlockPoints": 200,
-      "tagline": "Commit: week-long habits, 5-hour service, memberships, certifications, day-long trainings, a book",
-      "why": "With Bronze behind you, these longer commitments build real depth: habits kept for a week, five hours of service, memberships, trainings, and a book."
+      "tagline": "Commit: week-long habits, five-hour service, memberships, trainings, a book",
+      "why": "With Bronze behind you, these longer commitments build depth: habits kept for a week, five hours of service, memberships, trainings, and a book."
     },
     {
       "number": 4,
       "name": "Gold",
       "unlockPoints": 300,
       "tagline": "Lead and build: speeches, poll work, leadership programs, hosting, presenting, projects",
-      "why": "By now you have the experience to lead: give the speech, work the polls, host the drive, present the project you built."
+      "why": "By now you have the experience to lead: give the speech, work the polls, host the meeting, present the project you built."
     }
   ],
+  "phaseFloors": {"1": 4, "2": 3, "3": 3, "4": 2},
+  "floorExceptions": [
+    {"phase": 2, "cat": "SI", "count": 1},
+    {"phase": 3, "cat": "SI", "count": 2}
+  ],
+  "floorNote": "{category} has fewer starter actions; the rest arrive in later phases.",
+  "suggestPriority": ["ES", "CW", "AC", "SI", "DE"],
   "credit": "Built by Daniel Llobet (School for Advanced Studies, MDC Wolfson) as a student project. Questions about the scorecard itself go to iCED at iCED@mdc.edu.",
   "privacy": "If you sign in, your progress is stored in a Firebase project owned by Daniel Llobet on Google Cloud. Only you can read it. Delete it any time from the account menu. This is not an MDC or iCED system.",
   "license": "Action list, point values, documentation requirements, and reflection prompts are from The 2024-2025 Civic Action Scorecard, copyright 2017-2025 Institute for Civic Engagement & Democracy, Miami Dade College, used under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. This planner is shared under the same license.",

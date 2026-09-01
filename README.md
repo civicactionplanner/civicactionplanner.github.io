@@ -57,6 +57,10 @@ The planner already holds the structured pieces a submission system needs: the a
 
 The planner moved to https://civicactionplanner.github.io/ on August 25, 2026, when the repository was transferred to the civicactionplanner organization. The original address, https://danielllobetv-a11y.github.io/civic-action-planner/, now redirects there and forwards shared progress links.
 
+## Guided phases
+
+The 109 actions are arranged into four phases, easiest to hardest, and every phase draws on all five categories so students build breadth from the start: Phase 1 "Start" (24 actions, 150 single-pass points; at least four from each area), Phase 2 "Bronze" (36 actions, 270 points), Phase 3 "Silver" (35 actions, 430 points), and Phase 4 "Gold" (14 actions, 230 points). Later phases are recommended after 100, 200, and 300 points; the recommendation never blocks anything. The build enforces a per-category floor in each phase (4 / 3 / 3 / 2), bendable only through exceptions listed in data/planner-config.json where a category has nothing easy left (Social Innovation in Phases 2 and 3); see docs/phase-map.md for the full rule.
+
 ## Design
 
 The planner uses Miami Dade College's brand colors and typefaces without any MDC or iCED logo, seal, or wordmark: MDC Blue #0032A0 for the top bar, links, and primary controls, MDC Gray for secondary text, a navy dark theme, and a warm orange accent (#C8690A) for phase status highlights, chosen by sampling the iCED site's computed styles (docs/iced-color-sample.md). Type is EB Garamond for display and Jost for text, falling back to MDC's official Garamond and Futura. Category hues carry identity on stripes and meters; where a hue is used as text it switches to a darker or lighter variant so every pair passes WCAG contrast, enforced by tests/contrast.spec.mjs in both themes.

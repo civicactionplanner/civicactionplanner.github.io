@@ -132,7 +132,7 @@
   {
    "code": "DE-4",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Create a voting plan for an upcoming election",
    "pts": 5,
    "max": 4,
@@ -187,7 +187,7 @@
   {
    "code": "DE-7",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Research two of your current elected officials (from DE-6)",
    "pts": 10,
    "max": 1,
@@ -260,7 +260,7 @@
   {
    "code": "DE-11",
    "cat": "DE",
-   "phase": 2,
+   "phase": 3,
    "title": "Attend, watch, or listen to a live community, city, county, or state meeting",
    "pts": 10,
    "max": 2,
@@ -318,7 +318,7 @@
   {
    "code": "DE-14A",
    "cat": "DE",
-   "phase": 2,
+   "phase": 3,
    "title": "Attend a workshop, training, or informational event on democratic engagement",
    "pts": 10,
    "max": 2,
@@ -483,7 +483,7 @@
   {
    "code": "DE-21",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Summarize media fact-checking after reading about the process from 2 sites",
    "pts": 5,
    "max": 1,
@@ -501,7 +501,7 @@
   {
    "code": "DE-22",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Review the SIFT method and verify a news story shared on social media",
    "pts": 10,
    "max": 1,
@@ -520,7 +520,7 @@
   {
    "code": "DE-23",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Read and summarize one of the United States founding documents",
    "pts": 5,
    "max": 2,
@@ -541,7 +541,7 @@
   {
    "code": "DE-24",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Take the practice Citizenship Exam with a passing score",
    "pts": 5,
    "max": 1,
@@ -559,7 +559,7 @@
   {
    "code": "DE-25",
    "cat": "DE",
-   "phase": 1,
+   "phase": 2,
    "title": "Compare the ideologies of political parties in the United States",
    "pts": 10,
    "max": 1,
@@ -579,7 +579,7 @@
   {
    "code": "DE-26",
    "cat": "DE",
-   "phase": 2,
+   "phase": 3,
    "title": "Research two political activists who helped individuals secure the right to vote",
    "pts": 10,
    "max": 1,
@@ -600,7 +600,7 @@
   {
    "code": "DE-27",
    "cat": "DE",
-   "phase": 2,
+   "phase": 3,
    "title": "Take the Florida Civic Literacy Exam (FCLE) practice test",
    "pts": 10,
    "max": 1,
@@ -695,7 +695,7 @@
   {
    "code": "ES-1",
    "cat": "ES",
-   "phase": 2,
+   "phase": 1,
    "title": "Discover the native plants of your community",
    "pts": 5,
    "max": 1,
@@ -1102,7 +1102,7 @@
   {
    "code": "ES-19",
    "cat": "ES",
-   "phase": 3,
+   "phase": 2,
    "title": "Complete a biodiversity mini-audit and identify at least five species",
    "pts": 10,
    "max": 1,
@@ -1404,7 +1404,7 @@
   {
    "code": "CW-10",
    "cat": "CW",
-   "phase": 3,
+   "phase": 2,
    "title": "Participate in the Unify America College Bowl and talk with someone you disagree with",
    "pts": 10,
    "max": 1,
@@ -1593,7 +1593,7 @@
   {
    "code": "CW-18",
    "cat": "CW",
-   "phase": 2,
+   "phase": 1,
    "title": "Learn about public service opportunities with AmeriCorps and Peace Corps",
    "pts": 5,
    "max": 1,
@@ -1614,7 +1614,7 @@
   {
    "code": "CW-19",
    "cat": "CW",
-   "phase": 2,
+   "phase": 1,
    "title": "Read and reflect on Adam Davis's \"What We Don't Talk About When We Don't Talk About Service\"",
    "pts": 5,
    "max": 1,
@@ -1741,7 +1741,7 @@
   {
    "code": "AC-3",
    "cat": "AC",
-   "phase": 2,
+   "phase": 1,
    "title": "Research the indigenous people and tribe(s) of your community",
    "pts": 10,
    "max": 1,
@@ -1759,7 +1759,7 @@
   {
    "code": "AC-4",
    "cat": "AC",
-   "phase": 3,
+   "phase": 4,
    "title": "Create and present a land acknowledgement to an audience of 5+ people",
    "pts": 10,
    "max": 1,
@@ -1859,7 +1859,7 @@
   {
    "code": "AC-9",
    "cat": "AC",
-   "phase": 3,
+   "phase": 2,
    "title": "Fast in recognition of a spiritual or faith-based practice (sunrise to sunset)",
    "pts": 10,
    "max": 1,
@@ -1877,7 +1877,7 @@
   {
    "code": "AC-10",
    "cat": "AC",
-   "phase": 2,
+   "phase": 1,
    "title": "Read two articles on an interfaith dialogue initiative",
    "pts": 5,
    "max": 1,
@@ -1898,7 +1898,7 @@
   {
    "code": "AC-11",
    "cat": "AC",
-   "phase": 2,
+   "phase": 1,
    "title": "Learn about Ramadan",
    "pts": 5,
    "max": 1,
@@ -1955,7 +1955,7 @@
   {
    "code": "SI-2",
    "cat": "SI",
-   "phase": 2,
+   "phase": 1,
    "title": "Read two articles on the same topic from Solutions Journalism",
    "pts": 5,
    "max": 2,
@@ -1975,7 +1975,7 @@
   {
    "code": "SI-3",
    "cat": "SI",
-   "phase": 2,
+   "phase": 1,
    "title": "Learn about Ashoka Fellows and identify one working on an issue that matters to you",
    "pts": 5,
    "max": 2,
@@ -1994,7 +1994,7 @@
   {
    "code": "SI-4",
    "cat": "SI",
-   "phase": 2,
+   "phase": 1,
    "title": "Watch a TED talk on any social innovation project",
    "pts": 5,
    "max": 2,
@@ -2069,7 +2069,7 @@
   {
    "code": "SI-6A",
    "cat": "SI",
-   "phase": 4,
+   "phase": 3,
    "title": "Submit a Commitment to Action to CGI U, or a proposal to any social innovation challenge",
    "pts": 15,
    "max": 1,
