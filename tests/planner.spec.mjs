@@ -417,13 +417,13 @@ test("floor note appears only on phases with a listed exception", async ({ page 
 });
 
 // ---------- collapsible sections (fresh contexts: real defaults, no harness seed) ----------
-test("#all starts with five collapsed sections that still show counts", async ({ browser }) => {
+test("#all starts collapsed except the featured section, with counts showing", async ({ browser }) => {
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
   await page.goto(target + "#all");
   await page.waitForSelector(".cat");
   await expect(page.locator(".cat")).toHaveCount(5);
-  await expect(page.locator(".cat.closed")).toHaveCount(5);
+  await expect(page.locator(".cat.closed")).toHaveCount(4); // SI is featured and starts open
   await expect(page.locator("#rows-DE")).toBeHidden();
   await expect(page.locator("#cs-DE")).toBeVisible();
   await expect(page.locator("#cs-DE")).toContainText("0 of 40 checked");
@@ -547,12 +547,12 @@ test("More menu folds the tools between 1100 and 1279", async ({ browser }) => {
   await ctx.close();
 });
 
-test("top bar stays one row under 64px from 768 to 1400", async ({ browser }) => {
-  const ctx = await browser.newContext({ viewport: { width: 768, height: 900 } });
+test("top bar stays one row under 64px from 1100 to 1400", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 1100, height: 900 } });
   const page = await ctx.newPage();
   await page.goto(target);
   await page.waitForSelector("#total");
-  for (const width of [768, 900, 1100, 1200, 1280, 1400]) {
+  for (const width of [1100, 1200, 1280, 1400]) {
     await page.setViewportSize({ width, height: 900 });
     const m = await page.evaluate(() => {
       const bar = document.querySelector(".top-in");
@@ -564,6 +564,66 @@ test("top bar stays one row under 64px from 768 to 1400", async ({ browser }) =>
     });
     expect(m.h, `bar height at ${width}`).toBeLessThan(64);
     for (const t of m.tops) expect(t, `child top at ${width}`).toBeLessThan(20);
+  }
+  await ctx.close();
+});
+
+// ---------- skill chips, featured SI, browse card, nav fit ----------
+const SKILL_CODES = ["CW-13B", "CW-13C", "DE-14B", "DE-14C", "ES-18B", "ES-18C", "SI-5B", "SI-5C"];
+
+test("skill-based trainings carry a visible chip and a filter", async ({ page }) => {
+  expect(scorecard.actions.filter((a) => a.skill).map((a) => a.code).sort()).toEqual(SKILL_CODES);
+  await expect(page.locator(".badge.skill")).toHaveCount(8);
+  for (const c of SKILL_CODES) await expect(page.locator(`#item-${c} .badge.skill`)).toHaveText("Skill-based training");
+  await page.click('.chip[data-f="skill"]');
+  const visible = await page.locator(".item:not(.hidden)").evaluateAll((els) => els.map((e) => e.dataset.code).sort());
+  expect(visible).toEqual(SKILL_CODES);
+  await page.click('.chip[data-f="all"]');
+  await page.click("#item-DE-14B .exp");
+  await expect(page.locator("#item-DE-14B .det")).toContainText("Counts as a skills-based training or workshop.");
+});
+
+test("Social Innovation is featured: open by default, tagged, tinted", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#all");
+  await page.waitForSelector(".cat");
+  await expect(page.locator("#cat-SI")).not.toHaveClass(/closed/);
+  await expect(page.locator("#cat-SI .cat-h .badge.featured")).toHaveText("Featured");
+  await expect(page.locator("#rows-SI")).toBeVisible();
+  const bg = await page.locator("#cat-SI .item .row").first().evaluate((el) => getComputedStyle(el).backgroundColor);
+  expect(bg).toBe("rgba(122, 77, 184, 0.08)");
+  await ctx.close();
+});
+
+test("home offers a prominent browse-everything card", async ({ page }) => {
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector("#browse-card");
+  await expect(page.locator("#browse-card h2")).toHaveText("Prefer to see everything?");
+  await expect(page.locator("#browse-card p")).toHaveText("Browse all 124 actions in one list, organized by category.");
+  await expect(page.locator("#browse-card .btn")).toHaveText("Browse the full list");
+  await page.click("#browse-card");
+  await page.waitForSelector(".cat");
+  expect(await page.evaluate(() => location.hash)).toBe("#all");
+  await expect(page.locator(".item")).toHaveCount(124);
+});
+
+test("nav labels never truncate and the page never scrolls sideways", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 360, height: 800 } });
+  const page = await ctx.newPage();
+  await page.goto(target);
+  await page.waitForSelector("#total");
+  for (const width of [360, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 800 });
+    const m = await page.evaluate(() => {
+      const links = Array.from(document.querySelectorAll(".nav a, .tabbar a"))
+        .filter((a) => a.offsetParent !== null)
+        .map((a) => ({ label: a.textContent, over: a.scrollWidth > a.clientWidth }));
+      return { links, pageOver: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    expect(m.links.length, `links visible at ${width}`).toBeGreaterThan(0);
+    for (const l of m.links) expect(l.over, `"${l.label}" truncated at ${width}`).toBe(false);
+    expect(m.pageOver, `horizontal overflow at ${width}`).toBeLessThanOrEqual(0);
   }
   await ctx.close();
 });

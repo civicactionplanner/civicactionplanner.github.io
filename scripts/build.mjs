@@ -39,6 +39,7 @@ const merged = {
   floorExceptions: config.floorExceptions,
   floorNote: config.floorNote,
   suggestPriority: config.suggestPriority,
+  featuredCat: config.featuredCat,
   privacy: config.privacy,
   firebase: !!firebaseCfg,
   phases: config.phases,

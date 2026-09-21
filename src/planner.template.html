@@ -16,7 +16,7 @@
   --de:#2450B0; --es:#0E8F7A; --cw:#D6472A; --ac:#C89A00; --si:#7A4DB8; --ia:#5B6770;
   --de-soft:#E5E4E8; --es-soft:#E2EBE2; --cw-soft:#FAE3D8; --ac-soft:#F8EDD3; --si-soft:#EFE3E9; --ia-soft:#EBE7E1;
   --de-text:#2450B0; --es-text:#0A6E5E; --cw-text:#B23518; --ac-text:#8A6A00; --si-text:#7A4DB8; --ia-text:#5B6770;
-  --chip-ok:#62D9BF;
+  --chip-ok:#62D9BF; --featured-tint:rgba(122,77,184,.08);
   --ok:#0E8F7A; --ok-bg:#DDF2ED; --warn:#8A6A00; --warn-bg:#F8EFCF; --info-bg:#E4EAF8;
   --bronze:#B06F3B; --silver:#7C8794; --gold:#C79A16;
   --shadow:0 1px 0 rgba(20,33,61,.04), 0 6px 20px rgba(20,33,61,.06);
@@ -31,6 +31,7 @@
     --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#8A94A8;
     --de-soft:#162756; --es-soft:#0E2B4E; --cw-soft:#231F42; --ac-soft:#21283F; --si-soft:#1D2557; --ia-soft:#1B2951;
     --de-text:#86A7E8; --es-text:#1FA88E; --cw-text:#E4735F; --ac-text:#C79A2A; --si-text:#B491E8; --ia-text:#A9B3C4;
+    --featured-tint:rgba(154,114,218,.08);
     --ok:#3BD3B5; --ok-bg:#123B4C; --warn:#E3B84A; --warn-bg:#2E2C3F; --info-bg:#1E3372;
     --bronze:#D08A52; --silver:#A9B3BF; --gold:#E4B534;
     --shadow:0 1px 0 rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.4);
@@ -45,6 +46,7 @@
   --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#8A94A8;
   --de-soft:#162756; --es-soft:#0E2B4E; --cw-soft:#231F42; --ac-soft:#21283F; --si-soft:#1D2557; --ia-soft:#1B2951;
   --de-text:#86A7E8; --es-text:#1FA88E; --cw-text:#E4735F; --ac-text:#C79A2A; --si-text:#B491E8; --ia-text:#A9B3C4;
+  --featured-tint:rgba(154,114,218,.08);
   --ok:#3BD3B5; --ok-bg:#123B4C; --warn:#E3B84A; --warn-bg:#2E2C3F; --info-bg:#1E3372;
   --bronze:#D08A52; --silver:#A9B3BF; --gold:#E4B534;
   --shadow:0 1px 0 rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.4);
@@ -76,9 +78,11 @@ a{color:var(--primary)}
 .savechip.acct .sc-dot{background:var(--chip-ok)}
 .top .btn{background:transparent;color:var(--topbar-ink);border-color:var(--topbar-line)}
 .top .btn:hover{color:var(--topbar-ink);border-color:var(--topbar-ink-2)}
-@media (max-width:1279px){
+@media (max-width:1399px){
   .savechip{border:0;padding:4px 0}
   .savechip .sc-txt{display:none}
+}
+@media (max-width:1279px){
   .brand h1{font-size:20px}
 }
 .acct-box{display:flex;gap:6px;align-items:center;flex:none;position:relative}
@@ -115,7 +119,10 @@ a{color:var(--primary)}
 .acct-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow);padding:6px;display:flex;flex-direction:column;gap:4px;z-index:40;min-width:200px}
 .acct-menu .btn{border:0;text-align:left;background:transparent;color:var(--ink-2)}
 .acct-menu .btn:hover{color:var(--ink)}
-.nav a{text-decoration:none;font-size:12.5px;padding:5px 9px;border-radius:999px;border:1px solid var(--topbar-line);color:var(--topbar-ink);display:inline-flex;align-items:center;gap:6px;background:transparent}
+.nav a{flex:none;min-width:max-content;text-decoration:none;font-size:12.5px;padding:5px 9px;border-radius:999px;border:1px solid var(--topbar-line);color:var(--topbar-ink);display:inline-flex;align-items:center;gap:6px;background:transparent}
+@media (min-width:700px) and (max-width:1099px){
+  .nav{flex-wrap:wrap;overflow-x:visible;flex:1 1 auto}
+}
 .nav a:hover{border-color:var(--topbar-ink-2)}
 .btn{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;color:var(--ink-2);white-space:nowrap}
 .btn:hover{color:var(--ink);border-color:var(--ink-3)}
@@ -225,6 +232,14 @@ a{color:var(--primary)}
 .badge{display:inline-flex;align-items:center;gap:5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;font-size:11px;padding:2px 7px;border-radius:5px;line-height:1.4}
 .badge.sub{background:var(--warn-bg);color:var(--warn)}
 .badge.appr{background:var(--ok-bg);color:var(--ok)}
+.badge.skill{background:var(--primary-soft);color:var(--primary)}
+.badge.featured{background:var(--si-soft);color:var(--si-text)}
+.skill-note{font-size:13px;color:var(--ink-2);font-style:italic;margin:8px 0 0}
+.cat.featured .item:not(.on) .row{background:var(--featured-tint)}
+.cat.featured .item:not(.on) .row:hover{background:var(--surface)}
+.browse-card{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;margin:14px 0 12px}
+.browse-card h2{margin:0 0 4px;font-size:22px}
+.browse-card p{margin:0;font-size:13.5px;color:var(--ink-2)}
 
 /* categories */
 .cat{margin:0 0 26px}
@@ -618,7 +633,8 @@ dialog.about a{color:var(--primary)}
   function sectionClosed(catId){
     var m = ui.sections && ui.sections[viewKey()];
     if (m && typeof m[catId] === "boolean") return m[catId];
-    return route.view !== "phase"; // #all and #home start collapsed, phase views start expanded
+    if (catId === CFG.featuredCat) return false; // the featured category starts expanded everywhere
+    return route.view !== "phase"; // the rest start collapsed on #all, expanded on phase views
   }
   function setSectionClosed(catId, closed){
     ui.sections = ui.sections || {};
@@ -911,7 +927,11 @@ __MERGE__
       '<section class="summary" id="summary" data-mode="hero"></section>' +
       '<div class="pcards" id="pcards">'+CFG.phases.map(pcardHtml).join("")+'</div>' +
       '<div id="home-sug">'+homeSugContent()+'</div>' +
-      '<p class="browse"><a href="#all">Browse all '+DATA.actions.length+' actions</a></p>';
+      '<a class="browse-card" href="#all" id="browse-card">' +
+        '<div><h2 class="disp">Prefer to see everything?</h2>' +
+        '<p>Browse all '+DATA.actions.length+' actions in one list, organized by category.</p></div>' +
+        '<span class="btn primary">Browse the full list</span>' +
+      '</a>';
   }
   function updateHomeCards(){
     var el = document.getElementById("pcards");
@@ -935,15 +955,16 @@ __MERGE__
 
   // ---------- chips / filter ----------
   function renderChips(){
-    var c = {all:DATA.actions.length, done:0, todo:0, sub:0, appr:0, notes:0};
+    var c = {all:DATA.actions.length, done:0, todo:0, sub:0, appr:0, notes:0, skill:0};
     DATA.actions.forEach(function(a){
       var on = !!state.counts[a.code];
       if (on) c.done++; else c.todo++;
       if (state.sub[a.code] || state.appr[a.code]) c.sub++;
       if (state.appr[a.code]) c.appr++;
       var n = state.notes[a.code]; if (n && (n.what||n.sowhat||n.nowwhat)) c.notes++;
+      if (a.skill) c.skill++;
     });
-    var defs = [["all","All"],["done","Checked"],["todo","Unchecked"],["sub","Submitted"],["appr","Approved"],["notes","With drafts"]];
+    var defs = [["all","All"],["done","Checked"],["todo","Unchecked"],["sub","Submitted"],["appr","Approved"],["notes","With drafts"],["skill","Skill trainings"]];
     var el = document.getElementById("chips");
     if (!el) return;
     el.innerHTML = defs.map(function(d){
@@ -961,6 +982,7 @@ __MERGE__
     else if (filter==="sub") ok = !!(state.sub[a.code] || state.appr[a.code]);
     else if (filter==="appr") ok = !!state.appr[a.code];
     else if (filter==="notes"){ var n = state.notes[a.code]; ok = !!(n && (n.what||n.sowhat||n.nowwhat)); }
+    else if (filter==="skill") ok = !!a.skill;
     if (ok && query){
       var hay = (a.code+" "+a.title+" "+a.doc+" "+a.what+" "+a.sowhat+" "+a.nowwhat+" "+(a.aside||[]).join(" ")+" "+(a.req||"")).toLowerCase();
       ok = hay.indexOf(query) >= 0;
@@ -1039,9 +1061,10 @@ __MERGE__
       if (!mine.length) return "";
       var rows = mine.map(renderItem).join("");
       var closed = sectionClosed(c.id);
-      return '<section class="cat'+(closed?' closed':'')+'" id="cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+');--soft:var('+CATVAR[c.id]+'-soft);--ct:var('+CATVAR[c.id]+'-text)">' +
+      var feat = c.id === CFG.featuredCat;
+      return '<section class="cat'+(closed?' closed':'')+(feat?' featured':'')+'" id="cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+');--soft:var('+CATVAR[c.id]+'-soft);--ct:var('+CATVAR[c.id]+'-text)">' +
         '<div class="cat-h" role="button" tabindex="0" aria-expanded="'+(!closed)+'" aria-controls="rows-'+c.id+'">' +
-          '<div class="ct"><span class="code cond">'+c.id+'</span><h2 class="disp">'+esc(c.name)+'</h2></div>' +
+          '<div class="ct"><span class="code cond">'+c.id+'</span><h2 class="disp">'+esc(c.name)+'</h2>'+(feat?'<span class="badge featured">Featured</span>':'')+'</div>' +
           '<div class="tag">'+esc(c.tag)+'</div>' +
           '<div class="cs" id="cs-'+c.id+'"><b>'+x.checked+'</b><span class="cs-x"> / '+c.possible+' pts · '+x.done+' of '+x.total+' checked</span><div class="bar"><i style="width:'+Math.min(100,x.checked/c.possible*100)+'%"></i></div></div>' +
           '<span class="cat-chev" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l5 5 5-5"/></svg></span>' +
@@ -1067,6 +1090,7 @@ __MERGE__
     var meta = [];
     if (state.appr[a.code]) meta.push('<span class="badge appr">Approved</span>');
     else if (state.sub[a.code]) meta.push('<span class="badge sub">Submitted</span>');
+    if (a.skill) meta.push('<span class="badge skill">Skill-based training</span>');
     if (a.req) meta.push('<span class="req">'+esc(a.req)+'</span>');
     if (a.max > 1 && !a.unlimited) meta.push('<span class="req">Up to ×'+a.max+' = '+(a.pts*a.max)+' pts</span>');
     var metaHtml = meta.length ? '<div class="meta">'+meta.join("")+'</div>' : '';
@@ -1103,6 +1127,7 @@ __MERGE__
     }
     var aside = (a.aside && a.aside.length) ? '<h4>Resources and notes</h4><ul class="aside">'+a.aside.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>' : '';
     var left = '<div><h4>What to submit</h4><div class="doc">'+esc(a.doc || "See the scorecard for this action's documentation.")+'</div>' +
+      (a.skill ? '<p class="skill-note">Counts as a skills-based training or workshop.</p>' : '') +
       (a.what ? '<h4 style="margin-top:14px">Reflection</h4>' + ta("what", a.what, "What?") + ta("sowhat", a.sowhat, "So what?") + ta("nowwhat", a.nowwhat, "Now what?") : '') +
       '<div class="dbtns"><button class="btn" type="button" data-act="copy">Copy reflection for EngageMDC</button><button class="btn" type="button" data-act="hub">Open EngageMDC</button></div></div>';
     var right = '<div>'+aside+'<h4 style="margin-top:'+(aside?'14px':'0')+'">Submission status</h4><div class="stat">' +

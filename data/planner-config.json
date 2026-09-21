@@ -49,6 +49,7 @@
     }
   ],
   "floorNote": "{category} has fewer starter actions; the rest arrive in later phases.",
+  "featuredCat": "SI",
   "suggestPriority": [
     "ES",
     "CW",
