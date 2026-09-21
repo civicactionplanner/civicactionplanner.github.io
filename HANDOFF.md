@@ -27,8 +27,8 @@ Do not add analytics, sign-in, a build framework, or any dependency beyond what 
 ## What "done" looks like
 
 - A public repository named `civicactionplanner.github.io` in the civicactionplanner organization (a fork uses its own name).
-- A live page at `https://civicactionplanner.github.io/` that shows 0 PTS and 109 actions.
-- Nine passing Playwright tests, run once locally and once against the live URL.
+- A live page at `https://civicactionplanner.github.io/` that shows 0 PTS and 124 actions.
+- A passing test suite (unit plus Playwright), run once locally and once against the live URL.
 
 ## Sharing it after that
 
@@ -36,4 +36,4 @@ Send people the live URL, not the HTML file. A link opens on any phone or laptop
 
 ## Later changes
 
-Edit `data/planner-config.json` (text, Hub link, award tiers) or `data/civic-action-scorecard-2024-2025.json` (actions and points), then `npm run build && npm test`, commit, and push. GitHub Pages redeploys within a minute or two. Ask Claude Code to do this for you with a sentence like: "Update the edition to 2025-2026, change DE-28 to 15 points, rebuild, test, and push."
+Edit `data/planner-config.json` (text, EngageMDC link, award tiers) or `data/civic-action-scorecard-2026-2027.json` (actions and points), then `npm run build && npm test`, commit, and push. GitHub Pages redeploys within a minute or two. Ask Claude Code to do this for you with a sentence like: "Update the edition to 2027-2028, change DE-28 to 15 points, rebuild, test, and push."

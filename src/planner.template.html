@@ -240,6 +240,14 @@ a{color:var(--primary)}
 .browse-card{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;margin:14px 0 12px}
 .browse-card h2{margin:0 0 4px;font-size:22px}
 .browse-card p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.how-link{margin:0 0 16px;font-size:14px}
+.how{max-width:70ch;margin:18px 0}
+.how h2{margin:0 0 12px;font-size:30px}
+.how h3{margin:18px 0 8px;font-size:21px}
+.how .how-steps{margin:0 0 12px;padding-left:22px;line-height:1.6}
+.how .how-steps li{margin:0 0 6px}
+.how .how-note{font-weight:500;margin:0 0 6px}
+.foot-links{display:flex;gap:14px;align-items:center}
 
 /* categories */
 .cat{margin:0 0 26px}
@@ -657,6 +665,7 @@ dialog.about a{color:var(--primary)}
     var h = (location.hash || "").replace(/^#/, "");
     if (!h || h === "home") return {view:"home"};
     if (h === "all") return {view:"all"};
+    if (h === "how") return {view:"how"};
     var m = /^phase\/([1-4])$/.exec(h);
     if (m) return {view:"phase", n:parseInt(m[1], 10)};
     if (/^cat-/.test(h) || /(^|&)s=/.test(h)) return null; // in-page anchors and share links, not routes
@@ -681,7 +690,7 @@ dialog.about a{color:var(--primary)}
     Array.prototype.forEach.call(document.querySelectorAll('.nav a[data-view], .tabbar a[data-view]'), function(a){
       var h = a.getAttribute("href");
       var active = (route.view === "home" && h === "#home") || (route.view === "all" && h === "#all") ||
-        (route.view === "phase" && h === "#phase/"+route.n);
+        (route.view === "how" && h === "#how") || (route.view === "phase" && h === "#phase/"+route.n);
       if (active) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
   }
@@ -779,7 +788,7 @@ __MERGE__
     app.innerHTML =
       '<div class="top"><div class="top-in">' +
         '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.edition)+'</span></div>' +
-        '<nav class="nav" aria-label="Views">'+viewLinks+'</nav>' +
+        '<nav class="nav" aria-label="Views">'+viewLinks+'<a href="#how" data-view="1">How it works</a></nav>' +
         '<span class="savechip" id="save-chip" role="status" aria-label="Saved on this device only"><span class="sc-dot" aria-hidden="true"></span><span class="sc-txt">Saved on this device only</span></span>' +
         '<details class="more" id="more-menu"><summary class="btn" aria-label="More tools">More</summary><div class="more-list">' +
           '<button class="btn" type="button" data-more="export">Export backup</button>' +
@@ -806,7 +815,7 @@ __MERGE__
         '</div>' +
         '<footer class="foot">' +
           '<p>An unofficial student planning tool by Daniel Llobet. Not an MDC or iCED system. Contact: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
-          '<p class="foot-links"><button class="btn-link" id="btn-about" type="button">About</button></p>' +
+          '<p class="foot-links"><button class="btn-link" id="btn-about" type="button">About</button> <a href="#how">How it works</a></p>' +
           (CFG.firebase ? '' : '<p>Saving to an account is not set up on this copy.</p>') +
         '</footer>' +
         '<dialog id="about-panel" class="about">' +
@@ -853,6 +862,11 @@ __MERGE__
   }
   function renderView(){
     var v = document.getElementById("view");
+    if (route.view === "how"){
+      v.innerHTML = howHtml();
+      updateNav();
+      return;
+    }
     if (route.view === "home"){
       v.innerHTML = homeHtml();
       renderSummary();
@@ -916,6 +930,30 @@ __MERGE__
   }
   // The home suggestion sits outside the card anchors (nested links are invalid HTML)
   // and only for the phase the Continue button would open.
+  function howHtml(){
+    return '<section class="how" id="how-view">' +
+      '<h2 class="disp">How it works</h2>' +
+      '<h3 class="disp">Submitting an action in EngageMDC</h3>' +
+      '<ol class="how-steps">' +
+        '<li>Log in at <a href="https://engage.mdc.edu" target="_blank" rel="noopener">engage.mdc.edu</a> with your MDC account.</li>' +
+        '<li>Open the "Civic Action Scorecard" spotlight.</li>' +
+        '<li>Search for the action you want to complete.</li>' +
+        '<li>Read its instructions, complete the action, and collect the required documentation.</li>' +
+        '<li>Submit it with the "Add Impact" button on the action\'s page.</li>' +
+        '<li>Answer the What, So What, Now What reflection questions in your own words.</li>' +
+      '</ol>' +
+      '<p class="how-note">This planner does not submit anything for you. Submissions only count in EngageMDC.</p>' +
+      '<h3 class="disp">Using this planner</h3>' +
+      '<ul class="how-steps">' +
+        '<li>Choose a phase or browse the full list.</li>' +
+        '<li>Check off actions to plan and track points.</li>' +
+        '<li>Expand an action for documentation and reflection prompts.</li>' +
+        '<li>Sign in with Google to keep progress across devices.</li>' +
+        '<li>Export or print any time.</li>' +
+      '</ul>' +
+      '<p>Questions or ideas about this planner: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
+      '</section>';
+  }
   function homeSugContent(){
     if (!Object.keys(state.counts).length) return "";
     return suggestionHtml(lowestUnfinishedPhase());
@@ -931,7 +969,8 @@ __MERGE__
         '<div><h2 class="disp">Prefer to see everything?</h2>' +
         '<p>Browse all '+DATA.actions.length+' actions in one list, organized by category.</p></div>' +
         '<span class="btn primary">Browse the full list</span>' +
-      '</a>';
+      '</a>' +
+      '<p class="how-link"><a href="#how">How it works</a></p>';
   }
   function updateHomeCards(){
     var el = document.getElementById("pcards");

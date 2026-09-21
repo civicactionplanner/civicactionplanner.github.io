@@ -628,6 +628,22 @@ test("nav labels never truncate and the page never scrolls sideways", async ({ b
   await ctx.close();
 });
 
+test("How it works explains EngageMDC submission and the planner", async ({ page }) => {
+  await page.click('.nav a[href="#how"]');
+  await page.waitForSelector("#how-view");
+  await expect(page.locator('.nav a[href="#how"]')).toHaveAttribute("aria-current", "page");
+  const t = await page.locator("#how-view").textContent();
+  expect(t).toContain("engage.mdc.edu");
+  expect(t).toContain("Add Impact");
+  expect(t).toContain("So What");
+  expect(t).toContain("This planner does not submit anything for you. Submissions only count in EngageMDC.");
+  expect(t).toContain("daniel.llobet.v@gmail.com");
+  await expect(page.locator('.foot a[href="#how"]')).toHaveText("How it works");
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector(".how-link a");
+  await expect(page.locator('.how-link a')).toHaveText("How it works");
+});
+
 // ---------- accounts (build variants; no real Firebase project needed) ----------
 test("guest build: empty firebase config hides accounts and everything still works", async ({ browser }) => {
   const out = path.join(root, ".guest-test.html");

@@ -4,15 +4,15 @@ Context for Claude Code (or any developer) working in this repository.
 
 ## What this is
 
-A single-file web app, `index.html`, for Miami Dade College students working through iCED's Civic Action Scorecard. It lists all 109 actions from the 2024-2025 scorecard with point values, shows what to submit for each, holds What / So what / Now what drafts, tracks Submitted and Approved status, and totals points against Bronze 100 / Silver 200 / Gold 300. Everything is stored in the browser's localStorage. There is no backend, no account, no analytics, and no network call other than Google Fonts.
+A single-file web app, `index.html`, for Miami Dade College students working through iCED's Civic Action Scorecard. It lists all 124 actions from iCED's 2026-27 Civic Action Planning Sheet with point values, shows what to submit for each, holds What / So what / Now what drafts, tracks Submitted and Approved status, and totals points against Bronze 100 / Silver 200 / Gold 300. Everything is stored in the browser's localStorage. There is no backend, no account, no analytics, and no network call other than Google Fonts.
 
-It is an unofficial student project by Daniel Llobet. Official submissions happen in the Changemaker Hub (GivePulse). Keep that distinction in every piece of copy.
+It is an unofficial student project by Daniel Llobet. Official submissions happen in EngageMDC (https://engage.mdc.edu). Keep that distinction in every piece of copy.
 
 ## Layout
 
 - `src/planner.template.html`: the app. `__CONFIG__` is replaced with JSON at build time; `__PRERENDER__` is replaced with the zero-state markup so the page reads without JavaScript.
 - `data/planner-config.json`: title, edition, Hub link, tiers, credit, license, disclaimer text.
-- `data/civic-action-scorecard-2024-2025.json`: categories and the 109 actions (code, category, title, pts, max, unlimited, variable, req, doc, what, sowhat, nowwhat, aside). Extracted from the official PDF and cross-checked against its Appendix A. CW-6 uses "X2 = 20" from its action page; the appendix misprints it as 10.
+- `data/civic-action-scorecard-2026-2027.json`: categories and the 124 actions (code, category, phase, title, pts, max, unlimited, skill, req, doc, what, sowhat, nowwhat, aside). Titles and points transcribed from the 2026-27 Civic Action Planning Sheet; documentation and reflection details carried from the 2024-25 scorecard, with fresh text for the 16 new actions.
 - `scripts/build.mjs`: injects the data into the template and writes `index.html`. `--prerender` needs Playwright.
 - `scripts/deploy.sh`: creates the GitHub repo with `gh`, pushes, enables Pages on `main` at `/`, waits for HTTP 200, runs the tests against the live URL.
 - `tests/planner.spec.mjs`: Playwright end-to-end suite (totals, multipliers, details, persistence, export/import, share link, search, print sheet, no-JS rendering).
