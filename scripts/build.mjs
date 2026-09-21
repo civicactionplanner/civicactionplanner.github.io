@@ -27,7 +27,6 @@ try {
 const merged = {
   title: config.title,
   edition: config.edition || scorecard.edition,
-  displayYear: config.displayYear,
   hubName: config.hubName,
   hubUrl: config.hubUrl,
   credit: config.credit,
@@ -35,6 +34,7 @@ const merged = {
   disclaimer: config.disclaimer,
   tiers: config.tiers || scorecard.tiers,
   homeIntro: config.homeIntro,
+  contact: config.contact,
   phaseFloors: config.phaseFloors,
   floorExceptions: config.floorExceptions,
   floorNote: config.floorNote,
@@ -101,8 +101,8 @@ if (!Array.isArray(merged.suggestPriority) || merged.suggestPriority.length !== 
 }
 
 if (!merged.homeIntro) throw new Error("planner-config.json needs a homeIntro line for the home page");
-if (!merged.displayYear) throw new Error("planner-config.json needs a displayYear for the top bar");
-if (!merged.privacy) throw new Error("planner-config.json needs a privacy line for the footer");
+if (!merged.privacy) throw new Error("planner-config.json needs a privacy line");
+if (!merged.contact) throw new Error("planner-config.json needs a contact email");
 if (!Array.isArray(merged.phases) || merged.phases.length !== 4) throw new Error("planner-config.json needs a 4-entry phases array");
 for (const [i, ph] of merged.phases.entries()) {
   if (ph.number !== i + 1 || !ph.name || !Number.isInteger(ph.unlockPoints) || !ph.tagline || !ph.why)

@@ -1,10 +1,10 @@
 {
   "title": "Civic Action Scorecard Planner",
-  "edition": "2024-2025",
-  "displayYear": "2026-2027",
-  "hubName": "Changemaker Hub (EngageMDC)",
-  "hubUrl": "https://mdc.givepulse.com/group/722217-civic-action-scorecard",
-  "homeIntro": "The Civic Action Scorecard is Miami Dade College's menu of 109 civic actions, each worth points. Reach Bronze (100), Silver (200), or Gold (300); awards are granted by iCED through the Changemaker Hub once you submit your documentation there.",
+  "edition": "2026-2027",
+  "hubName": "EngageMDC",
+  "hubUrl": "https://engage.mdc.edu",
+  "contact": "daniel.llobet.v@gmail.com",
+  "homeIntro": "The Civic Action Scorecard is Miami Dade College's menu of 124 civic actions, each worth points. Reach Bronze (100), Silver (200), or Gold (300); awards are granted by iCED through EngageMDC once you submit your documentation there.",
   "phases": [
     {
       "number": 1,
@@ -35,14 +35,29 @@
       "why": "By now you have the experience to lead: give the speech, work the polls, host the meeting, present the project you built."
     }
   ],
-  "phaseFloors": {"1": 4, "2": 3, "3": 3, "4": 2},
+  "phaseFloors": {
+    "1": 4,
+    "2": 3,
+    "3": 3,
+    "4": 2
+  },
   "floorExceptions": [
-    {"phase": 3, "cat": "SI", "count": 2}
+    {
+      "phase": 3,
+      "cat": "SI",
+      "count": 2
+    }
   ],
   "floorNote": "{category} has fewer starter actions; the rest arrive in later phases.",
-  "suggestPriority": ["ES", "CW", "AC", "SI", "DE"],
+  "suggestPriority": [
+    "ES",
+    "CW",
+    "AC",
+    "SI",
+    "DE"
+  ],
   "credit": "Built by Daniel Llobet (School for Advanced Studies, MDC Wolfson) as a student project. Questions about the scorecard itself go to iCED at iCED@mdc.edu.",
   "privacy": "If you sign in, your progress is stored in a Firebase project owned by Daniel Llobet on Google Cloud. Only you can read it. Delete it any time from the account menu. This is not an MDC or iCED system.",
-  "license": "Action list, point values, documentation requirements, and reflection prompts are from The 2024-2025 Civic Action Scorecard, copyright 2017-2025 Institute for Civic Engagement & Democracy, Miami Dade College, used under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. This planner is shared under the same license.",
+  "license": "The action list and point values are from iCED's 2026-27 Civic Action Planning Sheet. Documentation requirements and reflection prompts are adapted from The 2024-2025 Civic Action Scorecard, copyright 2017-2026 Institute for Civic Engagement & Democracy, Miami Dade College, used under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. This planner is shared under the same license.",
   "disclaimer": "This planner is an unofficial planning tool, not an MDC or iCED system, and it does not submit anything on your behalf. Progress is stored only in your browser until you export it."
 }

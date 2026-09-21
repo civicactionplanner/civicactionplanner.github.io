@@ -308,18 +308,43 @@ test("phase card status pill stays inside its card at every width", async ({ pag
   }
 });
 
-test("top bar shows the display year and the footer credits the source edition", async ({ page }) => {
+test("the edition is 2026-2027 and source attribution lives in About and on the print sheet", async ({ page }) => {
   await expect(page.locator(".brand .yr")).toHaveText("2026-2027");
   await expect(page.locator(".brand .yr")).not.toContainText("scorecard");
-  await expect(page.locator(".foot")).toContainText("2024-2025 Civic Action Scorecard");
   await page.click("#item-DE-13 .row");
   await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")));
   const sheet = await page.textContent("#print");
   expect(sheet).toContain("2026-2027 planning sheet");
-  expect(sheet).toContain("2024-2025 Civic Action Scorecard");
+  expect(sheet).toContain("2024-2025 Civic Action Scorecard"); // attribution note on the printed page
+  await page.click("#btn-about");
+  await expect(page.locator("#about-panel")).toContainText("2026-27 Civic Action Planning Sheet");
+  await expect(page.locator("#about-panel")).toContainText("2024-2025 Civic Action Scorecard");
+  await page.keyboard.press("Escape");
   await page.evaluate(() => { location.hash = "#home"; });
   await page.waitForSelector(".pcard");
   await expect(page.locator(".hero .lbl")).toContainText("2026-2027");
+});
+
+test("footer is minimal and attribution lives in the About panel", async ({ page }) => {
+  const foot = await page.locator(".foot").textContent();
+  expect(foot).toContain("An unofficial student planning tool by Daniel Llobet. Not an MDC or iCED system.");
+  expect(foot).toContain("daniel.llobet.v@gmail.com");
+  for (const bad of ["Creative Commons", "copyright", "CC BY"]) expect(foot).not.toContain(bad);
+  await page.click("#btn-about");
+  await expect(page.locator("#about-panel")).toBeVisible();
+  await expect(page.locator("#about-panel")).toContainText("Creative Commons Attribution-NonCommercial-ShareAlike");
+  await expect(page.locator("#about-panel")).toContainText("Institute for Civic Engagement");
+  await expect(page.locator("#about-panel")).toContainText("daniel.llobet.v@gmail.com");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#about-panel")).toBeHidden();
+});
+
+test("EngageMDC naming holds across the built page", async ({ page }) => {
+  const content = await page.content();
+  expect(content.toLowerCase()).not.toContain("changemaker hub");
+  expect(content.toLowerCase()).not.toContain("givepulse");
+  expect(content).toContain("Changemaking 101");
+  expect(content).toContain("EngageMDC");
 });
 
 test("navigation marks the active view with aria-current", async ({ page }) => {
@@ -514,7 +539,7 @@ test("More menu folds the tools between 1100 and 1279", async ({ browser }) => {
   await expect(more).toBeVisible();
   await page.click("#more-menu summary");
   await expect(page.locator(".more-list")).toBeVisible();
-  await expect(page.locator(".more-list [data-more]")).toHaveCount(5);
+  await expect(page.locator(".more-list [data-more]")).toHaveCount(6); // five tools plus About
   await page.keyboard.press("Escape");
   await expect(page.locator(".more-list")).toBeHidden();
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -580,7 +605,9 @@ test("account build: control renders, and a blocked SDK never throws", async ({ 
   await page.goto("file://" + out);
   await page.waitForSelector("#total");
   await expect(page.locator("#btn-account")).toHaveText("Sign in with Google to save progress");
-  await expect(page.locator(".foot")).toContainText("Firebase project owned by Daniel Llobet");
+  await page.click("#btn-about");
+  await expect(page.locator("#about-panel")).toContainText("Firebase project owned by Daniel Llobet");
+  await page.keyboard.press("Escape");
   await page.click("#btn-account");
   await expect(page.locator("#toast")).toContainText("did not load");
   await page.evaluate((seed) => { localStorage.setItem("cas-ui-v1", JSON.stringify(seed)); location.hash = "#all"; }, OPEN_ALL_SECTIONS);

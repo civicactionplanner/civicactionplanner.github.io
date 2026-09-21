@@ -289,6 +289,12 @@ a{color:var(--primary)}
 .empty{padding:18px 8px;color:var(--ink-3);font-size:14px;font-style:italic}
 .foot{margin-top:30px;border-top:1px solid var(--line);padding-top:16px;font-size:13px;color:var(--ink-2);max-width:78ch;line-height:1.5}
 .foot p{margin:0 0 8px}
+.foot .btn-link{background:none;border:0;padding:0;color:var(--primary);cursor:pointer;font:inherit;text-decoration:underline}
+dialog.about{background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:14px;box-shadow:var(--shadow);padding:20px 22px;max-width:62ch;width:calc(100vw - 40px)}
+dialog.about::backdrop{background:rgba(0,0,0,.45)}
+dialog.about h2{margin:0 0 10px}
+dialog.about p{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:0 0 10px}
+dialog.about a{color:var(--primary)}
 #print{display:none}
 
 @media (max-width:820px){
@@ -756,7 +762,7 @@ __MERGE__
       .map(function(v){ return '<a href="'+v.h+'" data-view="1">'+esc(v.l)+'</a>'; }).join("");
     app.innerHTML =
       '<div class="top"><div class="top-in">' +
-        '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.displayYear)+'</span></div>' +
+        '<div class="brand"><h1 class="disp">'+esc(CFG.title)+'</h1><span class="yr">'+esc(CFG.edition)+'</span></div>' +
         '<nav class="nav" aria-label="Views">'+viewLinks+'</nav>' +
         '<span class="savechip" id="save-chip" role="status" aria-label="Saved on this device only"><span class="sc-dot" aria-hidden="true"></span><span class="sc-txt">Saved on this device only</span></span>' +
         '<details class="more" id="more-menu"><summary class="btn" aria-label="More tools">More</summary><div class="more-list">' +
@@ -765,6 +771,7 @@ __MERGE__
           '<button class="btn" type="button" data-more="share">Copy share link</button>' +
           '<button class="btn" type="button" data-more="print">Print planning sheet</button>' +
           '<button class="btn" type="button" data-more="theme">Theme</button>' +
+          '<button class="btn" type="button" data-more="about">About</button>' +
         '</div></details>' +
         '<div class="acct-box" id="acct-box"></div>' +
       '</div></div>' +
@@ -782,13 +789,24 @@ __MERGE__
           '<button class="btn" id="btn-theme" type="button">Theme: Auto</button>' +
         '</div>' +
         '<footer class="foot">' +
-          '<p>Points are awarded only when an action is submitted with its documentation and reflection in the <a href="'+esc(CFG.hubUrl)+'" target="_blank" rel="noopener">'+esc(CFG.hubName)+'</a> and approved by iCED staff. Award levels: '+TIERS.map(function(t){return t.n+" "+t.p;}).join(", ")+' points.</p>' +
-          '<p>'+esc(CFG.credit)+'</p>' +
-          '<p>'+esc(CFG.license)+'</p>' +
-          '<p>'+esc(CFG.disclaimer)+'</p>' +
-          (CFG.firebase ? '<p>'+esc(CFG.privacy)+'</p>' : '<p>Saving to an account is not set up on this copy.</p>') +
+          '<p>An unofficial student planning tool by Daniel Llobet. Not an MDC or iCED system. Contact: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
+          '<p class="foot-links"><button class="btn-link" id="btn-about" type="button">About</button></p>' +
+          (CFG.firebase ? '' : '<p>Saving to an account is not set up on this copy.</p>') +
         '</footer>' +
+        '<dialog id="about-panel" class="about">' +
+          '<h2 class="disp">About this planner</h2>' +
+          '<p>'+esc(CFG.credit)+'</p>' +
+          (CFG.firebase ? '<p>'+esc(CFG.privacy)+'</p>' : '') +
+          '<p>'+esc(CFG.disclaimer)+'</p>' +
+          '<p>Contact: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
+          '<p>'+esc(CFG.license)+'</p>' +
+          '<button class="btn" id="about-close" type="button">Close</button>' +
+        '</dialog>' +
       '</div>';
+    var about = document.getElementById("about-panel");
+    document.getElementById("btn-about").addEventListener("click", function(){ about.showModal(); });
+    document.getElementById("about-close").addEventListener("click", function(){ about.close(); });
+    about.addEventListener("click", function(e){ if (e.target === about) about.close(); });
     applyTheme(); renderAcct(); applyRoute(true);
     window.addEventListener("hashchange", function(){ applyRoute(false); });
     document.getElementById("name").addEventListener("input", function(e){ state.name = e.target.value; state.updated = Date.now(); saveLocal(); });
@@ -807,6 +825,7 @@ __MERGE__
       else if (b.dataset.more === "share") shareLink();
       else if (b.dataset.more === "print"){ buildPrint(); window.print(); }
       else if (b.dataset.more === "theme") cycleTheme();
+      else if (b.dataset.more === "about") document.getElementById("about-panel").showModal();
     });
     document.addEventListener("keydown", function(e){
       if (e.key === "Escape" && more.open){ more.open = false; more.querySelector("summary").focus(); }
@@ -835,7 +854,7 @@ __MERGE__
             '<button class="btn" id="btn-clear" type="button">Clear all</button>' +
           '</div>' +
         '</div>' +
-        '<p class="legend">Check an action once you have completed it; the planner adds its points and tracks the next award level. Open an action to see exactly what to submit, draft your What / So what / Now what reflection, copy it for the '+esc(CFG.hubName)+', and mark it <span class="badge sub">Submitted</span> and <span class="badge appr">Approved</span> as iCED reviews it. Everything is saved in this browser; use Export backup to move it or keep a copy.</p>' +
+        '<p class="legend">Check an action once you have completed it; the planner adds its points and tracks the next award level. Open an action to see exactly what to submit, draft your What / So what / Now what reflection, copy it for '+esc(CFG.hubName)+', and mark it <span class="badge sub">Submitted</span> and <span class="badge appr">Approved</span> as iCED reviews it. Everything is saved in this browser; use Export backup to move it or keep a copy.</p>' +
         '<div id="cats"></div>';
       renderChips(); renderSummary(); renderCats();
       if (pendingSuggest && route.view === "phase"){
@@ -976,7 +995,7 @@ __MERGE__
     else if (ti.earned && !ti.next) award = '<b>'+ti.earned.n+' level reached on paper.</b> '+(total-TOP)+' points past the top award.';
     else award = '<b>'+(TIERS[0].p-total)+' points to '+TIERS[0].n+'</b>, the first award level.';
     return '<div class="hero'+(compact?' compact':'')+'">' +
-      '<div class="lbl">'+(compact ? esc(CFG.displayYear)+' · ' : '')+'Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
+      '<div class="lbl">'+(compact ? esc(CFG.edition)+' · ' : '')+'Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
       '<div class="num-row"><div class="num disp" id="total">'+total+'<small>PTS</small></div><span class="bchip'+(breadthCount()>=4?' on':'')+'" id="breadth-chip">Breadth: '+breadthCount()+' of 5 areas</span></div>' +
       '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
       '<div class="award">'+award+'</div>' +
@@ -1085,9 +1104,9 @@ __MERGE__
     var aside = (a.aside && a.aside.length) ? '<h4>Resources and notes</h4><ul class="aside">'+a.aside.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>' : '';
     var left = '<div><h4>What to submit</h4><div class="doc">'+esc(a.doc || "See the scorecard for this action's documentation.")+'</div>' +
       (a.what ? '<h4 style="margin-top:14px">Reflection</h4>' + ta("what", a.what, "What?") + ta("sowhat", a.sowhat, "So what?") + ta("nowwhat", a.nowwhat, "Now what?") : '') +
-      '<div class="dbtns"><button class="btn" type="button" data-act="copy">Copy reflection for the Hub</button><button class="btn" type="button" data-act="hub">Open the Changemaker Hub</button></div></div>';
+      '<div class="dbtns"><button class="btn" type="button" data-act="copy">Copy reflection for EngageMDC</button><button class="btn" type="button" data-act="hub">Open EngageMDC</button></div></div>';
     var right = '<div>'+aside+'<h4 style="margin-top:'+(aside?'14px':'0')+'">Submission status</h4><div class="stat">' +
-      '<label><input type="checkbox" data-st="sub"'+(state.sub[a.code]||state.appr[a.code]?' checked':'')+'> Submitted in the Changemaker Hub</label>' +
+      '<label><input type="checkbox" data-st="sub"'+(state.sub[a.code]||state.appr[a.code]?' checked':'')+'> Submitted in EngageMDC</label>' +
       '<label><input type="checkbox" data-st="appr"'+(state.appr[a.code]?' checked':'')+'> Approved by iCED</label></div></div>';
     return left + right;
   }
@@ -1156,7 +1175,7 @@ __MERGE__
     });
     var copyBtn = it.querySelector('[data-act="copy"]');
     if (copyBtn) copyBtn.addEventListener("click", function(){
-      copyText(reflectionText(a)).then(function(){ toast("Reflection copied. Paste it into the Hub's Add Impact form."); }, function(){ toast("Copy failed. Select the text and copy it manually."); });
+      copyText(reflectionText(a)).then(function(){ toast("Reflection copied. Paste it into the Add Impact form in EngageMDC."); }, function(){ toast("Copy failed. Select the text and copy it manually."); });
     });
     var hubBtn = it.querySelector('[data-act="hub"]');
     if (hubBtn) hubBtn.addEventListener("click", function(){ window.open(CFG.hubUrl, "_blank", "noopener"); });
@@ -1232,8 +1251,8 @@ __MERGE__
     });
     if (!rows) rows = '<tr><td colspan="5">No actions checked yet.</td></tr>';
     document.getElementById("print").innerHTML =
-      '<h1>'+esc(CFG.displayYear)+' planning sheet</h1>' +
-      '<p class="sub">'+esc(CFG.edition)+' Civic Action Scorecard · '+(state.name ? 'Student: '+esc(state.name)+' · ' : '')+'Printed '+todayISO()+'</p>' +
+      '<h1>'+esc(CFG.edition)+' planning sheet</h1>' +
+      '<p class="sub">Civic Action Scorecard Planner · '+(state.name ? 'Student: '+esc(state.name)+' · ' : '')+'Printed '+todayISO()+'</p>' +
       '<table><thead><tr><th>#</th><th>Civic action</th><th class="r">Points</th><th>Submitted</th><th>Approved</th></tr></thead><tbody>'+rows+'</tbody></table>' +
       '<p class="tot">Total points: <b>'+total+'</b> · Submitted: '+t.all.sub+' · Approved: '+t.all.appr+'</p>' +
       '<p class="tot">Award level on paper: <b>'+(ti.earned ? ti.earned.n : 'none yet')+'</b> ('+TIERS.map(function(x){return x.n+" "+x.p;}).join(" / ")+')</p>' +
