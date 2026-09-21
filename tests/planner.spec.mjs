@@ -15,7 +15,7 @@ const num = (s) => parseInt(String(s).replace(/[^0-9]/g, ""), 10);
 // Sections default to collapsed on #all, so the harness seeds them open (cas-ui-v1 is
 // UI-only state, like the localStorage.clear() next to it); the collapse tests below
 // use fresh contexts to exercise the real defaults.
-const OPEN_ALL_SECTIONS = { sections: { all: { DE: false, ES: false, CW: false, AC: false, SI: false, IA: false } } };
+const OPEN_ALL_SECTIONS = { sections: { all: { DE: false, ES: false, CW: false, AC: false, SI: false } } };
 test.beforeEach(async ({ page }) => {
   await page.goto(target);
   await page.waitForSelector("#total");
@@ -31,26 +31,60 @@ test.beforeEach(async ({ page }) => {
 test("loads every action with the right point totals", async ({ page }) => {
   expect(num(await page.textContent("#total"))).toBe(0);
   const items = await page.locator(".item").count();
-  expect(items).toBe(109);
+  expect(items).toBe(124);
+  await expect(page.locator(".cat")).toHaveCount(5);
   const heads = await page.locator(".cat-h .cs").allTextContents();
-  expect(heads.join(" ")).toContain("/ 390 pts");
-  expect(heads.join(" ")).toContain("/ 280 pts");
-  expect(heads.join(" ")).toContain("/ 350 pts");
-  expect(heads.join(" ")).toContain("/ 160 pts");
-  expect(heads.join(" ")).toContain("/ 115 pts");
+  expect(heads.join(" ")).toContain("/ 430 pts");
+  expect(heads.join(" ")).toContain("/ 290 pts");
+  expect(heads.join(" ")).toContain("/ 375 pts");
+  expect(heads.join(" ")).toContain("/ 165 pts");
+  expect(heads.join(" ")).toContain("/ 135 pts");
+  // The one allowed occurrence is the migration toast copy, which the 2026-27 spec
+  // mandates verbatim; no category remnant may remain anywhere else.
+  const scrubbed = (await page.content()).split("Instructor-assigned points are no longer part of the scorecard.").join("");
+  expect(scrubbed).not.toContain("Instructor");
 });
 
-test("toggles, multipliers, and the instructor item change the total", async ({ page }) => {
+test("toggles, multipliers, and repeat caps change the total", async ({ page }) => {
   await page.click("#item-DE-13 .row");
   expect(num(await page.textContent("#total"))).toBe(20);
   await page.click("#item-DE-11 .row");
   await page.click('#item-DE-11 .stp button[data-d="1"]');
   expect(num(await page.textContent("#total"))).toBe(40);
-  await page.click("#item-IA-1 .row");
-  await page.selectOption("#item-IA-1 select", "15");
-  expect(num(await page.textContent("#total"))).toBe(55);
+  // CW-12 is 15 points, repeatable twice: the stepper reaches 30.
+  await page.click("#item-CW-12 .row");
+  await page.click('#item-CW-12 .stp button[data-d="1"]');
+  expect(num(await page.textContent("#total"))).toBe(70);
+  await expect(page.locator("#item-CW-12 .stp .cnt")).toHaveText("×2 of 2");
+  // DE-29 is unlimited but capped at 10 repeats.
+  await page.click("#item-DE-29 .row");
+  for (let i = 0; i < 9; i++) await page.click('#item-DE-29 .stp button[data-d="1"]');
+  expect(num(await page.textContent("#total"))).toBe(170);
+  await expect(page.locator("#item-DE-29 .stp .cnt")).toHaveText("×10");
+  await expect(page.locator('#item-DE-29 .stp button[data-d="1"]')).toBeDisabled();
   await page.click("#item-DE-13 .row");
-  expect(num(await page.textContent("#total"))).toBe(35);
+  expect(num(await page.textContent("#total"))).toBe(150);
+});
+
+test("old saved progress migrates to the 2026-27 codes with a one-time notice", async ({ page }) => {
+  await page.evaluate(([key]) => {
+    localStorage.setItem(key, JSON.stringify({ v: 2, counts: { "CW-10": 1, "IA-1": 1, "DE-13": 1 }, ia: 15 }));
+  }, ["cas-planner-v2"]);
+  await page.reload();
+  await page.waitForSelector("#total");
+  expect(num(await page.textContent("#total"))).toBe(30); // CW-10A 10 + DE-13 20
+  await expect(page.locator("#toast.show")).toContainText("Updated to the 2026-27 scorecard");
+  const stored = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), "cas-planner-v2");
+  expect(stored.v).toBe(3);
+  expect(stored.counts["CW-10A"]).toBe(1);
+  expect(stored.counts["CW-10"]).toBeUndefined();
+  expect(stored.counts["IA-1"]).toBeUndefined();
+  expect(stored.ia).toBeUndefined();
+  await page.reload();
+  await page.waitForSelector("#total");
+  await page.waitForTimeout(400);
+  await expect(page.locator("#toast.show")).toHaveCount(0);
+  expect(num(await page.textContent("#total"))).toBe(30);
 });
 
 test("award levels move with the total", async ({ page }) => {
@@ -93,7 +127,7 @@ test("export, share link, and import round-trip", async ({ page, context }) => {
   expect(exported.state.counts["AC-5"]).toBe(2);
 
   const share = await page.evaluate(() => {
-    const slim = { v: 2, name: "Shared Person", counts: { "DE-13": 1, "CW-4": 1 }, ia: 10, sub: {}, appr: { "CW-4": true } };
+    const slim = { v: 3, name: "Shared Person", counts: { "DE-13": 1, "CW-4": 1 }, sub: {}, appr: { "CW-4": true } };
     const b64 = (s) => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
     return location.href.split("#")[0] + "#s=" + b64(JSON.stringify(slim));
   });
@@ -128,13 +162,13 @@ test("print sheet lists checked actions with totals", async ({ page }) => {
 });
 
 // ---------- phases ----------
-const scorecard = JSON.parse(fs.readFileSync(path.join(root, "data", "civic-action-scorecard-2024-2025.json"), "utf8"));
+const scorecard = JSON.parse(fs.readFileSync(path.join(root, "data", "civic-action-scorecard-2026-2027.json"), "utf8"));
 const byPhase = { 1: [], 2: [], 3: [], 4: [] };
 for (const a of scorecard.actions) byPhase[a.phase].push(a);
 const singlePass = (p) => byPhase[p].reduce((s, a) => s + a.pts, 0);
 // 10-point, single-completion actions used to build exact point totals in tests below.
-const tens = scorecard.actions.filter((a) => a.pts === 10 && !a.variable && !a.unlimited);
-const stateWith = (codes) => ({ v: 2, name: "", counts: Object.fromEntries(codes.map((c) => [c, 1])), ia: 10, sub: {}, appr: {}, notes: {}, updated: 1 });
+const tens = scorecard.actions.filter((a) => a.pts === 10 && a.max === 1 && !a.unlimited);
+const stateWith = (codes) => ({ v: 3, name: "", counts: Object.fromEntries(codes.map((c) => [c, 1])), sub: {}, appr: {}, notes: {}, updated: 1 });
 
 async function goPhase(page, hash) {
   await page.evaluate((h) => { location.hash = h; }, hash);
@@ -149,9 +183,8 @@ test("each phase view lists exactly its assigned actions", async ({ page }) => {
   }
 });
 
-test("phase totals match 150/270/430/230 single-pass points from the data", async ({ page }) => {
-  expect([1, 2, 3, 4].map(singlePass)).toEqual([150, 270, 430, 230]);
-  expect([1, 2, 3, 4].map((p) => byPhase[p].length)).toEqual([24, 36, 35, 14]);
+test("phase counts are 27/47/36/14 and phase pages show data-derived totals", async ({ page }) => {
+  expect([1, 2, 3, 4].map((p) => byPhase[p].length)).toEqual([27, 47, 36, 14]);
   for (const p of [1, 2, 3, 4]) {
     await goPhase(page, "#phase/" + p);
     await expect(page.locator("#phase-prog")).toHaveText(`0 of ${byPhase[p].length} checked, 0 of ${singlePass(p)} points`);
@@ -192,9 +225,9 @@ test("unlock toast fires once when crossing 100 and not again after reload", asy
   await expect(page.locator("#toast.show")).toHaveCount(0);
 });
 
-test("#all still lists all 109 actions", async ({ page }) => {
+test("#all still lists all 124 actions", async ({ page }) => {
   await page.evaluate(() => { location.hash = "#all"; });
-  await expect(page.locator(".item")).toHaveCount(109);
+  await expect(page.locator(".item")).toHaveCount(124);
   const navAll = page.locator('.nav a[href="#all"]');
   await expect(navAll).toHaveAttribute("aria-current", "page");
 });
@@ -208,6 +241,9 @@ test("page reads without scripts", async ({ browser }) => {
   await expect(page.locator(".home-intro")).toContainText("Civic Action Scorecard");
   expect(await page.locator(".pcard").count()).toBe(4);
   await expect(page.locator("#total")).toHaveText(/0\s*PTS/);
+  // The no-JS page still carries all 124 actions in its embedded data.
+  const embedded = await page.evaluate(() => JSON.parse(document.getElementById("cas-config").textContent).actions.length);
+  expect(embedded).toBe(124);
   await ctx.close();
 });
 
@@ -347,27 +383,25 @@ test("breadth chip counts categories across phases and turns ok at four", async 
 });
 
 test("floor note appears only on phases with a listed exception", async ({ page }) => {
-  await goPhase(page, "#phase/2");
-  await expect(page.locator("#floor-note")).toContainText("Social Innovation has fewer starter actions");
   await goPhase(page, "#phase/3");
-  await expect(page.locator("#floor-note")).toContainText("Social Innovation");
-  await goPhase(page, "#phase/1");
-  await expect(page.locator("#floor-note")).toHaveCount(0);
-  await goPhase(page, "#phase/4");
-  await expect(page.locator("#floor-note")).toHaveCount(0);
+  await expect(page.locator("#floor-note")).toContainText("Social Innovation has fewer starter actions");
+  for (const p of [1, 2, 4]) {
+    await goPhase(page, "#phase/" + p);
+    await expect(page.locator("#floor-note")).toHaveCount(0);
+  }
 });
 
 // ---------- collapsible sections (fresh contexts: real defaults, no harness seed) ----------
-test("#all starts with six collapsed sections that still show counts", async ({ browser }) => {
+test("#all starts with five collapsed sections that still show counts", async ({ browser }) => {
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
   await page.goto(target + "#all");
   await page.waitForSelector(".cat");
-  await expect(page.locator(".cat")).toHaveCount(6);
-  await expect(page.locator(".cat.closed")).toHaveCount(6);
+  await expect(page.locator(".cat")).toHaveCount(5);
+  await expect(page.locator(".cat.closed")).toHaveCount(5);
   await expect(page.locator("#rows-DE")).toBeHidden();
   await expect(page.locator("#cs-DE")).toBeVisible();
-  await expect(page.locator("#cs-DE")).toContainText("0 of 34 checked");
+  await expect(page.locator("#cs-DE")).toContainText("0 of 40 checked");
   await expect(page.locator("#cat-DE .cat-h")).toHaveAttribute("aria-expanded", "false");
   await ctx.close();
 });

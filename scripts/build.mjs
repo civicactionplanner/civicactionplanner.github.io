@@ -12,7 +12,7 @@ const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
 
 const template = read("src/planner.template.html");
 const config = JSON.parse(read("data/planner-config.json"));
-const scorecard = JSON.parse(read("data/civic-action-scorecard-2024-2025.json"));
+const scorecard = JSON.parse(read("data/civic-action-scorecard-2026-2027.json"));
 
 // Firebase web config (public by design). Missing/empty file => guest-only build:
 // no SDK is loaded and the account control is not rendered.
@@ -52,7 +52,7 @@ for (const a of merged.actions) {
   if (!a.code || codes.has(a.code)) throw new Error(`Duplicate or missing action code: ${a.code}`);
   codes.add(a.code);
   if (!merged.cats.some((c) => c.id === a.cat)) throw new Error(`${a.code}: unknown category ${a.cat}`);
-  if (!a.variable && !(Number.isInteger(a.pts) && a.pts > 0)) throw new Error(`${a.code}: points must be a positive integer`);
+  if (!(Number.isInteger(a.pts) && a.pts > 0)) throw new Error(`${a.code}: points must be a positive integer`);
   if (!(Number.isInteger(a.max) && a.max >= 1)) throw new Error(`${a.code}: max must be an integer >= 1`);
 }
 // Theme guard: every custom property set in a dark-theme block must first exist on
@@ -70,8 +70,8 @@ for (const a of merged.actions) {
   if (missing.size) throw new Error("Colors defined only in a dark theme block (add them to bare :root): --" + [...missing].join(", --"));
 }
 
-// Every action carries a phase, and the split is exactly the reviewed 24/36/35/14.
-const PHASE_COUNTS = { 1: 24, 2: 36, 3: 35, 4: 14 };
+// Every action carries a phase, and the split is exactly the reviewed 27/47/36/14.
+const PHASE_COUNTS = { 1: 27, 2: 47, 3: 36, 4: 14 };
 const phaseSeen = { 1: 0, 2: 0, 3: 0, 4: 0 };
 for (const a of merged.actions) {
   if (!Number.isInteger(a.phase) || a.phase < 1 || a.phase > 4) throw new Error(`${a.code}: missing or invalid phase (must be 1-4)`);
@@ -112,7 +112,7 @@ for (const [i, ph] of merged.phases.entries()) {
 for (const c of merged.cats) {
   const possible = merged.actions
     .filter((a) => a.cat === c.id)
-    .reduce((s, a) => s + (a.variable ? 15 : a.unlimited ? a.pts : a.pts * a.max), 0);
+    .reduce((s, a) => s + (a.unlimited ? a.pts : a.pts * a.max), 0);
   if (c.possible !== possible) {
     console.warn(`Note: ${c.id} "possible" was ${c.possible}; recomputed to ${possible} from the actions.`);
     c.possible = possible;

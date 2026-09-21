@@ -31,7 +31,7 @@ window.casCloud = {
     if (!u) return;
     await setDoc(doc(db, "users", u.uid), {
       displayName: u.displayName || "", email: u.email || "", uid: u.uid,
-      name: s.name || "", counts: s.counts || {}, ia: s.ia, sub: s.sub || {}, appr: s.appr || {}, notes: s.notes || {},
+      name: s.name || "", counts: s.counts || {}, sub: s.sub || {}, appr: s.appr || {}, notes: s.notes || {},
       updated: s.updated || 0, updatedAt: serverTimestamp(),
     });
   },

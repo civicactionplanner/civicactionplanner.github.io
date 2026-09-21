@@ -150,9 +150,6 @@ a{color:var(--primary)}
 .tile .tv small{font-size:15px;color:var(--ink-3);letter-spacing:.03em}
 .bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
 .bar i{display:block;height:100%;background:var(--c);border-radius:3px;transition:width .4s cubic-bezier(.2,.7,.2,1)}
-.tile.ia{grid-column:span 2;display:flex;align-items:center;gap:14px;padding:10px 14px}
-.tile.ia .tv{margin:0;font-size:26px}
-.tile.ia .tn{flex:1}
 
 /* banner + toast */
 .banner{background:var(--info-bg);border:1px solid var(--line-2);border-radius:10px;padding:10px 14px;margin:16px 0 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px}
@@ -266,7 +263,6 @@ a{color:var(--primary)}
 .stp button:hover{background:var(--surface-2);color:var(--ink)}
 .stp button:disabled{opacity:.35;cursor:default}
 .stp .cnt{min-width:44px;text-align:center;font-weight:600;font-size:13.5px;letter-spacing:.03em}
-.stp select{border:0;background:transparent;height:28px;padding:0 8px;font-weight:600;font-size:13.5px;color:var(--ink);cursor:pointer}
 .pts{text-align:right;line-height:1}
 .pts .pv{font-size:28px;color:var(--ink-3)}
 .item.on .pts .pv{color:var(--ct,var(--c))}
@@ -374,18 +370,37 @@ a{color:var(--primary)}
   var TIERS = CFG.tiers.map(function(t){ return {n:t.name, p:t.points, c:"var(--"+t.name.toLowerCase()+")"}; });
   var TOP = TIERS[TIERS.length-1].p;
   var LS_KEY = "cas-planner-v2";
-  var CATVAR = {DE:"--de",ES:"--es",CW:"--cw",AC:"--ac",SI:"--si",IA:"--ia"};
+  var CATVAR = {DE:"--de",ES:"--es",CW:"--cw",AC:"--ac",SI:"--si"};
   var byCode = {};
   DATA.actions.forEach(function(a){ byCode[a.code] = a; });
 
   // ---------- state ----------
-  function blank(){ return {v:2, name:"", counts:{}, ia:10, sub:{}, appr:{}, notes:{}, unlocked:{}, updated:0}; }
+  function blank(){ return {v:3, name:"", counts:{}, sub:{}, appr:{}, notes:{}, unlocked:{}, updated:0}; }
+  // 2026-27 migration: CW-10 became CW-10A, the instructor-assigned category (IA-1
+  // and its stored points value) is gone. Runs on every stored, imported, shared,
+  // and cloud copy so old keys cannot come back from anywhere.
+  function migrateState(s){
+    var changed = false;
+    if (!s || typeof s !== "object") return {state: s, changed: false};
+    ["counts", "sub", "appr", "notes"].forEach(function(k){
+      var m = s[k];
+      if (!m || typeof m !== "object") return;
+      if (Object.prototype.hasOwnProperty.call(m, "CW-10")){
+        if (!Object.prototype.hasOwnProperty.call(m, "CW-10A")) m["CW-10A"] = m["CW-10"];
+        delete m["CW-10"]; changed = true;
+      }
+      if (Object.prototype.hasOwnProperty.call(m, "IA-1")){ delete m["IA-1"]; changed = true; }
+    });
+    if (Object.prototype.hasOwnProperty.call(s, "ia")){ delete s.ia; changed = true; }
+    s.v = 3;
+    return {state: s, changed: changed};
+  }
   function normalize(s){
     var b = blank();
     if (!s || typeof s !== "object") return b;
+    s = migrateState(s).state;
     b.name = typeof s.name === "string" ? s.name : "";
     b.counts = s.counts && typeof s.counts === "object" ? s.counts : {};
-    b.ia = typeof s.ia === "number" ? s.ia : 10;
     b.sub = s.sub && typeof s.sub === "object" ? s.sub : {};
     b.appr = s.appr && typeof s.appr === "object" ? s.appr : {};
     b.notes = s.notes && typeof s.notes === "object" ? s.notes : {};
@@ -394,8 +409,16 @@ a{color:var(--primary)}
     Object.keys(b.counts).forEach(function(k){ if (!byCode[k] || !(b.counts[k] > 0)) delete b.counts[k]; });
     return b;
   }
+  var migrationNotice = false;
   function loadState(){
-    try { var raw = localStorage.getItem(LS_KEY); if (raw) return normalize(JSON.parse(raw)); } catch(e){}
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (raw){
+        var mig = migrateState(JSON.parse(raw));
+        if (mig.changed) migrationNotice = true;
+        return normalize(mig.state);
+      }
+    } catch(e){}
     return blank();
   }
   var state = loadState();
@@ -423,7 +446,6 @@ a{color:var(--primary)}
   function ptsFor(a){
     var n = state.counts[a.code] || 0;
     if (!n) return 0;
-    if (a.variable) return state.ia;
     return a.pts * n;
   }
   function totals(){
@@ -645,7 +667,7 @@ a{color:var(--primary)}
   // ---------- cloud save (storage adapter: local always, cloud when signed in) ----------
   var BK_KEY = LS_KEY + "-backup";
   var cloudUser = null, cloudTimer = null, cloudDirty = false, acctMenuOpen = false;
-  function cloudSnapshot(){ return {name:state.name, counts:state.counts, ia:state.ia, sub:state.sub, appr:state.appr, notes:state.notes, updated:state.updated}; }
+  function cloudSnapshot(){ return {name:state.name, counts:state.counts, sub:state.sub, appr:state.appr, notes:state.notes, updated:state.updated}; }
   function setChip(){
     var c = document.getElementById("save-chip"); if (!c) return;
     var t = cloudUser ? "Saved to your account" : "Saved on this device only";
@@ -963,16 +985,13 @@ __MERGE__
   }
   function tilesHtml(){
     var t = totals();
-    var tiles = DATA.cats.filter(function(c){return c.id!=="IA";}).map(function(c){
+    return DATA.cats.map(function(c){
       var x = t[c.id];
       return '<a class="tile" href="#cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+')">' +
         '<div class="tn"><span>'+esc(c.name)+'</span><span>'+x.done+' of '+x.total+'</span></div>' +
         '<div class="tv disp">'+x.checked+'<small> / '+c.possible+' pts</small></div>' +
         '<div class="bar"><i style="width:'+Math.min(100,x.checked/c.possible*100)+'%"></i></div></a>';
     }).join("");
-    var ia = t.IA;
-    tiles += '<a class="tile ia" href="#cat-IA" style="--c:var(--ia)"><div class="tn"><span>Instructor assigned</span><span>'+(ia.done?'set to '+state.ia+' pts':'not used')+'</span></div><div class="tv disp">'+ia.checked+'</div></a>';
-    return tiles;
   }
   function renderSummary(){
     var el = document.getElementById("summary");
@@ -1032,8 +1051,8 @@ __MERGE__
     if (a.req) meta.push('<span class="req">'+esc(a.req)+'</span>');
     if (a.max > 1 && !a.unlimited) meta.push('<span class="req">Up to ×'+a.max+' = '+(a.pts*a.max)+' pts</span>');
     var metaHtml = meta.length ? '<div class="meta">'+meta.join("")+'</div>' : '';
-    var pm = a.variable ? '5 to 15 pts' : a.unlimited ? 'per election' : a.max > 1 ? 'each' : 'pts';
-    var pv = on ? ptsFor(a) : (a.variable ? '5+' : a.pts);
+    var pm = a.unlimited ? 'per election' : a.max > 1 ? 'each' : 'pts';
+    var pv = on ? ptsFor(a) : a.pts;
     return '<div class="item'+(on?' on':'')+(open?' open':'')+'" id="item-'+a.code+'" data-code="'+a.code+'">' +
       '<div class="row" role="checkbox" aria-checked="'+on+'" tabindex="0" aria-label="'+esc(a.code+" "+a.title)+'">' +
         '<span class="tog" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>' +
@@ -1048,14 +1067,11 @@ __MERGE__
   }
   function renderStepper(a, n){
     if (!n) return '<span></span>';
-    if (a.variable){
-      var opts = [5,10,15].map(function(v){ return '<option value="'+v+'"'+(state.ia===v?' selected':'')+'>'+v+' pts</option>'; }).join("");
-      return '<span class="stp" data-stop="1"><select aria-label="Points for the instructor-assigned action">'+opts+'</select></span>';
-    }
-    if (a.max <= 1) return '<span></span>';
+    if (a.max <= 1 && !a.unlimited) return '<span></span>';
+    var plusOff = a.unlimited ? n >= 10 : n >= a.max;
     return '<span class="stp" data-stop="1"><button type="button" data-d="-1" aria-label="One fewer completion"'+(n<=1?' disabled':'')+'>−</button>' +
       '<span class="cnt">×'+n+(a.unlimited?'':' of '+a.max)+'</span>' +
-      '<button type="button" data-d="1" aria-label="One more completion"'+(n>=a.max?' disabled':'')+'>+</button></span>';
+      '<button type="button" data-d="1" aria-label="One more completion"'+(plusOff?' disabled':'')+'>+</button></span>';
   }
   function renderDetails(a){
     var nt = state.notes[a.code] || {};
@@ -1116,11 +1132,6 @@ __MERGE__
           var nb = document.querySelector("#item-"+code+" .stp button[data-d='"+d+"']"); if (nb && !nb.disabled) nb.focus();
         });
       });
-      var sel = stp.querySelector("select");
-      if (sel){
-        sel.addEventListener("click", function(e){ e.stopPropagation(); });
-        sel.addEventListener("change", function(e){ e.stopPropagation(); state.ia = parseInt(sel.value,10); commit(); refreshItem(a); });
-      }
     }
     if (it.classList.contains("open")) wireDetails(it, a);
   }
@@ -1152,7 +1163,7 @@ __MERGE__
   }
   function reflectionText(a){
     var nt = state.notes[a.code] || {};
-    var lines = [a.code+" · "+a.title+" ("+(a.variable ? state.ia : a.pts)+" pts"+(state.counts[a.code] > 1 ? ", completion ×"+state.counts[a.code] : "")+")"];
+    var lines = [a.code+" · "+a.title+" ("+a.pts+" pts"+(state.counts[a.code] > 1 ? ", completion ×"+state.counts[a.code] : "")+")"];
     if (a.doc) lines.push("Documentation: "+a.doc);
     lines.push("");
     [["what","WHAT?"],["sowhat","SO WHAT?"],["nowwhat","NOW WHAT?"]].forEach(function(p){
@@ -1186,7 +1197,7 @@ __MERGE__
     r.readAsText(f);
   }
   function shareLink(){
-    var slim = {v:2, name:state.name, counts:state.counts, ia:state.ia, sub:state.sub, appr:state.appr};
+    var slim = {v:3, name:state.name, counts:state.counts, sub:state.sub, appr:state.appr};
     var url = location.href.split("#")[0] + "#s=" + b64url(JSON.stringify(slim));
     copyText(url).then(function(){ toast("Share link copied (checks and statuses only, not drafts)."); }, function(){ toast("Couldn't copy. The link is in the address bar."); location.hash = "s=" + b64url(JSON.stringify(slim)); });
   }
@@ -1194,7 +1205,7 @@ __MERGE__
     var m = /[#&]s=([A-Za-z0-9_-]+)/.exec(location.hash); if (!m) return;
     var incoming;
     try { incoming = normalize(JSON.parse(unb64url(m[1]))); } catch(e){ return; }
-    var t = 0; DATA.actions.forEach(function(a){ var n = incoming.counts[a.code]||0; if (n) t += a.variable ? incoming.ia : a.pts*n; });
+    var t = 0; DATA.actions.forEach(function(a){ var n = incoming.counts[a.code]||0; if (n) t += a.pts*n; });
     var b = document.getElementById("banner");
     b.innerHTML = '<div class="banner"><span class="sp">This link carries a shared progress snapshot'+(incoming.name ? ' for <b>'+esc(incoming.name)+'</b>' : '')+' worth <b>'+t+' points</b>. Load it here? It replaces the checks saved in this browser (drafts are kept).</span><button class="btn primary" id="sh-load" type="button">Load snapshot</button><button class="btn" id="sh-ignore" type="button">Ignore</button></div>';
     document.getElementById("sh-load").addEventListener("click", function(){
@@ -1233,6 +1244,10 @@ __MERGE__
   lastTotal = totals().all.checked;
   TIERS.forEach(function(tr){ if (lastTotal >= tr.p) state.unlocked[tr.n.toLowerCase()] = true; });
   renderShell();
+  if (migrationNotice){
+    saveLocal();
+    toast("Updated to the 2026-27 scorecard. Unify Challenge progress kept its checkmark under a new code. Instructor-assigned points are no longer part of the scorecard.");
+  }
 })();
 </script>
 __FIREBASE__

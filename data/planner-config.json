@@ -37,7 +37,6 @@
   ],
   "phaseFloors": {"1": 4, "2": 3, "3": 3, "4": 2},
   "floorExceptions": [
-    {"phase": 2, "cat": "SI", "count": 1},
     {"phase": 3, "cat": "SI", "count": 2}
   ],
   "floorNote": "{category} has fewer starter actions; the rest arrive in later phases.",
