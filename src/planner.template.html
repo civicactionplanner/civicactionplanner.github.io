@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Civic Action Scorecard Planner</title>
 <meta name="description" content="Plan, track, and prepare Civic Action Scorecard submissions: every action and point value, documentation requirements, reflection prompts, and live progress toward Bronze, Silver, and Gold.">
+<link rel="preload" href="assets/img/hero.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -133,6 +134,37 @@ a{color:var(--primary)}
 .btn.primary:hover{opacity:.9}
 .name{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:13px;min-width:160px}
 .name::placeholder{color:var(--ink-3)}
+
+/* photo bands: overlay on top, photo in the middle, gradient underneath so the
+   band paints instantly and still looks right if the photo never arrives */
+.band{background-image:linear-gradient(var(--band-overlay),var(--band-overlay)),var(--band-img,none),linear-gradient(120deg,var(--band-1),var(--band-2));background-size:cover;background-position:center;color:var(--band-ink)}
+.cat-h.band,.ph.band,.ph.band.locked,.foot.band{background-image:linear-gradient(var(--band-overlay),var(--band-overlay)),var(--band-img,none),linear-gradient(120deg,var(--band-1),var(--band-2));background-size:cover;background-position:center}
+.ph.band.locked h2,.ph.band.locked .ph-prog{color:var(--band-ink)}
+.ph.band.locked .ph-no,.ph.band.locked .ph-tag{color:var(--band-ink-2)}
+.home-band{margin:0 calc(50% - 50vw) 16px;padding:30px 20px}
+.home-band .home-intro{color:var(--band-ink);max-width:1120px;margin:0 auto;font-size:15.5px;line-height:1.6}
+.cat-h.band{border-radius:10px;padding:12px 14px 10px;margin-bottom:8px;border-bottom:3px solid var(--c)}
+.cat-h.band h2{color:var(--band-ink)}
+.cat-h.band .code,.cat-h.band .tag,.cat-h.band .cs,.cat-h.band .cat-chev{color:var(--band-ink-2)}
+.cat-h.band .cs b{color:var(--band-ink)}
+.cat-h.band .bar{background:rgba(255,255,255,.25)}
+.cat-h.band:hover .cat-chev{color:var(--band-ink)}
+.ph.band{border:0;border-left:5px solid var(--pc,var(--band-1))}
+.ph.band h2,.ph.band .ph-prog{color:var(--band-ink)}
+.ph.band .ph-no,.ph.band .ph-tag,.ph.band .ph-rule,.ph.band .ph-breadth,.ph.band .ph-why,.ph.band .floor-note,.ph.band .cov-cap{color:var(--band-ink-2)}
+.ph.band .sug{color:var(--band-ink)}
+.ph.band .sug a{color:var(--band-ink);text-decoration:underline}
+.ph.band .cov-dot{box-shadow:0 0 0 1.5px var(--band-ink-2)}
+.ph.band.locked{--band-overlay:rgba(72,80,98,.88)}
+.how-band{border-radius:12px;padding:26px 22px;margin:18px 0 14px}
+.how-band h2{color:var(--band-ink);margin:0}
+.foot-band{border-radius:12px;padding:18px 20px;margin-top:30px;border-top:0;color:var(--band-ink-2)}
+.foot-band a,.foot-band .btn-link{color:var(--band-ink)}
+@media (max-width:640px){
+  .home-band{padding:12px 14px;margin-bottom:8px}
+  .home-band .home-intro{font-size:12.5px;line-height:1.45}
+  .how-band{padding:18px 14px}
+}
 
 /* summary */
 .summary{display:grid;grid-template-columns:minmax(280px,1.1fr) 1.4fr;gap:20px;margin:22px 0 18px}
@@ -334,7 +366,9 @@ dialog.about a{color:var(--primary)}
   .wrap{padding:0 12px calc(64px + env(safe-area-inset-bottom))}
   .home-intro{font-size:13px;line-height:1.45;margin:6px 0 5px}
   .cont-row{margin:0 0 6px}
-  .pcards{gap:4px;margin:7px 0 6px}
+  .pcards{gap:3px;margin:5px 0 5px}
+  .pc-cov{margin-top:0}
+  .cov-cap{font-size:10.5px}
   .pcard{padding:6px 10px;gap:2px}
   .pcard .pc-name{font-size:19px}
   .pcard .pc-tag{font-size:12px;line-height:1.3}
@@ -347,11 +381,11 @@ dialog.about a{color:var(--primary)}
   .cov-dot{width:8px;height:8px;border-width:1.5px}
   .cov-cap{font-size:11px}
   .bchip{font-size:11px;padding:2px 7px}
-  .hero.compact{padding:10px 12px 8px;gap:3px}
-  .hero.compact .num{font-size:36px}
-  .hero.compact .award{font-size:12.5px}
-  .hero.compact .lbl{font-size:11px}
-  .hero.compact .meter{margin:8px 0 33px}
+  .hero.compact{padding:8px 12px 7px;gap:2px}
+  .hero.compact .num{font-size:34px}
+  .hero.compact .award{font-size:12px}
+  .hero.compact .lbl{font-size:10.5px}
+  .hero.compact .meter{margin:7px 0 31px}
   .row{grid-template-columns:28px 1fr 56px 30px;gap:10px;padding:10px 2px}
   .row .code{grid-column:2;font-size:12px}
   .row .tx{grid-column:2}
@@ -597,12 +631,13 @@ dialog.about a{color:var(--primary)}
     if (!cats.length) return "";
     return '<div class="floor-note" id="floor-note">'+cats.map(function(c){ return esc(CFG.floorNote.replace("{category}", catOf(c).name)); }).join(" ")+'</div>';
   }
+  var PHASE_IMG = {1:"hero", 2:"cw", 3:"es", 4:"ac"};
   function phaseHeadHtml(){
     if (route.view !== "phase") return "";
     var p = phaseDef(route.n), st = phaseStats(p.number), total = totals().all.checked;
     var locked = total < p.unlockPoints;
     var rule = p.unlockPoints ? "Recommended after "+p.unlockPoints+" points ("+esc(p.name)+" award)." : "Open from the beginning.";
-    var html = '<section class="ph'+(locked?' locked':'')+'" id="phase-head" style="--pc:var('+PHASE_ACCENT[p.number]+')">' +
+    var html = '<section class="ph band'+(locked?' locked':'')+'" id="phase-head" style="--pc:var('+PHASE_ACCENT[p.number]+');--band-img:url(assets/img/'+PHASE_IMG[p.number]+'.webp)">' +
       '<div class="ph-top"><span class="ph-no cond">Phase '+p.number+'</span><h2 class="disp">'+esc(p.name)+'</h2><span class="ph-tag">'+esc(p.tagline)+'</span></div>' +
       '<div class="ph-rule">'+rule+'</div>' +
       '<div class="ph-breadth">'+BREADTH_LINE+'</div>' +
@@ -816,7 +851,7 @@ __MERGE__
           '<button class="btn" id="btn-share" type="button">Copy share link</button>' +
           '<button class="btn" id="btn-theme" type="button">Theme: Auto</button>' +
         '</div>' +
-        '<footer class="foot">' +
+        '<footer class="foot band foot-band" style="--band-img:url(assets/img/hero.webp)">' +
           '<p>An unofficial student planning tool by Daniel Llobet. Not an MDC or iCED system. Contact: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
           '<p class="foot-links"><button class="btn-link" id="btn-about" type="button">About</button> <a href="#how">How it works</a></p>' +
           (CFG.firebase ? '' : '<p>Saving to an account is not set up on this copy.</p>') +
@@ -935,7 +970,7 @@ __MERGE__
   // and only for the phase the Continue button would open.
   function howHtml(){
     return '<section class="how" id="how-view">' +
-      '<h2 class="disp">How it works</h2>' +
+      '<div class="band how-band" style="--band-img:url(assets/img/how.webp)"><h2 class="disp">How it works</h2></div>' +
       '<h3 class="disp">Submitting an action in EngageMDC</h3>' +
       '<ol class="how-steps">' +
         '<li>Log in at <a href="https://engage.mdc.edu" target="_blank" rel="noopener">engage.mdc.edu</a> with your MDC account.</li>' +
@@ -963,7 +998,7 @@ __MERGE__
   }
   function homeHtml(){
     var hasProgress = Object.keys(state.counts).length > 0;
-    return '<p class="home-intro">'+esc(CFG.homeIntro)+'</p>' +
+    return '<section class="band home-band" style="--band-img:url(assets/img/hero.webp)"><p class="home-intro">'+esc(CFG.homeIntro)+'</p></section>' +
       (hasProgress ? '<div class="cont-row"><button class="btn primary" id="btn-continue" type="button">Continue where you left off</button></div>' : '') +
       '<section class="summary" id="summary" data-mode="hero"></section>' +
       '<div class="pcards" id="pcards">'+CFG.phases.map(pcardHtml).join("")+'</div>' +
@@ -1104,8 +1139,8 @@ __MERGE__
       var rows = mine.map(renderItem).join("");
       var closed = sectionClosed(c.id);
       var feat = c.id === CFG.featuredCat;
-      return '<section class="cat'+(closed?' closed':'')+(feat?' featured':'')+'" id="cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+');--soft:var('+CATVAR[c.id]+'-soft);--ct:var('+CATVAR[c.id]+'-text)">' +
-        '<div class="cat-h" role="button" tabindex="0" aria-expanded="'+(!closed)+'" aria-controls="rows-'+c.id+'">' +
+      return '<section class="cat'+(closed?' closed':'')+(feat?' featured':'')+'" id="cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+');--soft:var('+CATVAR[c.id]+'-soft);--ct:var('+CATVAR[c.id]+'-text);--band-img:url(assets/img/'+c.id.toLowerCase()+'.webp)">' +
+        '<div class="cat-h band" role="button" tabindex="0" aria-expanded="'+(!closed)+'" aria-controls="rows-'+c.id+'">' +
           '<div class="ct"><span class="code cond">'+c.id+'</span><h2 class="disp">'+esc(c.name)+'</h2>'+(feat?'<span class="badge featured">Featured</span>':'')+'</div>' +
           '<div class="tag">'+esc(c.tag)+'</div>' +
           '<div class="cs" id="cs-'+c.id+'"><b>'+x.checked+'</b><span class="cs-x"> / '+c.possible+' pts · '+x.done+' of '+x.total+' checked</span><div class="bar"><i style="width:'+Math.min(100,x.checked/c.possible*100)+'%"></i></div></div>' +

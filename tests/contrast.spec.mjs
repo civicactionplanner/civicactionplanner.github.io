@@ -33,7 +33,7 @@ for (const scheme of ["light", "dark"]) {
     const ctx = await browser.newContext({ colorScheme: scheme, viewport: { width: 390, height: 844 } });
     const page = await ctx.newPage();
     await page.goto(target);
-    await page.waitForSelector(".pcard");
+    await page.waitForSelector(".how-link a");
     const d = await page.evaluate(() => {
       const cs = getComputedStyle(document.documentElement);
       const v = (n) => cs.getPropertyValue(n).trim();
@@ -44,7 +44,10 @@ for (const scheme of ["light", "dark"]) {
         catText: { DE: v("--de-text"), ES: v("--es-text"), CW: v("--cw-text"), AC: v("--ac-text"), SI: v("--si-text"), IA: v("--ia-text") },
         topbarBg: c(".top", "backgroundColor"),
         topbarText: c(".brand h1", "color"),
-        link: c(".foot a", "color"),
+        link: c(".how-link a", "color"),
+        bandOverlay: v("--band-overlay"),
+        bandInk: v("--band-ink"),
+        bandInk2: v("--band-ink-2"),
         pillFg: c(".pcard .pc-pill", "color"),
         pillBg: c(".pcard .pc-pill", "backgroundColor"),
         laterPillFg: c(".pcard.later .pc-pill", "color"),
@@ -64,6 +67,15 @@ for (const scheme of ["light", "dark"]) {
     expect(ratio(d.pillFg, d.pillBg), "status pill text on its background").toBeGreaterThanOrEqual(4.5);
     expect(ratio(d.laterPillFg, d.laterCardBg), "later pill text on its background").toBeGreaterThanOrEqual(4.5);
     expect(ratio(d.tabFg, d.tabBg), "tab label on tab bar").toBeGreaterThanOrEqual(4.5);
+    // Band text worst case: the rgba overlay composited over pure white (the
+    // lightest pixel any photo could put behind it) must still carry the text.
+    const om = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/.exec(d.bandOverlay);
+    expect(om, "band overlay is rgba").toBeTruthy();
+    const a = parseFloat(om[4]);
+    const comp = [om[1], om[2], om[3]].map((ch) => Math.round(a * +ch + (1 - a) * 255));
+    const compCss = `rgb(${comp[0]}, ${comp[1]}, ${comp[2]})`;
+    expect(ratio(d.bandInk, compCss), "band text on worst-case band").toBeGreaterThanOrEqual(4.5);
+    expect(ratio(d.bandInk2, compCss), "band secondary text on worst-case band").toBeGreaterThanOrEqual(4.5);
     if (scheme === "light") expect(d.topbarBg).toBe("rgb(0, 50, 160)"); // MDC Blue, Pantone 286
     const fonts = await page.evaluate(async () => {
       await document.fonts.ready;

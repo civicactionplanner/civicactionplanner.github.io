@@ -644,6 +644,20 @@ test("How it works explains EngageMDC submission and the planner", async ({ page
   await expect(page.locator('.how-link a')).toHaveText("How it works");
 });
 
+test("banner images stay inside the weight budget", async () => {
+  const dir = path.join(root, "assets", "img");
+  const files = fs.readdirSync(dir);
+  expect(files.length).toBeGreaterThanOrEqual(7);
+  let total = 0;
+  for (const f of files) {
+    expect(f.endsWith(".webp"), `${f} must be WebP`).toBe(true);
+    const size = fs.statSync(path.join(dir, f)).size;
+    total += size;
+    if (f === "hero.webp") expect(size, "hero under 120KB").toBeLessThanOrEqual(120 * 1024);
+  }
+  expect(total, "all banner images under 500KB").toBeLessThanOrEqual(500 * 1024);
+});
+
 // ---------- accounts (build variants; no real Firebase project needed) ----------
 test("guest build: empty firebase config hides accounts and everything still works", async ({ browser }) => {
   const out = path.join(root, ".guest-test.html");
