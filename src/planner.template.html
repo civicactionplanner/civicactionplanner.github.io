@@ -8,18 +8,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap">
 <style>
 :root{
-  --bg:#FFF8F0; --surface:#FFFFFF; --surface-2:#F5EFE4; --ink:#14213D; --ink-2:#5B6770; --ink-3:#7C8791;
-  --line:#E6DED1; --line-2:#D4CBBD; --focus:#0032A0;
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#F3F6FC; --ink:#14213D; --ink-2:#5B6770; --ink-3:#7C8791;
+  --line:#E4E9F2; --line-2:#CBD5E4; --focus:#0032A0;
   --primary:#0032A0; --primary-soft:#E4EAF8; --primary-contrast:#FFFFFF;
   --topbar-bg:#0032A0; --topbar-ink:#FFFFFF; --topbar-ink-2:#C9D4EE; --topbar-line:#3A5FBE;
+  --band-1:#0032A0; --band-2:#22468E; --band-ink:#FFFFFF; --band-ink-2:#C9D4EE; --band-overlay:rgba(10,44,120,.85);
   --accent:#C8690A; --accent-soft:#F8E7D4; --accent-text:#9A4F06; --accent-contrast:#FFFFFF;
   --de:#2450B0; --es:#0E8F7A; --cw:#D6472A; --ac:#C89A00; --si:#7A4DB8; --ia:#5B6770;
-  --de-soft:#E5E4E8; --es-soft:#E2EBE2; --cw-soft:#FAE3D8; --ac-soft:#F8EDD3; --si-soft:#EFE3E9; --ia-soft:#EBE7E1;
+  --de-soft:#E5EAF6; --es-soft:#E2F2EF; --cw-soft:#FAE9E5; --ac-soft:#F8F3E0; --si-soft:#EFEAF7; --ia-soft:#EBEDEE;
   --de-text:#2450B0; --es-text:#0A6E5E; --cw-text:#B23518; --ac-text:#8A6A00; --si-text:#7A4DB8; --ia-text:#5B6770;
   --chip-ok:#62D9BF; --featured-tint:rgba(122,77,184,.08);
-  --ok:#0E8F7A; --ok-bg:#DDF2ED; --warn:#8A6A00; --warn-bg:#F8EFCF; --info-bg:#E4EAF8;
+  --ok:#0E8F7A; --ok-bg:#DDF2ED; --warn:#8A6A00; --warn-bg:#F8EFCF; --info-bg:#FBF2D8;
   --bronze:#B06F3B; --silver:#7C8794; --gold:#C79A16;
-  --shadow:0 1px 0 rgba(20,33,61,.04), 0 6px 20px rgba(20,33,61,.06);
+  --shadow:0 1px 0 rgba(20,33,61,.05), 0 6px 20px rgba(20,33,61,.08);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -27,6 +28,7 @@
     --line:#2B3D7A; --line-2:#3A4E90; --focus:#8FB0FF;
     --primary:#8FB0FF; --primary-soft:#1E3372; --primary-contrast:#0C1A45;
     --topbar-bg:#071233; --topbar-ink:#F3EDE3; --topbar-ink-2:#98A0B5; --topbar-line:#22315E;
+    --band-1:#071233; --band-2:#13245C; --band-ink:#F3EDE3; --band-ink-2:#98A0B5; --band-overlay:rgba(7,18,51,.88);
     --accent:#E08A33; --accent-soft:#252743; --accent-text:#F0AC6B; --accent-contrast:#0C1A45;
     --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#8A94A8;
     --de-soft:#162756; --es-soft:#0E2B4E; --cw-soft:#231F42; --ac-soft:#21283F; --si-soft:#1D2557; --ia-soft:#1B2951;
@@ -42,6 +44,7 @@
   --line:#2B3D7A; --line-2:#3A4E90; --focus:#8FB0FF;
   --primary:#8FB0FF; --primary-soft:#1E3372; --primary-contrast:#0C1A45;
   --topbar-bg:#071233; --topbar-ink:#F3EDE3; --topbar-ink-2:#98A0B5; --topbar-line:#22315E;
+  --band-1:#071233; --band-2:#13245C; --band-ink:#F3EDE3; --band-ink-2:#98A0B5; --band-overlay:rgba(7,18,51,.88);
   --accent:#E08A33; --accent-soft:#252743; --accent-text:#F0AC6B; --accent-contrast:#0C1A45;
   --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#8A94A8;
   --de-soft:#162756; --es-soft:#0E2B4E; --cw-soft:#231F42; --ac-soft:#21283F; --si-soft:#1D2557; --ia-soft:#1B2951;
