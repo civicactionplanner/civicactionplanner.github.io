@@ -18,7 +18,7 @@
   --de:#2450B0; --es:#0E8F7A; --cw:#D6472A; --ac:#C89A00; --si:#7A4DB8; --ia:#5B6770;
   --de-soft:#E5EAF6; --es-soft:#E2F2EF; --cw-soft:#FAE9E5; --ac-soft:#F8F3E0; --si-soft:#EFEAF7; --ia-soft:#EBEDEE;
   --de-text:#2450B0; --es-text:#0A6E5E; --cw-text:#B23518; --ac-text:#8A6A00; --si-text:#7A4DB8; --ia-text:#5B6770;
-  --chip-ok:#62D9BF; --featured-tint:rgba(122,77,184,.08);
+  --chip-ok:#62D9BF; --featured-tint:rgba(122,77,184,.08); --lightband-overlay:rgba(255,255,255,.90);
   --ok:#0E8F7A; --ok-bg:#DDF2ED; --warn:#8A6A00; --warn-bg:#F8EFCF; --info-bg:#FBF2D8;
   --bronze:#B06F3B; --silver:#7C8794; --gold:#C79A16;
   --shadow:0 1px 0 rgba(20,33,61,.05), 0 6px 20px rgba(20,33,61,.08);
@@ -30,6 +30,8 @@
     --primary:#8FB0FF; --primary-soft:#1E3372; --primary-contrast:#0C1A45;
     --topbar-bg:#071233; --topbar-ink:#F3EDE3; --topbar-ink-2:#98A0B5; --topbar-line:#22315E;
     --band-1:#071233; --band-2:#13245C; --band-ink:#F3EDE3; --band-ink-2:#98A0B5; --band-overlay:rgba(7,18,51,.88);
+  --lightband-overlay:rgba(19,36,92,.92);
+    --lightband-overlay:rgba(19,36,92,.92);
     --accent:#E08A33; --accent-soft:#252743; --accent-text:#F0AC6B; --accent-contrast:#0C1A45;
     --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#8A94A8;
     --de-soft:#162756; --es-soft:#0E2B4E; --cw-soft:#231F42; --ac-soft:#21283F; --si-soft:#1D2557; --ia-soft:#1B2951;
@@ -138,7 +140,7 @@ a{color:var(--primary)}
 /* photo bands: overlay on top, photo in the middle, gradient underneath so the
    band paints instantly and still looks right if the photo never arrives */
 .band{background-image:linear-gradient(var(--band-overlay),var(--band-overlay)),var(--band-img,none),linear-gradient(120deg,var(--band-1),var(--band-2));background-size:cover;background-position:center;color:var(--band-ink)}
-.cat-h.band,.ph.band,.ph.band.locked,.foot.band{background-image:linear-gradient(var(--band-overlay),var(--band-overlay)),var(--band-img,none),linear-gradient(120deg,var(--band-1),var(--band-2));background-size:cover;background-position:center}
+.cat-h.band,.ph.band,.ph.band.locked{background-image:linear-gradient(var(--band-overlay),var(--band-overlay)),var(--band-img,none),linear-gradient(120deg,var(--band-1),var(--band-2));background-size:cover;background-position:center}
 .ph.band.locked h2,.ph.band.locked .ph-prog{color:var(--band-ink)}
 .ph.band.locked .ph-no,.ph.band.locked .ph-tag{color:var(--band-ink-2)}
 .home-band{margin:0 calc(50% - 50vw) 16px;padding:30px 20px}
@@ -158,8 +160,7 @@ a{color:var(--primary)}
 .ph.band.locked{--band-overlay:rgba(72,80,98,.88)}
 .how-band{border-radius:12px;padding:26px 22px;margin:18px 0 14px}
 .how-band h2{color:var(--band-ink);margin:0}
-.foot-band{border-radius:12px;padding:18px 20px;margin-top:30px;border-top:0;color:var(--band-ink-2)}
-.foot-band a,.foot-band .btn-link{color:var(--band-ink)}
+.foot.lightband{background-color:var(--surface);background-image:linear-gradient(var(--lightband-overlay),var(--lightband-overlay)),var(--band-img,none);background-size:cover;background-position:center;border-radius:12px;border:1px solid var(--line);padding:18px 20px;margin-top:30px}
 @media (max-width:640px){
   .home-band{padding:12px 14px;margin-bottom:8px}
   .home-band .home-intro{font-size:12.5px;line-height:1.45}
@@ -851,7 +852,7 @@ __MERGE__
           '<button class="btn" id="btn-share" type="button">Copy share link</button>' +
           '<button class="btn" id="btn-theme" type="button">Theme: Auto</button>' +
         '</div>' +
-        '<footer class="foot band foot-band" style="--band-img:url(assets/img/hero.webp)">' +
+        '<footer class="foot lightband" style="--band-img:url(assets/img/hero.webp)">' +
           '<p>An unofficial student planning tool by Daniel Llobet. Not an MDC or iCED system. Contact: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
           '<p class="foot-links"><button class="btn-link" id="btn-about" type="button">About</button> <a href="#how">How it works</a></p>' +
           (CFG.firebase ? '' : '<p>Saving to an account is not set up on this copy.</p>') +

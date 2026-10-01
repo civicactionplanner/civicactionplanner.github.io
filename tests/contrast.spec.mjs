@@ -48,6 +48,7 @@ for (const scheme of ["light", "dark"]) {
         bandOverlay: v("--band-overlay"),
         bandInk: v("--band-ink"),
         bandInk2: v("--band-ink-2"),
+        lightbandOverlay: v("--lightband-overlay"),
         pillFg: c(".pcard .pc-pill", "color"),
         pillBg: c(".pcard .pc-pill", "backgroundColor"),
         laterPillFg: c(".pcard.later .pc-pill", "color"),
@@ -76,6 +77,16 @@ for (const scheme of ["light", "dark"]) {
     const compCss = `rgb(${comp[0]}, ${comp[1]}, ${comp[2]})`;
     expect(ratio(d.bandInk, compCss), "band text on worst-case band").toBeGreaterThanOrEqual(4.5);
     expect(ratio(d.bandInk2, compCss), "band secondary text on worst-case band").toBeGreaterThanOrEqual(4.5);
+    // Light footer worst case: dark text over the ghosted photo. Light theme worst
+    // composite is the overlay over pure black; dark theme over pure white.
+    const lm = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/.exec(d.lightbandOverlay);
+    expect(lm, "light-band overlay is rgba").toBeTruthy();
+    const la = parseFloat(lm[4]);
+    const base = scheme === "light" ? 0 : 255;
+    const lcomp = [lm[1], lm[2], lm[3]].map((ch) => Math.round(la * +ch + (1 - la) * base));
+    const lcompCss = `rgb(${lcomp[0]}, ${lcomp[1]}, ${lcomp[2]})`;
+    expect(ratio(d.ink2, lcompCss), "footer text on worst-case light band").toBeGreaterThanOrEqual(4.5);
+    expect(ratio(d.primary, lcompCss), "footer links on worst-case light band").toBeGreaterThanOrEqual(4.5);
     if (scheme === "light") expect(d.topbarBg).toBe("rgb(0, 50, 160)"); // MDC Blue, Pantone 286
     const fonts = await page.evaluate(async () => {
       await document.fonts.ready;
