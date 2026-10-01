@@ -273,6 +273,27 @@ a{color:var(--primary)}
 .skill-note{font-size:13px;color:var(--ink-2);font-style:italic;margin:8px 0 0}
 .cat.featured .item:not(.on) .row{background:var(--featured-tint)}
 .cat.featured .item:not(.on) .row:hover{background:var(--surface)}
+.cglyph{width:14px;height:14px;flex:none}
+.ct .cglyph{width:17px;height:17px;color:var(--ct,var(--c));align-self:center}
+.cat-h.band .ct .cglyph{color:var(--band-ink-2)}
+.tn-name{display:inline-flex;align-items:center;gap:6px}
+.tile .cglyph{color:var(--c);width:15px;height:15px}
+.code{display:inline-flex;align-items:center;gap:4px}
+.code .cglyph{width:12px;height:12px}
+.statrow{display:flex;gap:40px;margin:4px 0 14px;padding:14px 20px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.stat-n{font-size:40px;line-height:1;color:var(--primary)}
+.stat-l{font-size:12.5px;color:var(--ink-2);letter-spacing:.04em;text-transform:uppercase;font-weight:600;margin-top:4px}
+.poster{display:block;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:24px 26px 20px;box-shadow:var(--shadow);text-decoration:none;color:inherit;margin:14px 0 0}
+.poster .pl{font-size:clamp(26px,3.6vw,44px);line-height:1.12}
+.poster .pl1{color:var(--ink)}
+.poster .pl2{color:var(--accent-text)}
+.poster .pl3{color:var(--primary)}
+.poster-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.poster-dots{display:inline-flex;gap:6px}
+.poster-dots i{width:10px;height:10px;border-radius:50%;background:var(--c);display:inline-block}
+@media (max-width:699px){
+  .statrow{display:none}
+}
 .browse-card{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;margin:14px 0 12px}
 .browse-card h2{margin:0 0 4px;font-size:22px}
 .browse-card p{margin:0;font-size:13.5px;color:var(--ink-2)}
@@ -507,7 +528,7 @@ dialog.about a{color:var(--primary)}
     lastTotal = t;
     if (msg) toast(msg, "accent");
   }
-  function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); updateHomeCards(); }
+  function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); updateHomeCards(); updateStatRow(); }
 
   // ---------- math ----------
   function ptsFor(a){
@@ -591,6 +612,17 @@ dialog.about a{color:var(--primary)}
     return s;
   }
   var COV_CATS = ["DE", "ES", "CW", "AC", "SI"];
+  var CATGLYPH = {
+    DE: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l3 3 5.5-6.5"/>',
+    ES: '<path d="M20 4C10.5 4 5.5 9 5.5 17c3.5 0 14.5-1 14.5-13z"/><path d="M5.5 17C8.5 12 13 8 18 6"/>',
+    CW: '<path d="M12 20s-7-4.5-7-9.5C5 7.5 7 6 9.2 6c1.4 0 2.3.7 2.8 1.5.5-.8 1.4-1.5 2.8-1.5 2.2 0 4.2 1.5 4.2 4.5 0 5-7 9.5-7 9.5z"/>',
+    AC: '<path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 16.3 7.2 18.9l.9-5.4L4.2 9.7l5.4-.8z"/>',
+    SI: '<path d="M12 4a6 6 0 0 1 3.5 10.9c-.6.5-1 1.2-1 2.1h-5c0-.9-.4-1.6-1-2.1A6 6 0 0 1 12 4z"/><path d="M10 20h4"/>'
+  };
+  function catGlyph(id){
+    if (!CATGLYPH[id]) return "";
+    return '<svg class="cglyph" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+CATGLYPH[id]+'</svg>';
+  }
   var BREADTH_LINE = "Also recommended: at least one action from four of the five areas.";
   function phaseCoverage(n){
     return COV_CATS.map(function(cat){
@@ -993,6 +1025,25 @@ __MERGE__
       '<p>Questions or ideas about this planner: <a href="mailto:'+esc(CFG.contact)+'">'+esc(CFG.contact)+'</a></p>' +
       '</section>';
   }
+  function statRowHtml(){
+    var t = totals(), total = t.all.checked;
+    var nf = function(n){ return n.toLocaleString("en-US"); };
+    var cells;
+    if (total > 0){
+      cells = [[nf(total), "points planned"], [t.all.done + " of " + DATA.actions.length, "actions checked"], [breadthCount() + " of 5", "areas covered"]];
+    } else {
+      var possible = 0;
+      DATA.cats.forEach(function(c){ possible += c.possible; });
+      cells = [[nf(DATA.actions.length), "civic actions"], [nf(possible), "points possible"], [nf(TOP), "points to Gold"]];
+    }
+    return '<div class="statrow" id="stat-row">' + cells.map(function(x){
+      return '<div class="stat"><div class="stat-n disp">'+x[0]+'</div><div class="stat-l">'+x[1]+'</div></div>';
+    }).join("") + '</div>';
+  }
+  function updateStatRow(){
+    var el = document.getElementById("stat-row");
+    if (el) el.outerHTML = statRowHtml();
+  }
   function homeSugContent(){
     if (!Object.keys(state.counts).length) return "";
     return suggestionHtml(lowestUnfinishedPhase());
@@ -1000,10 +1051,17 @@ __MERGE__
   function homeHtml(){
     var hasProgress = Object.keys(state.counts).length > 0;
     return '<section class="band home-band" style="--band-img:url(assets/img/hero.webp)"><p class="home-intro">'+esc(CFG.homeIntro)+'</p></section>' +
+      statRowHtml() +
       (hasProgress ? '<div class="cont-row"><button class="btn primary" id="btn-continue" type="button">Continue where you left off</button></div>' : '') +
       '<section class="summary" id="summary" data-mode="hero"></section>' +
       '<div class="pcards" id="pcards">'+CFG.phases.map(pcardHtml).join("")+'</div>' +
       '<div id="home-sug">'+homeSugContent()+'</div>' +
+      '<a class="poster" id="poster" href="#phase/1">' +
+        '<div class="pl pl1 disp">Plan it here.</div>' +
+        '<div class="pl pl2 disp">Do it out there.</div>' +
+        '<div class="pl pl3 disp">Prove it in EngageMDC.</div>' +
+        '<div class="poster-foot"><span class="poster-dots">'+COV_CATS.map(function(c){ return '<i style="--c:var('+CATVAR[c]+')"></i>'; }).join("")+'</span><span class="btn primary">Start with Phase 1</span></div>' +
+      '</a>' +
       '<a class="browse-card" href="#all" id="browse-card">' +
         '<div><h2 class="disp">Prefer to see everything?</h2>' +
         '<p>Browse all '+DATA.actions.length+' actions in one list, organized by category.</p></div>' +
@@ -1107,7 +1165,7 @@ __MERGE__
     return DATA.cats.map(function(c){
       var x = t[c.id];
       return '<a class="tile" href="#cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+')">' +
-        '<div class="tn"><span>'+esc(c.name)+'</span><span>'+x.done+' of '+x.total+'</span></div>' +
+        '<div class="tn"><span class="tn-name">'+catGlyph(c.id)+esc(c.name)+'</span><span>'+x.done+' of '+x.total+'</span></div>' +
         '<div class="tv disp">'+x.checked+'<small> / '+c.possible+' pts</small></div>' +
         '<div class="bar"><i style="width:'+Math.min(100,x.checked/c.possible*100)+'%"></i></div></a>';
     }).join("");
@@ -1142,7 +1200,7 @@ __MERGE__
       var feat = c.id === CFG.featuredCat;
       return '<section class="cat'+(closed?' closed':'')+(feat?' featured':'')+'" id="cat-'+c.id+'" style="--c:var('+CATVAR[c.id]+');--soft:var('+CATVAR[c.id]+'-soft);--ct:var('+CATVAR[c.id]+'-text);--band-img:url(assets/img/'+c.id.toLowerCase()+'.webp)">' +
         '<div class="cat-h band" role="button" tabindex="0" aria-expanded="'+(!closed)+'" aria-controls="rows-'+c.id+'">' +
-          '<div class="ct"><span class="code cond">'+c.id+'</span><h2 class="disp">'+esc(c.name)+'</h2>'+(feat?'<span class="badge featured">Featured</span>':'')+'</div>' +
+          '<div class="ct">'+catGlyph(c.id)+'<span class="code cond">'+c.id+'</span><h2 class="disp">'+esc(c.name)+'</h2>'+(feat?'<span class="badge featured">Featured</span>':'')+'</div>' +
           '<div class="tag">'+esc(c.tag)+'</div>' +
           '<div class="cs" id="cs-'+c.id+'"><b>'+x.checked+'</b><span class="cs-x"> / '+c.possible+' pts · '+x.done+' of '+x.total+' checked</span><div class="bar"><i style="width:'+Math.min(100,x.checked/c.possible*100)+'%"></i></div></div>' +
           '<span class="cat-chev" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l5 5 5-5"/></svg></span>' +
@@ -1177,7 +1235,7 @@ __MERGE__
     return '<div class="item'+(on?' on':'')+(open?' open':'')+'" id="item-'+a.code+'" data-code="'+a.code+'">' +
       '<div class="row" role="checkbox" aria-checked="'+on+'" tabindex="0" aria-label="'+esc(a.code+" "+a.title)+'">' +
         '<span class="tog" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>' +
-        '<span class="code">'+a.code+'</span>' +
+        '<span class="code">'+catGlyph(a.cat)+a.code+'</span>' +
         '<div class="tx"><div class="tt">'+esc(a.title)+'</div>'+metaHtml+'</div>' +
         renderStepper(a, n) +
         '<div class="pts"><div class="pv disp">'+pv+'</div><div class="pm">'+pm+'</div></div>' +

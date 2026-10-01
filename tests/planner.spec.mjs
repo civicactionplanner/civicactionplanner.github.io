@@ -658,6 +658,44 @@ test("banner images stay inside the weight budget", async () => {
   expect(total, "all banner images under 500KB").toBeLessThanOrEqual(500 * 1024);
 });
 
+// ---------- stat strip, glyphs, poster ----------
+test("home stat strip shows catalog numbers and flips to personal stats", async ({ page }) => {
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector("#stat-row");
+  const t = await page.locator("#stat-row").textContent();
+  expect(t).toContain("124");
+  expect(t).toContain("1,395");
+  expect(t).toContain("300");
+  await page.evaluate(() => { location.hash = "#all"; });
+  await page.waitForSelector(".item");
+  await page.click("#item-DE-13 .row");
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector("#stat-row");
+  const t2 = await page.locator("#stat-row").textContent();
+  expect(t2).toContain("20");
+  expect(t2).toContain("1 of 124");
+  expect(t2).toContain("1 of 5");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator("#stat-row")).toBeHidden(); // phones keep the fold contract
+});
+
+test("category glyphs anchor headers, tiles, and rows", async ({ page }) => {
+  await expect(page.locator(".cat-h .cglyph")).toHaveCount(5);
+  await expect(page.locator(".tile .cglyph")).toHaveCount(5);
+  await expect(page.locator(".row .cglyph")).toHaveCount(124);
+});
+
+test("the poster links the loop to Phase 1", async ({ page }) => {
+  await page.evaluate(() => { location.hash = "#home"; });
+  await page.waitForSelector("#poster");
+  await expect(page.locator("#poster")).toContainText("Plan it here.");
+  await expect(page.locator("#poster")).toContainText("Do it out there.");
+  await expect(page.locator("#poster")).toContainText("Prove it in EngageMDC.");
+  await page.click("#poster");
+  await page.waitForSelector("#phase-head");
+  expect(await page.evaluate(() => location.hash)).toBe("#phase/1");
+});
+
 // ---------- accounts (build variants; no real Firebase project needed) ----------
 test("guest build: empty firebase config hides accounts and everything still works", async ({ browser }) => {
   const out = path.join(root, ".guest-test.html");
