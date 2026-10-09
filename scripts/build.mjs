@@ -29,6 +29,7 @@ const merged = {
   edition: config.edition || scorecard.edition,
   hubName: config.hubName,
   hubUrl: config.hubUrl,
+  casUrl: config.casUrl,
   credit: config.credit,
   license: config.license,
   disclaimer: config.disclaimer,
@@ -104,6 +105,7 @@ if (!Array.isArray(merged.suggestPriority) || merged.suggestPriority.length !== 
 if (!merged.homeIntro) throw new Error("planner-config.json needs a homeIntro line for the home page");
 if (!merged.privacy) throw new Error("planner-config.json needs a privacy line");
 if (!merged.contact) throw new Error("planner-config.json needs a contact email");
+if (!merged.casUrl) throw new Error("planner-config.json needs a casUrl for the submission group");
 if (!Array.isArray(merged.phases) || merged.phases.length !== 4) throw new Error("planner-config.json needs a 4-entry phases array");
 for (const [i, ph] of merged.phases.entries()) {
   if (ph.number !== i + 1 || !ph.name || !Number.isInteger(ph.unlockPoints) || !ph.tagline || !ph.why)

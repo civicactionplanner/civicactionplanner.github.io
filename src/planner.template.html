@@ -182,6 +182,7 @@ a{color:var(--primary)}
 .meter .tl b{display:block;font-weight:600;color:var(--tc)}
 .award{font-size:14px;color:var(--ink-2)}
 .award b{color:var(--ink);font-weight:600}
+.gap-nudge{font-size:12.5px;color:var(--ink);background:var(--warn-bg);border-radius:8px;padding:5px 10px;margin-top:8px;display:inline-block;align-self:flex-start}
 .stages{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:12px}
 .stages span b{color:var(--ink);font-weight:600}
 .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
@@ -574,6 +575,13 @@ dialog.about a{color:var(--primary)}
       var ok = false; try { ok = document.execCommand("copy"); } catch(e){}
       document.body.removeChild(ta); ok ? res() : rej(new Error("copy failed"));
     });
+  }
+  function syncCopy(text){
+    var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    var ok = false; try { ok = document.execCommand("copy"); } catch(e){}
+    document.body.removeChild(ta);
+    return ok;
   }
   function copyText(text){
     if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).catch(function(){ return legacyCopy(text); });
@@ -1157,6 +1165,7 @@ __MERGE__
       '<div class="num-row"><div class="num disp" id="total">'+total+'<small>PTS</small></div><span class="bchip'+(breadthCount()>=4?' on':'')+'" id="breadth-chip">Breadth: '+breadthCount()+' of 5 areas</span></div>' +
       '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
       '<div class="award">'+award+'</div>' +
+      (total - t.all.sub > 0 ? '<div class="gap-nudge">'+(total - t.all.sub)+' of your checked points are not submitted yet. Only EngageMDC counts.</div>' : '') +
       (compact ? '' : '<div class="stages"><span>Submitted <b>'+t.all.sub+' pts</b></span><span>Approved by iCED <b>'+t.all.appr+' pts</b></span></div>') +
       '</div>';
   }
@@ -1339,7 +1348,12 @@ __MERGE__
       copyText(reflectionText(a)).then(function(){ toast("Reflection copied. Paste it into the Add Impact form in EngageMDC."); }, function(){ toast("Copy failed. Select the text and copy it manually."); });
     });
     var hubBtn = it.querySelector('[data-act="hub"]');
-    if (hubBtn) hubBtn.addEventListener("click", function(){ window.open(CFG.hubUrl, "_blank", "noopener"); });
+    if (hubBtn) hubBtn.addEventListener("click", function(){
+      var copied = false;
+      try { copied = syncCopy(a.code + " " + a.title); } catch(e){}
+      window.open(CFG.casUrl || CFG.hubUrl, "_blank", "noopener");
+      toast(copied ? "Code copied. Paste it into the EngageMDC search." : "Opened EngageMDC. Search for " + a.code + " there.");
+    });
   }
   function reflectionText(a){
     var nt = state.notes[a.code] || {};

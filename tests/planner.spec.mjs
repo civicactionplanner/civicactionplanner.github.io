@@ -342,7 +342,11 @@ test("footer is minimal and attribution lives in the About panel", async ({ page
 test("EngageMDC naming holds across the built page", async ({ page }) => {
   const content = await page.content();
   expect(content.toLowerCase()).not.toContain("changemaker hub");
-  expect(content.toLowerCase()).not.toContain("givepulse");
+  // The configured CAS submission group URL is the one sanctioned givepulse
+  // reference; no other naming may mention the platform.
+  const config = JSON.parse(fs.readFileSync(path.join(root, "data", "planner-config.json"), "utf8"));
+  const scrubbed = content.split(config.casUrl).join("");
+  expect(scrubbed.toLowerCase()).not.toContain("givepulse");
   expect(content).toContain("Changemaking 101");
   expect(content).toContain("EngageMDC");
 });
@@ -694,6 +698,27 @@ test("the poster links the loop to Phase 1", async ({ page }) => {
   await page.click("#poster");
   await page.waitForSelector("#phase-head");
   expect(await page.evaluate(() => location.hash)).toBe("#phase/1");
+});
+
+// ---------- EngageMDC funnel ----------
+test("the hub button funnels into the CAS group with the code copied", async ({ page, context }) => {
+  await page.click("#item-DE-11 .exp");
+  const [popup] = await Promise.all([
+    context.waitForEvent("page"),
+    page.click('#item-DE-11 [data-act="hub"]'),
+  ]);
+  expect(popup.url()).toContain("givepulse.com/group/722217");
+  await popup.close();
+  await expect(page.locator("#toast")).toContainText(/Code copied|Search for DE-11/);
+});
+
+test("the hero nudges unsubmitted points toward EngageMDC", async ({ page }) => {
+  await expect(page.locator(".gap-nudge")).toHaveCount(0);
+  await page.click("#item-DE-13 .row");
+  await expect(page.locator(".gap-nudge")).toContainText("20 of your checked points are not submitted yet. Only EngageMDC counts.");
+  await page.click("#item-DE-13 .exp");
+  await page.check('#item-DE-13 input[data-st="sub"]');
+  await expect(page.locator(".gap-nudge")).toHaveCount(0);
 });
 
 // ---------- accounts (build variants; no real Firebase project needed) ----------
