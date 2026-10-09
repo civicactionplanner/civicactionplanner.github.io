@@ -25,7 +25,7 @@ Option C, no hosting at all: email the file. Students double-click it and it run
 ## How students use it
 
 1. Check an action when it is done. Repeatable actions get a small ×1 / ×2 counter; voting (DE-29) counts per election, up to ten times.
-2. Open an action (the chevron on the right) to see what to submit, the three reflection prompts with a draft box under each, and the resources and notes from the scorecard. "Copy reflection for EngageMDC" puts a formatted version on the clipboard for the Add Impact form.
+2. Open an action (the chevron on the right) to see what to submit, the three reflection prompts with a draft box under each, and the resources and notes from the scorecard. The EngageMDC Add Impact form has one box per question, so each draft box has a "Copy answer" link that copies just that answer; "Copy full reflection" still copies everything as one block for your records.
 3. Mark the action "Submitted" once it is in EngageMDC and "Approved" once iCED approves it. The summary shows checked, submitted, and approved points separately.
 4. "Print planning sheet" produces a one-page sheet in the format of the scorecard's Appendix A with subtotals, the award level, and signature lines. Print to PDF and attach it, or hand it in.
 5. Progress is stored in the browser on that device. "Export backup" downloads a JSON file to keep or move to another device; "Import backup" restores it. "Copy share link" produces a link carrying only the checks and statuses (not drafts) so a student can show an advisor where they stand.

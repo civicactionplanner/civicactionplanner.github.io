@@ -370,6 +370,9 @@ a{color:var(--primary)}
 .det .stat input{width:16px;height:16px;accent-color:var(--ok)}
 .det .dbtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .wc{font-size:12px;color:var(--ink-3);margin:-8px 0 10px;text-align:right}
+.det .ta-foot{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:-8px 0 10px}
+.det .ta-foot .wc{margin:0}
+.det .btn-copy{background:none;border:0;padding:0;color:var(--primary);cursor:pointer;font-size:12px;text-decoration:underline}
 .empty{padding:18px 8px;color:var(--ink-3);font-size:14px;font-style:italic}
 .foot{margin-top:30px;border-top:1px solid var(--line);padding-top:16px;font-size:13px;color:var(--ink-2);max-width:78ch;line-height:1.5}
 .foot p{margin:0 0 8px}
@@ -1273,13 +1276,14 @@ __MERGE__
       var v = nt[key] || '';
       return '<p class="prompt"><b>'+label+'</b>'+esc(prompt)+'</p>' +
         '<textarea data-key="'+key+'" placeholder="Your draft (saved in this browser)" aria-label="'+label+' reflection">'+esc(v)+'</textarea>' +
-        '<div class="wc" data-wc="'+key+'">'+(v ? words(v)+' words' : '')+'</div>';
+        '<div class="ta-foot"><button class="btn-copy" type="button" data-copy="'+key+'" aria-label="Copy your '+label+' answer">Copy answer</button>' +
+        '<div class="wc" data-wc="'+key+'">'+(v ? words(v)+' words' : '')+'</div></div>';
     }
     var aside = (a.aside && a.aside.length) ? '<h4>Resources and notes</h4><ul class="aside">'+a.aside.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>' : '';
     var left = '<div><h4>What to submit</h4><div class="doc">'+esc(a.doc || "See the scorecard for this action's documentation.")+'</div>' +
       (a.skill ? '<p class="skill-note">Counts as a skills-based training or workshop.</p>' : '') +
       (a.what ? '<h4 style="margin-top:14px">Reflection</h4>' + ta("what", a.what, "What?") + ta("sowhat", a.sowhat, "So what?") + ta("nowwhat", a.nowwhat, "Now what?") : '') +
-      '<div class="dbtns"><button class="btn" type="button" data-act="copy">Copy reflection for EngageMDC</button><button class="btn" type="button" data-act="hub">Open EngageMDC</button></div></div>';
+      '<div class="dbtns"><button class="btn" type="button" data-act="copy">Copy full reflection</button><button class="btn" type="button" data-act="hub">Open EngageMDC</button></div></div>';
     var right = '<div>'+aside+'<h4 style="margin-top:'+(aside?'14px':'0')+'">Submission status</h4><div class="stat">' +
       '<label><input type="checkbox" data-st="sub"'+(state.sub[a.code]||state.appr[a.code]?' checked':'')+'> Submitted in EngageMDC</label>' +
       '<label><input type="checkbox" data-st="appr"'+(state.appr[a.code]?' checked':'')+'> Approved by iCED</label></div></div>';
@@ -1348,9 +1352,17 @@ __MERGE__
         var was = openSet[code]; openSet[code] = true; refreshItem(a); if (!was) openSet[code] = true;
       });
     });
+    Array.prototype.forEach.call(it.querySelectorAll('[data-copy]'), function(b){
+      b.addEventListener("click", function(){
+        var nt = state.notes[code] || {};
+        var v = (nt[b.dataset.copy] || "").trim();
+        if (!v){ toast("Nothing to copy yet. Write your answer first."); return; }
+        copyText(v).then(function(){ toast("Answer copied. Paste it into the matching box in EngageMDC."); }, function(){ toast("Copy failed. Select the text and copy it manually."); });
+      });
+    });
     var copyBtn = it.querySelector('[data-act="copy"]');
     if (copyBtn) copyBtn.addEventListener("click", function(){
-      copyText(reflectionText(a)).then(function(){ toast("Reflection copied. Paste it into the Add Impact form in EngageMDC."); }, function(){ toast("Copy failed. Select the text and copy it manually."); });
+      copyText(reflectionText(a)).then(function(){ toast("Full reflection copied. In EngageMDC each question has its own box, so the Copy answer links are quicker."); }, function(){ toast("Copy failed. Select the text and copy it manually."); });
     });
     var hubBtn = it.querySelector('[data-act="hub"]');
     if (hubBtn) hubBtn.addEventListener("click", function(){

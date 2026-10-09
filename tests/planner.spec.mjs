@@ -105,6 +105,25 @@ test("details panel drafts, statuses, and copy button work", async ({ page }) =>
   await expect(page.locator("#toast")).toContainText(/copied|Copy failed/);
 });
 
+test("each reflection answer has its own copy button", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      value: { writeText: (t) => { window.__copied = t; return Promise.resolve(); } },
+      configurable: true,
+    });
+  });
+  await page.reload();
+  await page.waitForSelector(".item");
+  await page.click("#item-DE-11 .exp");
+  await expect(page.locator("#item-DE-11 .btn-copy")).toHaveCount(3);
+  await page.click('#item-DE-11 [data-copy="sowhat"]');
+  await expect(page.locator("#toast")).toContainText("Nothing to copy yet");
+  await page.fill('#item-DE-11 textarea[data-key="sowhat"]', "The budget debate interested me most.");
+  await page.click('#item-DE-11 [data-copy="sowhat"]');
+  await expect(page.locator("#toast")).toContainText("Answer copied");
+  expect(await page.evaluate(() => window.__copied)).toBe("The budget debate interested me most.");
+});
+
 test("progress survives a reload", async ({ page }) => {
   await page.fill("#name", "Test Student");
   await page.click("#item-CW-4 .row");
