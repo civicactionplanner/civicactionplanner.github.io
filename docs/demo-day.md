@@ -14,9 +14,10 @@ snapshot replaces local checks on that device; use a clean browser profile.
 1. Open the seeded link: a living student page, not zeros.
 2. Phase 1: coverage dots, the Social Innovation suggestion line, soft lock talk
    track ("recommendations, never gates").
-3. The funnel: open any action, Open EngageMDC: code copies, the CAS group opens,
-   one click from Add Impact. Line: "This tool has one job: get documented actions
-   into EngageMDC."
+3. The funnel: open any action, Open EngageMDC: the CAS group opens already
+   filtered to that exact action (EngageMDC's zero-padded code goes into the
+   search for you), one click from Add Impact. Line: "This tool has one job:
+   get documented actions into EngageMDC."
 4. Phone: install from the browser menu (Add to Home Screen), show it opening
    offline. Line: "No server, no cost, works in a dead zone."
 5. Sign-in sync: check an action on the laptop, watch it appear on the phone.

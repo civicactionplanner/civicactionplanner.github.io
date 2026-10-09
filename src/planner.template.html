@@ -579,6 +579,8 @@ dialog.about a{color:var(--primary)}
       document.body.removeChild(ta); ok ? res() : rej(new Error("copy failed"));
     });
   }
+  // EngageMDC lists actions with zero-padded codes (ES-8 is ES-08 there).
+  function gpCode(c){ return c.replace(/^([A-Z]+)-(\d)([A-Z]?)$/, "$1-0$2$3"); }
   function syncCopy(text){
     var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
     document.body.appendChild(ta); ta.select();
@@ -1019,7 +1021,7 @@ __MERGE__
       '<ol class="how-steps">' +
         '<li>Log in at <a href="https://engage.mdc.edu" target="_blank" rel="noopener">engage.mdc.edu</a> with your MDC account.</li>' +
         '<li>Open the "Civic Action Scorecard" spotlight.</li>' +
-        '<li>Search for the action you want to complete.</li>' +
+        '<li>Search for the action by its code, written with two digits there, so ES-8 is ES-08. The "Open EngageMDC" button on each action in this planner takes you straight to it.</li>' +
         '<li>Read its instructions, complete the action, and collect the required documentation.</li>' +
         '<li>Submit it with the "Add Impact" button on the action\'s page.</li>' +
         '<li>Answer the What, So What, Now What reflection questions in your own words.</li>' +
@@ -1352,10 +1354,11 @@ __MERGE__
     });
     var hubBtn = it.querySelector('[data-act="hub"]');
     if (hubBtn) hubBtn.addEventListener("click", function(){
+      var gp = gpCode(a.code);
       var copied = false;
-      try { copied = syncCopy(a.code + " " + a.title); } catch(e){}
-      window.open(CFG.casUrl || CFG.hubUrl, "_blank", "noopener");
-      toast(copied ? "Code copied. Paste it into the EngageMDC search." : "Opened EngageMDC. Search for " + a.code + " there.");
+      try { copied = syncCopy(gp); } catch(e){}
+      window.open(CFG.casUrl ? CFG.casUrl + "?keyword=" + encodeURIComponent(gp) : CFG.hubUrl, "_blank", "noopener");
+      toast(copied ? "Opening " + gp + " in EngageMDC. Code copied in case you need it." : "Opening " + gp + " in EngageMDC.");
     });
   }
   function reflectionText(a){

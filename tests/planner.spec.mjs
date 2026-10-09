@@ -701,15 +701,26 @@ test("the poster links the loop to Phase 1", async ({ page }) => {
 });
 
 // ---------- EngageMDC funnel ----------
-test("the hub button funnels into the CAS group with the code copied", async ({ page, context }) => {
+test("the hub button deep-links the action into the CAS group", async ({ page, context }) => {
   await page.click("#item-DE-11 .exp");
   const [popup] = await Promise.all([
     context.waitForEvent("page"),
     page.click('#item-DE-11 [data-act="hub"]'),
   ]);
-  expect(popup.url()).toContain("givepulse.com/group/722217");
+  expect(popup.url()).toContain("givepulse.com/group/events/722217?keyword=DE-11");
   await popup.close();
-  await expect(page.locator("#toast")).toContainText(/Code copied|Search for DE-11/);
+  await expect(page.locator("#toast")).toContainText("Opening DE-11 in EngageMDC");
+});
+
+test("single-digit codes are zero-padded to match EngageMDC listings", async ({ page, context }) => {
+  await page.click("#item-ES-8 .exp");
+  const [popup] = await Promise.all([
+    context.waitForEvent("page"),
+    page.click('#item-ES-8 [data-act="hub"]'),
+  ]);
+  expect(popup.url()).toContain("givepulse.com/group/events/722217?keyword=ES-08");
+  await popup.close();
+  await expect(page.locator("#toast")).toContainText("Opening ES-08 in EngageMDC");
 });
 
 test("the hero nudges unsubmitted points toward EngageMDC", async ({ page }) => {
