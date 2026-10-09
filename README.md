@@ -28,7 +28,8 @@ Option C, no hosting at all: email the file. Students double-click it and it run
 2. Open an action (the chevron on the right) to see what to submit, the three reflection prompts with a draft box under each, and the resources and notes from the scorecard. The EngageMDC Add Impact form has one box per question, so each draft box has a "Copy answer" link that copies just that answer; "Copy full reflection" still copies everything as one block for your records.
 3. Mark the action "Submitted" once it is in EngageMDC and "Approved" once iCED approves it. The summary shows checked, submitted, and approved points separately.
 4. "Print planning sheet" produces a one-page sheet in the format of the scorecard's Appendix A with subtotals, the award level, and signature lines. Print to PDF and attach it, or hand it in.
-5. Progress is stored in the browser on that device. "Export backup" downloads a JSON file to keep or move to another device; "Import backup" restores it. "Copy share link" produces a link carrying only the checks and statuses (not drafts) so a student can show an advisor where they stand.
+5. "Set a goal" on the summary picks an award level and a target date; the planner shows the weekly points pace needed and whether the student is on pace. Each reflection box also shows a sentence count against the prompt's minimum, and "Save a progress card" downloads a shareable image of the current points and level. A short three-step tour runs on the first visit (goal, pace, tour state, and celebrations stay on the device and are never synced).
+6. Progress is stored in the browser on that device. "Export backup" downloads a JSON file to keep or move to another device; "Import backup" restores it. "Copy share link" produces a link carrying only the checks and statuses (not drafts) so a student can show an advisor where they stand.
 
 ## How iCED can adapt it
 

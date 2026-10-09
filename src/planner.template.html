@@ -382,6 +382,21 @@ dialog.about::backdrop{background:rgba(0,0,0,.45)}
 dialog.about h2{margin:0 0 10px}
 dialog.about p{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:0 0 10px}
 dialog.about a{color:var(--primary)}
+.goal-fields{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 14px}
+.goal-fields label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+.goal-fields select,.goal-fields input{border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink);padding:6px 8px;font:inherit}
+.goal-actions{display:flex;gap:8px;flex-wrap:wrap}
+.linkbtn{background:none;border:0;padding:0;color:var(--primary);cursor:pointer;font:inherit;font-size:13px;text-decoration:underline}
+.goal-row{font-size:13.5px;color:var(--ink-2);margin-top:10px;line-height:1.5}
+.goal-row b{color:var(--ink)}
+.hero-links{margin-top:8px}
+.wc.met{color:var(--ok)}
+.tour{position:fixed;z-index:60;width:min(280px,calc(100vw - 24px));background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;font-size:13.5px;line-height:1.45}
+.tour .tour-step{color:var(--ink-3);font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px}
+.tour p{margin:0 0 10px}
+.tour .row2{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.tour-hi{outline:2px solid var(--primary);outline-offset:3px;border-radius:8px}
+canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:70}
 #print{display:none}
 
 @media (max-width:820px){
@@ -533,8 +548,111 @@ dialog.about a{color:var(--primary)}
       } else if (t >= tr.p) state.unlocked[key] = true;
     });
     lastTotal = t;
-    if (msg) toast(msg, "accent");
+    if (msg){ toast(msg, "accent"); celebrate(); }
   }
+  function celebrate(){
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (document.querySelector("canvas.confetti")) return;
+    var cv = document.createElement("canvas"); cv.className = "confetti"; cv.setAttribute("aria-hidden", "true");
+    document.body.appendChild(cv);
+    var ctx = cv.getContext("2d"), W = cv.width = innerWidth, H = cv.height = innerHeight;
+    var colors = ["#0032A0", "#C8690A", "#8FB0FF", "#B08D2E"], ps = [], i;
+    for (i = 0; i < 90; i++) ps.push({x: Math.random()*W, y: -20 - Math.random()*H*0.4, r: 3 + Math.random()*4, c: colors[i % colors.length], vy: 2.5 + Math.random()*3, vx: -1 + Math.random()*2, a: Math.random()*Math.PI});
+    var t0 = performance.now();
+    (function frame(now){
+      var el = now - t0;
+      ctx.clearRect(0, 0, W, H);
+      ps.forEach(function(p){
+        p.y += p.vy; p.x += p.vx; p.a += 0.1;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a);
+        ctx.fillStyle = p.c; ctx.globalAlpha = Math.max(0, 1 - el/1600);
+        ctx.fillRect(-p.r, -p.r/2, p.r*2, p.r); ctx.restore();
+      });
+      if (el < 1600) requestAnimationFrame(frame); else cv.remove();
+    })(t0);
+  }
+  function shareCard(){
+    var t = totals(), total = t.all.checked, ti = tierInfo(total);
+    var cv = document.createElement("canvas"); cv.width = 1200; cv.height = 630;
+    var fonts = (document.fonts && document.fonts.load) ? Promise.all([
+      document.fonts.load('700 170px "EB Garamond"'),
+      document.fonts.load('600 40px Jost'),
+      document.fonts.load('400 30px Jost')
+    ]).catch(function(){}) : Promise.resolve();
+    fonts.then(function(){
+      var x = cv.getContext("2d");
+      x.fillStyle = "#FFFFFF"; x.fillRect(0, 0, 1200, 630);
+      x.fillStyle = "#0032A0"; x.fillRect(0, 0, 1200, 150);
+      x.fillStyle = "#FFFFFF"; x.font = '600 40px Jost, sans-serif';
+      x.fillText("Civic Action Scorecard Planner", 60, 78);
+      x.globalAlpha = 0.85; x.font = '400 28px Jost, sans-serif';
+      x.fillText(CFG.edition + " · unofficial student planner", 60, 120); x.globalAlpha = 1;
+      x.fillStyle = "#13233F"; x.font = '700 170px "EB Garamond", Georgia, serif';
+      x.fillText(String(total), 60, 350);
+      var w = x.measureText(String(total)).width;
+      x.font = '600 44px Jost, sans-serif'; x.fillText("PTS", 75 + w, 350);
+      x.fillStyle = "#3A4A66"; x.font = '400 34px Jost, sans-serif';
+      x.fillText(ti.earned ? ti.earned.n + " level reached on paper" : (TIERS[0].p - total) + " points to " + TIERS[0].n, 60, 432);
+      x.fillText("Breadth: " + breadthCount() + " of 5 areas", 60, 487);
+      if (state.name){ x.fillStyle = "#13233F"; x.font = '600 34px Jost, sans-serif'; x.fillText(state.name, 60, 556); }
+      x.fillStyle = "#3A4A66"; x.font = '400 26px Jost, sans-serif';
+      x.fillText(location.hostname || "civicactionplanner.github.io", 60, state.name ? 598 : 556);
+      cv.toBlob(function(b){
+        if (!b){ toast("Could not build the card in this browser."); return; }
+        var u = URL.createObjectURL(b), a = document.createElement("a");
+        a.href = u; a.download = "civic-action-progress.png";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(u); }, 4000);
+        toast("Progress card saved as an image.");
+      });
+    });
+  }
+  // ---------- first-visit tour (device-local, stored in cas-ui-v1) ----------
+  var tourTimer = null;
+  function killTour(){
+    var b = document.getElementById("tour-box"); if (b) b.remove();
+    var h = document.querySelector(".tour-hi"); if (h) h.classList.remove("tour-hi");
+  }
+  function tourDone(){ ui.tour = "done"; saveUI(); killTour(); }
+  function maybeTour(){
+    if (ui.tour) return;
+    if (totals().all.checked > 0){ ui.tour = "done"; saveUI(); return; }
+    clearTimeout(tourTimer);
+    tourTimer = setTimeout(function(){ if (!ui.tour && !document.getElementById("tour-box")) tourStep(1); }, 600);
+  }
+  function tourStep(n){
+    killTour();
+    var first = document.querySelector(".cat:not(.closed) .item");
+    if (!first){ return; }
+    if (n === 3){ openSet[first.dataset.code] = true; syncOpen(); first = document.getElementById("item-" + first.dataset.code); }
+    var target = n === 1 ? first.querySelector(".row") : n === 2 ? first.querySelector(".exp") : first.querySelector('[data-act="hub"]');
+    if (!target){ tourDone(); return; }
+    var texts = {
+      1: "Check an action when it is done. Points count right away.",
+      2: "Open an action for its documentation line and reflection drafts.",
+      3: "Open " + esc(CFG.hubName) + " lands on this exact action, one click from Add Impact."
+    };
+    target.classList.add("tour-hi");
+    target.scrollIntoView({block: "center"});
+    var box = document.createElement("div");
+    box.className = "tour"; box.id = "tour-box"; box.dataset.step = n;
+    box.setAttribute("role", "dialog"); box.setAttribute("aria-label", "Quick tour, step " + n + " of 3");
+    box.innerHTML = '<p class="tour-step">Quick tour · ' + n + ' of 3</p><p>' + texts[n] + '</p>' +
+      '<div class="row2"><button class="linkbtn" data-tour="skip" type="button">Skip</button>' +
+      '<button class="btn primary" data-tour="' + (n < 3 ? 'next' : 'done') + '" type="button">' + (n < 3 ? 'Next' : 'Done') + '</button></div>';
+    document.body.appendChild(box);
+    var r = target.getBoundingClientRect();
+    box.style.top = Math.max(12, Math.min(innerHeight - box.offsetHeight - 12, r.bottom + 10)) + "px";
+    box.style.left = Math.max(12, Math.min(innerWidth - box.offsetWidth - 12, r.left)) + "px";
+  }
+  document.addEventListener("click", function(e){
+    var box = document.getElementById("tour-box");
+    if (!box) return;
+    var b = e.target.closest("[data-tour]");
+    if (b){
+      if (b.dataset.tour === "next") tourStep(+box.dataset.step + 1); else tourDone();
+    } else if (!box.contains(e.target)) tourDone();
+  });
   function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); updateHomeCards(); updateStatRow(); }
 
   // ---------- math ----------
@@ -573,6 +691,19 @@ dialog.about a{color:var(--primary)}
     clearTimeout(toastT); toastT = setTimeout(function(){ el.classList.remove("show"); }, 2200);
   }
   function words(s){ s = (s||"").trim(); return s ? s.split(/\s+/).length : 0; }
+  function sentences(s){ s = (s||"").trim(); if (!s) return 0; return s.split(/[.!?]+/).filter(function(x){ return x.trim(); }).length; }
+  function minSentences(prompt){ var m = /at least (\d+)[^.]*?sentence/i.exec(prompt || ""); return m ? +m[1] : 0; }
+  function wcText(v, min){
+    if (!(v||"").trim()) return "";
+    var w = words(v) + " words";
+    return min ? sentences(v) + " of " + min + " sentences · " + w : w;
+  }
+  function fmtGoalDate(d){
+    var p = d.split("-"), MO = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var s = MO[+p[1]-1] + " " + (+p[2]);
+    if (+p[0] !== new Date().getFullYear()) s += ", " + p[0];
+    return s;
+  }
   function todayISO(){ var d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
   function legacyCopy(text){
     return new Promise(function(res, rej){
@@ -914,11 +1045,38 @@ __MERGE__
           '<p>'+esc(CFG.license)+'</p>' +
           '<button class="btn" id="about-close" type="button">Close</button>' +
         '</dialog>' +
+        '<dialog id="goal-panel" class="about">' +
+          '<h2 class="disp">Set a goal</h2>' +
+          '<p>Pick an award level and a target date. The summary then shows the weekly pace your checked points need.</p>' +
+          '<div class="goal-fields">' +
+            '<label>Award <select id="goal-award">'+TIERS.map(function(t){ return '<option value="'+t.n+'">'+t.n+' ('+t.p+' pts)</option>'; }).join("")+'</select></label>' +
+            '<label>By <input type="date" id="goal-date"></label>' +
+          '</div>' +
+          '<div class="goal-actions"><button class="btn primary" id="goal-save" type="button">Save goal</button><button class="btn" id="goal-clear" type="button">Clear goal</button><button class="btn" id="goal-close" type="button">Close</button></div>' +
+        '</dialog>' +
       '</div>';
     var about = document.getElementById("about-panel");
     document.getElementById("btn-about").addEventListener("click", function(){ about.showModal(); });
     document.getElementById("about-close").addEventListener("click", function(){ about.close(); });
     about.addEventListener("click", function(e){ if (e.target === about) about.close(); });
+    var goalPanel = document.getElementById("goal-panel");
+    document.addEventListener("click", function(e){
+      var t = e.target;
+      if (t.id === "btn-goal" || (t.dataset && t.dataset.goal === "edit")){
+        document.getElementById("goal-date").min = todayISO();
+        if (ui.goal){ document.getElementById("goal-award").value = ui.goal.award; document.getElementById("goal-date").value = ui.goal.date; }
+        goalPanel.showModal();
+      } else if (t.id === "btn-sharecard") shareCard();
+    });
+    document.getElementById("goal-save").addEventListener("click", function(){
+      var award = document.getElementById("goal-award").value, date = document.getElementById("goal-date").value;
+      if (!date){ toast("Pick a target date first."); return; }
+      ui.goal = { award: award, date: date, startPts: totals().all.checked, created: Date.now() };
+      saveUI(); goalPanel.close(); renderSummary();
+    });
+    document.getElementById("goal-clear").addEventListener("click", function(){ delete ui.goal; saveUI(); goalPanel.close(); renderSummary(); });
+    document.getElementById("goal-close").addEventListener("click", function(){ goalPanel.close(); });
+    goalPanel.addEventListener("click", function(e){ if (e.target === goalPanel) goalPanel.close(); });
     applyTheme(); renderAcct(); applyRoute(true);
     window.addEventListener("hashchange", function(){ applyRoute(false); });
     document.getElementById("name").addEventListener("input", function(e){ state.name = e.target.value; state.updated = Date.now(); saveLocal(); });
@@ -948,6 +1106,7 @@ __MERGE__
     checkSharedHash();
   }
   function renderView(){
+    killTour();
     var v = document.getElementById("view");
     if (route.view === "how"){
       v.innerHTML = howHtml();
@@ -990,6 +1149,7 @@ __MERGE__
       armButton(document.getElementById("btn-clear"), "Clear all", "Confirm clear", function(){
         state.counts = {}; state.sub = {}; state.appr = {}; commit(); renderCats(); renderChips(); toast("All actions unchecked. Notes were kept.");
       });
+      maybeTour();
     }
     updateNav();
   }
@@ -1156,6 +1316,26 @@ __MERGE__
   }
 
   // ---------- summary ----------
+  function goalLineHtml(total, compact){
+    var setBtn = compact ? '' : '<div class="goal-row"><button class="linkbtn" id="btn-goal" type="button">Set a goal</button></div>';
+    if (!ui.goal) return setBtn;
+    var g = ui.goal, tier = null;
+    TIERS.forEach(function(t){ if (t.n === g.award) tier = t; });
+    if (!tier) return setBtn;
+    var now = Date.now(), end = new Date(g.date + "T23:59:59").getTime();
+    var label = '<b>' + tier.n + ' by ' + fmtGoalDate(g.date) + ':</b> ', txt;
+    if (total >= tier.p) txt = label + 'goal reached on paper. Submit it all in ' + esc(CFG.hubName) + '.';
+    else if (end <= now) txt = label + 'the date has passed with ' + (tier.p - total) + ' points to go. Pick a new date.';
+    else {
+      var weeks = Math.max(1, (end - now) / 6048e5);
+      var pace = Math.ceil((tier.p - total) / weeks);
+      var span = end - (g.created || now), done = now - (g.created || now);
+      var expected = (g.startPts || 0) + (tier.p - (g.startPts || 0)) * (span > 0 ? done / span : 0);
+      var st = total >= expected + pace ? "You are ahead of pace." : (total >= expected - 0.001 ? "You are on pace." : "You are behind pace.");
+      txt = label + 'about ' + pace + ' points a week. ' + st;
+    }
+    return '<div class="goal-row">' + txt + ' <button class="linkbtn" data-goal="edit" type="button">Edit goal</button></div>';
+  }
   function heroHtml(compact){
     var t = totals(), total = t.all.checked, ti = tierInfo(total);
     var pct = Math.min(total, TOP) / TOP * 100, pctA = Math.min(t.all.appr, TOP) / TOP * 100;
@@ -1175,6 +1355,8 @@ __MERGE__
       '<div class="award">'+award+'</div>' +
       (total - t.all.sub > 0 ? '<div class="gap-nudge">'+(total - t.all.sub)+' of your checked points are not submitted yet. Only EngageMDC counts.</div>' : '') +
       (compact ? '' : '<div class="stages"><span>Submitted <b>'+t.all.sub+' pts</b></span><span>Approved by iCED <b>'+t.all.appr+' pts</b></span></div>') +
+      goalLineHtml(total, compact) +
+      (total > 0 && !compact ? '<div class="hero-links"><button class="linkbtn" id="btn-sharecard" type="button">Save a progress card</button></div>' : '') +
       '</div>';
   }
   function tilesHtml(){
@@ -1274,10 +1456,11 @@ __MERGE__
     function ta(key, prompt, label){
       if (!prompt) return '';
       var v = nt[key] || '';
+      var min = minSentences(prompt);
       return '<p class="prompt"><b>'+label+'</b>'+esc(prompt)+'</p>' +
         '<textarea data-key="'+key+'" placeholder="Your draft (saved in this browser)" aria-label="'+label+' reflection">'+esc(v)+'</textarea>' +
         '<div class="ta-foot"><button class="btn-copy" type="button" data-copy="'+key+'" aria-label="Copy your '+label+' answer">Copy answer</button>' +
-        '<div class="wc" data-wc="'+key+'">'+(v ? words(v)+' words' : '')+'</div></div>';
+        '<div class="wc'+(min && v && sentences(v) >= min ? ' met' : '')+'" data-wc="'+key+'" data-min="'+min+'">'+wcText(v, min)+'</div></div>';
     }
     var aside = (a.aside && a.aside.length) ? '<h4>Resources and notes</h4><ul class="aside">'+a.aside.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>' : '';
     var left = '<div><h4>What to submit</h4><div class="doc">'+esc(a.doc || "See the scorecard for this action's documentation.")+'</div>' +
@@ -1339,7 +1522,8 @@ __MERGE__
       t.addEventListener("input", function(){
         var nt = state.notes[code] || (state.notes[code] = {});
         nt[t.dataset.key] = t.value; state.updated = Date.now(); saveLocal();
-        var wc = it.querySelector('.wc[data-wc="'+t.dataset.key+'"]'); if (wc) wc.textContent = t.value.trim() ? words(t.value)+" words" : "";
+        var wc = it.querySelector('.wc[data-wc="'+t.dataset.key+'"]');
+        if (wc){ var mn = +wc.dataset.min || 0; wc.textContent = wcText(t.value, mn); wc.classList.toggle("met", !!mn && sentences(t.value) >= mn); }
       });
     });
     Array.prototype.forEach.call(it.querySelectorAll(".det input[type=checkbox]"), function(cb){

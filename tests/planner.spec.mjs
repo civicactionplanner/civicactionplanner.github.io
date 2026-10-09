@@ -15,7 +15,7 @@ const num = (s) => parseInt(String(s).replace(/[^0-9]/g, ""), 10);
 // Sections default to collapsed on #all, so the harness seeds them open (cas-ui-v1 is
 // UI-only state, like the localStorage.clear() next to it); the collapse tests below
 // use fresh contexts to exercise the real defaults.
-const OPEN_ALL_SECTIONS = { sections: { all: { DE: false, ES: false, CW: false, AC: false, SI: false } } };
+const OPEN_ALL_SECTIONS = { sections: { all: { DE: false, ES: false, CW: false, AC: false, SI: false } }, tour: "done" };
 test.beforeEach(async ({ page }) => {
   await page.goto(target);
   await page.waitForSelector("#total");
@@ -749,6 +749,78 @@ test("the hero nudges unsubmitted points toward EngageMDC", async ({ page }) => 
   await page.click("#item-DE-13 .exp");
   await page.check('#item-DE-13 input[data-st="sub"]');
   await expect(page.locator(".gap-nudge")).toHaveCount(0);
+});
+
+// ---------- v3.6 planner upgrades ----------
+test("a goal shows the weekly pace and can be cleared", async ({ page }) => {
+  await page.click("#btn-goal");
+  const d = new Date(Date.now() + 70 * 864e5);
+  const iso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  await page.selectOption("#goal-award", "Silver");
+  await page.fill("#goal-date", iso);
+  await page.click("#goal-save");
+  await expect(page.locator(".goal-row")).toContainText("Silver by");
+  await expect(page.locator(".goal-row")).toContainText("about 20 points a week");
+  await expect(page.locator(".goal-row")).toContainText("You are on pace.");
+  await page.click('[data-goal="edit"]');
+  await page.click("#goal-clear");
+  await expect(page.locator("#btn-goal")).toContainText("Set a goal");
+});
+
+test("reflection boxes show a sentence target that turns met", async ({ page }) => {
+  await page.click("#item-DE-11 .exp");
+  const wc = page.locator('#item-DE-11 .wc[data-wc="what"]');
+  await page.fill('#item-DE-11 textarea[data-key="what"]', "This is one sentence.");
+  await expect(wc).toContainText("1 of 2 sentences");
+  await expect(wc).not.toHaveClass(/met/);
+  await page.fill('#item-DE-11 textarea[data-key="what"]', "I went to the meeting. The budget was discussed.");
+  await expect(wc).toContainText("2 of 2 sentences");
+  await expect(wc).toHaveClass(/met/);
+});
+
+test("crossing an award level celebrates once", async ({ page }) => {
+  await page.evaluate(() => {
+    localStorage.setItem("cas-planner-v2", JSON.stringify({
+      v: 3,
+      counts: { "DE-12": 1, "DE-14B": 1, "DE-17": 1, "DE-30": 1, "ES-2": 1, "ES-7": 1 },
+      updated: Date.now(),
+    }));
+  });
+  await page.reload();
+  await page.waitForSelector(".item");
+  expect(num(await page.textContent("#total"))).toBe(90);
+  await page.click("#item-DE-11 .row");
+  await expect(page.locator("#toast")).toContainText(/Bronze reached/);
+  await page.waitForSelector("canvas.confetti", { timeout: 2000 });
+});
+
+test("the progress card downloads as a png", async ({ page }) => {
+  await page.click("#item-DE-11 .row");
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.click("#btn-sharecard"),
+  ]);
+  expect(download.suggestedFilename()).toBe("civic-action-progress.png");
+});
+
+test("a first visit gets the three-step tour once", async ({ browser }) => {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  await page.goto(target + "#all");
+  await page.waitForSelector(".cat:not(.closed) .item");
+  await page.waitForSelector("#tour-box", { timeout: 3000 });
+  await expect(page.locator("#tour-box")).toContainText("Check an action when it is done");
+  await page.click('#tour-box [data-tour="next"]');
+  await expect(page.locator("#tour-box")).toContainText("reflection drafts");
+  await page.click('#tour-box [data-tour="next"]');
+  await expect(page.locator("#tour-box")).toContainText("EngageMDC");
+  await page.click('#tour-box [data-tour="done"]');
+  await expect(page.locator("#tour-box")).toHaveCount(0);
+  await page.reload();
+  await page.waitForSelector(".cat:not(.closed) .item");
+  await page.waitForTimeout(1200);
+  await expect(page.locator("#tour-box")).toHaveCount(0);
+  await ctx.close();
 });
 
 // ---------- PWA ----------
