@@ -721,6 +721,23 @@ test("the hero nudges unsubmitted points toward EngageMDC", async ({ page }) => 
   await expect(page.locator(".gap-nudge")).toHaveCount(0);
 });
 
+// ---------- PWA ----------
+test("the app ships a valid manifest, icons, and a service worker", async ({ page }) => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.webmanifest"), "utf8"));
+  expect(manifest.name).toBe("Civic Action Scorecard Planner");
+  expect(manifest.display).toBe("standalone");
+  expect(manifest.theme_color).toBe("#0032A0");
+  for (const icon of manifest.icons) {
+    expect(fs.existsSync(path.join(root, icon.src))).toBe(true);
+  }
+  const sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");
+  expect(sw).toContain('addEventListener("fetch"');
+  const head = await page.content();
+  expect(head).toContain('rel="manifest"');
+  expect(head).toContain('name="theme-color"');
+  expect(head).toContain("serviceWorker");
+});
+
 // ---------- accounts (build variants; no real Firebase project needed) ----------
 test("guest build: empty firebase config hides accounts and everything still works", async ({ browser }) => {
   const out = path.join(root, ".guest-test.html");

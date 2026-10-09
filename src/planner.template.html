@@ -6,6 +6,9 @@
 <title>Civic Action Scorecard Planner</title>
 <meta name="description" content="Plan, track, and prepare Civic Action Scorecard submissions: every action and point value, documentation requirements, reflection prompts, and live progress toward Bronze, Silver, and Gold.">
 <link rel="preload" href="assets/img/hero.webp" as="image" type="image/webp">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<meta name="theme-color" content="#0032A0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -1438,6 +1441,9 @@ __MERGE__
   lastTotal = totals().all.checked;
   TIERS.forEach(function(tr){ if (lastTotal >= tr.p) state.unlocked[tr.n.toLowerCase()] = true; });
   renderShell();
+  if ("serviceWorker" in navigator && location.protocol === "https:"){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  }
   if (migrationNotice){
     saveLocal();
     toast("Updated to the 2026-27 scorecard. Unify Challenge progress kept its checkmark under a new code. Instructor-assigned points are no longer part of the scorecard.");
