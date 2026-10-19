@@ -14,15 +14,24 @@ snapshot replaces local checks on that device; use a clean browser profile.
 1. Open the seeded link: a living student page, not zeros.
 2. Phase 1: coverage dots, the Social Innovation suggestion line, soft lock talk
    track ("recommendations, never gates").
-3. The funnel: open any action, Open EngageMDC: the CAS group opens already
-   filtered to that exact action (EngageMDC's zero-padded code goes into the
-   search for you), one click from Add Impact. Line: "This tool has one job:
-   get documented actions into EngageMDC."
-4. Phone: install from the browser menu (Add to Home Screen), show it opening
+3. Set a goal live from the Phase 1 summary (the link sits under the meter on
+   any list view): pick "Silver" and a finals-week date. The summary answers
+   the question every student has: "about N points a week. You are on pace."
+4. The funnel: open any action. The draft boxes count sentences against the
+   prompt's own minimum and turn green at target, and each has a Copy answer
+   link matching the Add Impact form's three boxes. Then Open EngageMDC: the
+   CAS group opens already filtered to that exact action (the zero-padded code
+   goes into the search for you), one click from Add Impact. Line: "This tool
+   has one job: get documented actions into EngageMDC, in the student's own
+   words."
+5. Phone: install from the browser menu (Add to Home Screen), show it opening
    offline. Line: "No server, no cost, works in a dead zone."
-5. Sign-in sync: check an action on the laptop, watch it appear on the phone.
-6. Reliability: the Actions tab, green weekly canary. Line: "It audits all 60
+6. Sign-in sync: check an action on the laptop, watch it appear on the phone.
+7. Reliability: the Actions tab, green weekly canary. Line: "It audits all 67
    checks against the live site every Monday."
+
+Nice extra if timing allows: a fresh browser profile shows the three-step tour,
+and crossing an award level fires a short confetti burst.
 
 ## Fallback
 
