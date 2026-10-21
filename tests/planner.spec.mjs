@@ -823,6 +823,22 @@ test("a first visit gets the three-step tour once", async ({ browser }) => {
   await ctx.close();
 });
 
+test("the plan button maps out future actions in light blue", async ({ page }) => {
+  await page.click("#item-DE-11 .planb");
+  await expect(page.locator("#item-DE-11")).toHaveClass(/planned/);
+  await expect(page.locator("#item-DE-11 .planb")).toContainText("Planned");
+  await expect(page.locator(".meter .fill.plan")).toHaveCount(1);
+  await expect(page.locator("#plan-chip")).toContainText("Planned: 10 pts");
+  await expect(page.locator('.chip[data-f="plan"] .n')).toHaveText("1");
+  await page.reload();
+  await page.waitForSelector(".item");
+  await expect(page.locator("#item-DE-11")).toHaveClass(/planned/);
+  await page.click("#item-DE-11 .row");
+  await expect(page.locator("#item-DE-11")).not.toHaveClass(/planned/);
+  await expect(page.locator(".meter .fill.plan")).toHaveCount(0);
+  await expect(page.locator("#plan-chip")).toHaveCount(0);
+});
+
 // ---------- PWA ----------
 test("the app ships a valid manifest, icons, and a service worker", async ({ page }) => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.webmanifest"), "utf8"));

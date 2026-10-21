@@ -49,6 +49,7 @@ for (const scheme of ["light", "dark"]) {
         bandInk: v("--band-ink"),
         bandInk2: v("--band-ink-2"),
         lightbandOverlay: v("--lightband-overlay"),
+        plan: v("--plan"), planSoft: v("--plan-soft"), planText: v("--plan-text"),
         pillFg: c(".pcard .pc-pill", "color"),
         pillBg: c(".pcard .pc-pill", "backgroundColor"),
         laterPillFg: c(".pcard.later .pc-pill", "color"),
@@ -68,6 +69,8 @@ for (const scheme of ["light", "dark"]) {
     expect(ratio(d.pillFg, d.pillBg), "status pill text on its background").toBeGreaterThanOrEqual(4.5);
     expect(ratio(d.laterPillFg, d.laterCardBg), "later pill text on its background").toBeGreaterThanOrEqual(4.5);
     expect(ratio(d.tabFg, d.tabBg), "tab label on tab bar").toBeGreaterThanOrEqual(4.5);
+    expect(ratio(d.planText, d.planSoft), "planned pill text on its background").toBeGreaterThanOrEqual(4.5);
+    expect(ratio(d.plan, d.surface), "plan meter segment on surface (UI, 3:1)").toBeGreaterThanOrEqual(3);
     // Band text worst case: the rgba overlay composited over pure white (the
     // lightest pixel any photo could put behind it) must still carry the text.
     const om = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/.exec(d.bandOverlay);

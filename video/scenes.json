@@ -1,0 +1,14 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "scenes": [
+    { "id": "intro", "pad": 1.6, "text": "Hey MDC. I'm Sharky, your guide to the Civic Action Scorecard Planner. It's a free site that helps you plan your scorecard and reach Bronze, Silver, or Gold. Let me show you how it works." },
+    { "id": "browse", "pad": 1.4, "text": "Every one of the 124 actions from this year's scorecard lives here, sorted into five categories, and four phases that pace your whole year." },
+    { "id": "check", "pad": 1.4, "text": "When you finish an action, just check it off. Your points add up right away, and the meter shows how close the next award is." },
+    { "id": "goal", "pad": 1.6, "text": "Now pick a goal. Say, Silver by finals week. The planner does the math and tells you how many points a week keep you on pace." },
+    { "id": "detail", "pad": 1.6, "text": "Open any action to see exactly what to submit, plus the What, So What, and Now What questions. Draft your answers right here. The counter turns green once you've written enough." },
+    { "id": "funnel", "pad": 1.6, "text": "When you're ready to submit, press Open EngageMDC. It takes you straight to that exact action, one click from Add Impact. And every box has a copy button, so your own words paste right into the form." },
+    { "id": "phone", "pad": 1.4, "text": "One more thing. Add the planner to your phone's home screen and it works like an app, even with no wifi. Sign in with Google if you want your progress on every device." },
+    { "id": "close", "pad": 2.0, "text": "That's the whole loop. Plan it here, do it out there, prove it in EngageMDC. Find it at civic action planner dot github dot I O. See you out there, Sharks." }
+  ]
+}

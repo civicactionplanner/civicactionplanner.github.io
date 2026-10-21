@@ -18,6 +18,7 @@
   --topbar-bg:#0032A0; --topbar-ink:#FFFFFF; --topbar-ink-2:#C9D4EE; --topbar-line:#3A5FBE;
   --band-1:#0032A0; --band-2:#22468E; --band-ink:#FFFFFF; --band-ink-2:#C9D4EE; --band-overlay:rgba(10,44,120,.85);
   --accent:#C8690A; --accent-soft:#F8E7D4; --accent-text:#9A4F06; --accent-contrast:#FFFFFF;
+  --plan:#6490DC; --plan-soft:#E3ECFB; --plan-text:#1C3F8F;
   --de:#2450B0; --es:#0E8F7A; --cw:#D6472A; --ac:#C89A00; --si:#7A4DB8; --ia:#5B6770;
   --de-soft:#E5EAF6; --es-soft:#E2F2EF; --cw-soft:#FAE9E5; --ac-soft:#F8F3E0; --si-soft:#EFEAF7; --ia-soft:#EBEDEE;
   --de-text:#2450B0; --es-text:#0A6E5E; --cw-text:#B23518; --ac-text:#8A6A00; --si-text:#7A4DB8; --ia-text:#5B6770;
@@ -36,6 +37,8 @@
   --lightband-overlay:rgba(19,36,92,.92);
     --lightband-overlay:rgba(19,36,92,.92);
     --accent:#E08A33; --accent-soft:#252743; --accent-text:#F0AC6B; --accent-contrast:#0C1A45;
+  --plan:#5E82D6; --plan-soft:#1E2C4D; --plan-text:#BBD0FA;
+    --plan:#5E82D6; --plan-soft:#1E2C4D; --plan-text:#BBD0FA;
     --de:#5E86D6; --es:#1FA88E; --cw:#CC4028; --ac:#B98D14; --si:#9A72DA; --ia:#8A94A8;
     --de-soft:#162756; --es-soft:#0E2B4E; --cw-soft:#231F42; --ac-soft:#21283F; --si-soft:#1D2557; --ia-soft:#1B2951;
     --de-text:#86A7E8; --es-text:#1FA88E; --cw-text:#E4735F; --ac-text:#C79A2A; --si-text:#B491E8; --ia-text:#A9B3C4;
@@ -179,10 +182,15 @@ a{color:var(--primary)}
 .meter{position:relative;height:14px;border-radius:7px;background:var(--surface-2);border:1px solid var(--line);margin:14px 0 34px}
 .meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--primary);transition:width .5s cubic-bezier(.2,.7,.2,1)}
 .meter .fill.appr{background:var(--ok);opacity:.55}
+.meter .fill.plan{background:var(--plan)}
 .meter .tick{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--line-2)}
 .meter .tick.hit{background:var(--tc)}
 .meter .tl{position:absolute;top:18px;transform:translateX(-50%);font-size:12px;color:var(--ink-2);white-space:nowrap}
 .meter .tl b{display:block;font-weight:600;color:var(--tc)}
+.planb{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:12.5px;cursor:pointer;color:var(--ink-2);white-space:nowrap;margin-right:4px}
+.planb.on{background:var(--plan-soft);border-color:var(--plan);color:var(--plan-text);font-weight:600}
+.item.planned .row{box-shadow:inset 3px 0 0 var(--plan)}
+.bchip.planchip{border-color:var(--plan);color:var(--plan-text);background:var(--plan-soft)}
 .award{font-size:14px;color:var(--ink-2)}
 .award b{color:var(--ink);font-weight:600}
 .gap-nudge{font-size:12.5px;color:var(--ink);background:var(--warn-bg);border-radius:8px;padding:5px 10px;margin-top:8px;display:inline-block;align-self:flex-start}
@@ -485,7 +493,7 @@ canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:n
   DATA.actions.forEach(function(a){ byCode[a.code] = a; });
 
   // ---------- state ----------
-  function blank(){ return {v:3, name:"", counts:{}, sub:{}, appr:{}, notes:{}, unlocked:{}, updated:0}; }
+  function blank(){ return {v:3, name:"", counts:{}, sub:{}, appr:{}, notes:{}, plan:{}, unlocked:{}, updated:0}; }
   // 2026-27 migration: CW-10 became CW-10A, the instructor-assigned category (IA-1
   // and its stored points value) is gone. Runs on every stored, imported, shared,
   // and cloud copy so old keys cannot come back from anywhere.
@@ -514,9 +522,11 @@ canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:n
     b.sub = s.sub && typeof s.sub === "object" ? s.sub : {};
     b.appr = s.appr && typeof s.appr === "object" ? s.appr : {};
     b.notes = s.notes && typeof s.notes === "object" ? s.notes : {};
+    b.plan = s.plan && typeof s.plan === "object" ? s.plan : {};
     b.unlocked = s.unlocked && typeof s.unlocked === "object" ? s.unlocked : {};
     b.updated = typeof s.updated === "number" ? s.updated : 0;
     Object.keys(b.counts).forEach(function(k){ if (!byCode[k] || !(b.counts[k] > 0)) delete b.counts[k]; });
+    Object.keys(b.plan).forEach(function(k){ if (!byCode[k] || b.counts[k]) delete b.plan[k]; });
     return b;
   }
   var migrationNotice = false;
@@ -653,7 +663,7 @@ canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:n
       if (b.dataset.tour === "next") tourStep(+box.dataset.step + 1); else tourDone();
     } else if (!box.contains(e.target)) tourDone();
   });
-  function commit(){ state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); updateHomeCards(); updateStatRow(); }
+  function commit(){ Object.keys(state.plan).forEach(function(k){ if (state.counts[k]) delete state.plan[k]; }); state.updated = Date.now(); checkUnlocks(); saveLocal(); renderSummary(); updateCatHeads(); updatePhaseHead(); updateHomeCards(); updateStatRow(); }
 
   // ---------- math ----------
   function ptsFor(a){
@@ -916,7 +926,7 @@ canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:n
   // ---------- cloud save (storage adapter: local always, cloud when signed in) ----------
   var BK_KEY = LS_KEY + "-backup";
   var cloudUser = null, cloudTimer = null, cloudDirty = false, acctMenuOpen = false;
-  function cloudSnapshot(){ return {name:state.name, counts:state.counts, sub:state.sub, appr:state.appr, notes:state.notes, updated:state.updated}; }
+  function cloudSnapshot(){ return {name:state.name, counts:state.counts, sub:state.sub, appr:state.appr, notes:state.notes, plan:state.plan, updated:state.updated}; }
   function setChip(){
     var c = document.getElementById("save-chip"); if (!c) return;
     var t = cloudUser ? "Saved to your account" : "Saved on this device only";
@@ -1130,7 +1140,7 @@ __MERGE__
             '<button class="btn" id="btn-clear" type="button">Clear all</button>' +
           '</div>' +
         '</div>' +
-        '<p class="legend">Check an action once you have completed it; the planner adds its points and tracks the next award level. Open an action to see exactly what to submit, draft your What / So what / Now what reflection, copy it for '+esc(CFG.hubName)+', and mark it <span class="badge sub">Submitted</span> and <span class="badge appr">Approved</span> as iCED reviews it. Everything is saved in this browser; use Export backup to move it or keep a copy.</p>' +
+        '<p class="legend">Check an action once you have completed it; the planner adds its points and tracks the next award level. The Plan button earmarks actions you intend to do and shows them in light blue on the meter. Open an action to see exactly what to submit, draft your What / So what / Now what reflection, copy it for '+esc(CFG.hubName)+', and mark it <span class="badge sub">Submitted</span> and <span class="badge appr">Approved</span> as iCED reviews it. Everything is saved in this browser; use Export backup to move it or keep a copy.</p>' +
         '<div id="cats"></div>';
       renderChips(); renderSummary(); renderCats();
       if (pendingSuggest && route.view === "phase"){
@@ -1193,7 +1203,7 @@ __MERGE__
       '<h3 class="disp">Using this planner</h3>' +
       '<ul class="how-steps">' +
         '<li>Choose a phase or browse the full list.</li>' +
-        '<li>Check off actions to plan and track points.</li>' +
+        '<li>Check off actions to track points, and use the Plan button to map out what you will do next; planned points show in light blue on the meter.</li>' +
         '<li>Expand an action for documentation and reflection prompts.</li>' +
         '<li>Sign in with Google to keep progress across devices.</li>' +
         '<li>Export or print any time.</li>' +
@@ -1267,16 +1277,17 @@ __MERGE__
 
   // ---------- chips / filter ----------
   function renderChips(){
-    var c = {all:DATA.actions.length, done:0, todo:0, sub:0, appr:0, notes:0, skill:0};
+    var c = {all:DATA.actions.length, done:0, todo:0, plan:0, sub:0, appr:0, notes:0, skill:0};
     DATA.actions.forEach(function(a){
       var on = !!state.counts[a.code];
       if (on) c.done++; else c.todo++;
+      if (state.plan[a.code] && !on) c.plan++;
       if (state.sub[a.code] || state.appr[a.code]) c.sub++;
       if (state.appr[a.code]) c.appr++;
       var n = state.notes[a.code]; if (n && (n.what||n.sowhat||n.nowwhat)) c.notes++;
       if (a.skill) c.skill++;
     });
-    var defs = [["all","All"],["done","Checked"],["todo","Unchecked"],["sub","Submitted"],["appr","Approved"],["notes","With drafts"],["skill","Skill trainings"]];
+    var defs = [["all","All"],["done","Checked"],["todo","Unchecked"],["plan","Planned"],["sub","Submitted"],["appr","Approved"],["notes","With drafts"],["skill","Skill trainings"]];
     var el = document.getElementById("chips");
     if (!el) return;
     el.innerHTML = defs.map(function(d){
@@ -1294,6 +1305,7 @@ __MERGE__
     else if (filter==="sub") ok = !!(state.sub[a.code] || state.appr[a.code]);
     else if (filter==="appr") ok = !!state.appr[a.code];
     else if (filter==="notes"){ var n = state.notes[a.code]; ok = !!(n && (n.what||n.sowhat||n.nowwhat)); }
+    else if (filter==="plan") ok = !!(state.plan[a.code] && !on);
     else if (filter==="skill") ok = !!a.skill;
     if (ok && query){
       var hay = (a.code+" "+a.title+" "+a.doc+" "+a.what+" "+a.sowhat+" "+a.nowwhat+" "+(a.aside||[]).join(" ")+" "+(a.req||"")).toLowerCase();
@@ -1338,7 +1350,10 @@ __MERGE__
   }
   function heroHtml(compact){
     var t = totals(), total = t.all.checked, ti = tierInfo(total);
+    var plannedPts = 0;
+    DATA.actions.forEach(function(a){ if (state.plan[a.code] && !state.counts[a.code]) plannedPts += a.pts; });
     var pct = Math.min(total, TOP) / TOP * 100, pctA = Math.min(t.all.appr, TOP) / TOP * 100;
+    var pctP = Math.min(total + plannedPts, TOP) / TOP * 100;
     var ticks = TIERS.map(function(tr){
       var hit = total >= tr.p;
       return '<span class="tick'+(hit?' hit':'')+'" style="left:'+(tr.p/TOP*100)+'%;--tc:'+tr.c+'"></span>' +
@@ -1350,8 +1365,8 @@ __MERGE__
     else award = '<b>'+(TIERS[0].p-total)+' points to '+TIERS[0].n+'</b>, the first award level.';
     return '<div class="hero'+(compact?' compact':'')+'">' +
       '<div class="lbl">'+(compact ? esc(CFG.edition)+' · ' : '')+'Points from checked actions · '+t.all.done+' of '+DATA.actions.length+' actions</div>' +
-      '<div class="num-row"><div class="num disp" id="total">'+total+'<small>PTS</small></div><span class="bchip'+(breadthCount()>=4?' on':'')+'" id="breadth-chip">Breadth: '+breadthCount()+' of 5 areas</span></div>' +
-      '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+t.all.appr+' approved"><div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
+      '<div class="num-row"><div class="num disp" id="total">'+total+'<small>PTS</small></div><span class="bchip'+(breadthCount()>=4?' on':'')+'" id="breadth-chip">Breadth: '+breadthCount()+' of 5 areas</span>'+(plannedPts>0?'<span class="bchip planchip" id="plan-chip">Planned: '+plannedPts+' pts</span>':'')+'</div>' +
+      '<div class="meter" role="img" aria-label="'+total+' of '+TOP+' points toward '+TIERS[TIERS.length-1].n+'; '+plannedPts+' more planned; '+t.all.appr+' approved">'+(plannedPts>0?'<div class="fill plan" style="width:'+pctP+'%"></div>':'')+'<div class="fill" style="width:'+pct+'%"></div><div class="fill appr" style="width:'+pctA+'%"></div>'+ticks+'</div>' +
       '<div class="award">'+award+'</div>' +
       (total - t.all.sub > 0 ? '<div class="gap-nudge">'+(total - t.all.sub)+' of your checked points are not submitted yet. Only EngageMDC counts.</div>' : '') +
       (compact ? '' : '<div class="stages"><span>Submitted <b>'+t.all.sub+' pts</b></span><span>Approved by iCED <b>'+t.all.appr+' pts</b></span></div>') +
@@ -1431,12 +1446,14 @@ __MERGE__
     var metaHtml = meta.length ? '<div class="meta">'+meta.join("")+'</div>' : '';
     var pm = a.unlimited ? 'per election' : a.max > 1 ? 'each' : 'pts';
     var pv = on ? ptsFor(a) : a.pts;
-    return '<div class="item'+(on?' on':'')+(open?' open':'')+'" id="item-'+a.code+'" data-code="'+a.code+'">' +
+    var planned = !on && !!state.plan[a.code];
+    return '<div class="item'+(on?' on':'')+(open?' open':'')+(planned?' planned':'')+'" id="item-'+a.code+'" data-code="'+a.code+'">' +
       '<div class="row" role="checkbox" aria-checked="'+on+'" tabindex="0" aria-label="'+esc(a.code+" "+a.title)+'">' +
         '<span class="tog" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>' +
         '<span class="code">'+catGlyph(a.cat)+a.code+'</span>' +
         '<div class="tx"><div class="tt">'+esc(a.title)+'</div>'+metaHtml+'</div>' +
         renderStepper(a, n) +
+        (on ? '' : '<button class="planb'+(planned?' on':'')+'" type="button" data-stop="1" aria-pressed="'+planned+'" aria-label="'+(planned?'Remove '+a.code+' from your plan':'Add '+a.code+' to your plan')+'">'+(planned?'Planned':'Plan')+'</button>') +
         '<div class="pts"><div class="pv disp">'+pv+'</div><div class="pm">'+pm+'</div></div>' +
         '<button class="exp" type="button" data-stop="1" aria-expanded="'+open+'" aria-label="Details for '+a.code+'"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l5 5 5-5"/></svg></button>' +
       '</div>' +
@@ -1501,6 +1518,12 @@ __MERGE__
     });
     it.querySelector(".exp").addEventListener("click", function(e){
       e.stopPropagation(); openSet[code] = !openSet[code]; syncOpen();
+    });
+    var pb = it.querySelector(".planb");
+    if (pb) pb.addEventListener("click", function(e){
+      e.stopPropagation();
+      if (state.plan[code]) delete state.plan[code]; else state.plan[code] = true;
+      commit(); refreshItem(a); renderChips();
     });
     var stp = it.querySelector(".stp");
     if (stp){
