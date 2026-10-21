@@ -36,6 +36,7 @@ await f.waitForSelector("#total", { timeout: 30000 });
 await sleep(800);
 
 const t0 = Date.now();
+await page.evaluate(() => window.go());
 const until = async (s) => { const ms = t0 + s * 1000 - Date.now(); if (ms > 0) await sleep(ms); };
 const at = (sceneStart, offset, fn) => ({ t: sceneStart + offset, fn });
 
@@ -43,8 +44,12 @@ const at = (sceneStart, offset, fn) => ({ t: sceneStart + offset, fn });
 const acts = [];
 for (const sc of sched.scenes) {
   const s = sc.start;
-  acts.push(at(s, 0, async () => { await page.evaluate((txt) => window.setBubble(txt), sc.text); }));
-  acts.push(at(s, sc.audio, async () => { await page.evaluate(() => window.stopTalking()); }));
+  const bubbleAt = Math.max(0, ((sc.talk && sc.talk[0] && sc.talk[0][0]) || 0) - 0.25);
+  acts.push(at(s, bubbleAt, async () => { await page.evaluate((txt) => window.setBubble(txt), sc.caption || sc.text); }));
+  for (const [a, b] of (sc.talk || [[0, sc.audio]])) {
+    acts.push(at(s, a, async () => { await page.evaluate(() => window.startTalking()); }));
+    acts.push(at(s, b, async () => { await page.evaluate(() => window.stopTalking()); }));
+  }
   if (sc.id === "intro") {
     acts.push(at(s, 4.2, async () => { await page.evaluate(() => window.hideIntro()); }));
     acts.push(at(s, 7.0, async () => { await f.evaluate(() => window.scrollTo({ top: 480, behavior: "smooth" })); }));

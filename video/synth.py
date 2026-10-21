@@ -22,7 +22,24 @@ for sc in cfg["scenes"]:
         w.writeframes(pcm.tobytes())
     audio_len = len(samples) / sr
     dur = audio_len + sc["pad"]
-    schedule.append({"id": sc["id"], "text": sc["text"], "start": round(t, 3), "audio": round(audio_len, 3), "dur": round(dur, 3), "sr": sr})
+    # speech envelope -> talk segments so the mouth only moves with the voice
+    win = int(sr * 0.03)
+    n = len(samples) // win
+    rms = np.sqrt((samples[: n * win].reshape(n, win) ** 2).mean(axis=1))
+    on = rms > (rms.max() * 0.05)
+    segs, cur = [], None
+    for i, v in enumerate(on):
+        ts = i * win / sr
+        if v and cur is None: cur = ts
+        if not v and cur is not None:
+            segs.append([cur, ts]); cur = None
+    if cur is not None: segs.append([cur, n * win / sr])
+    merged = []
+    for a, b in segs:
+        if merged and a - merged[-1][1] < 0.28: merged[-1][1] = b
+        else: merged.append([a, b])
+    talk = [[round(a, 2), round(b, 2)] for a, b in merged if b - a > 0.12]
+    schedule.append({"id": sc["id"], "text": sc["text"], "start": round(t, 3), "audio": round(audio_len, 3), "dur": round(dur, 3), "sr": sr, "talk": talk, "caption": sc.get("caption", sc["text"])})
     t += dur
     print(f"{sc['id']}: audio {audio_len:.1f}s, scene {dur:.1f}s")
 

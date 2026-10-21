@@ -20,6 +20,12 @@ for sc in sched["scenes"]:
     start = int((lead + sc["start"]) * SR)
     track[start:start + len(clip)] = clip[: len(track) - start]
 
+peak = np.abs(track).max()
+if peak > 0:
+    gain = min(3.0, 0.89 * 32767 / peak)
+    track = np.clip(track.astype(np.float64) * gain, -32767, 32767).astype(np.int16)
+    print(f"normalized, gain x{gain:.2f}")
+
 out = os.path.join(HERE, "track.wav")
 with wave.open(out, "wb") as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)

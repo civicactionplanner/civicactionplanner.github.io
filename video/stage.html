@@ -7,17 +7,12 @@
 <style>
   html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0032A0;font-family:Jost,system-ui,sans-serif}
   #site{position:absolute;inset:0;width:1920px;height:1080px;border:0;background:#fff}
-  /* ---- shark guide ---- */
-  #guide{position:absolute;right:28px;bottom:16px;width:360px;height:300px;z-index:20;animation:bob 2.6s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-  #guide svg{width:100%;height:100%;filter:drop-shadow(0 10px 22px rgba(0,20,70,.35))}
-  #mouth{transform-origin:208px 186px;transition:transform .12s}
-  .talking #mouth{animation:chomp .34s ease-in-out infinite}
-  @keyframes chomp{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
-  #tailfin{transform-origin:64px 150px;animation:wag 1.4s ease-in-out infinite}
-  @keyframes wag{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(7deg)}}
+  /* ---- Finn, the official MDC mascot (used with permission) ---- */
+  #guide{position:absolute;right:24px;bottom:10px;width:400px;z-index:20;animation:bob 2.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  #guide img{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.35))}
   /* ---- speech bubble ---- */
-  #bubble{position:absolute;right:360px;bottom:120px;max-width:700px;background:#FFFFFF;border:4px solid #0032A0;border-radius:22px;
+  #bubble{position:absolute;right:430px;bottom:150px;max-width:700px;background:#FFFFFF;border:4px solid #0032A0;border-radius:22px;
     padding:22px 28px;font-size:30px;line-height:1.4;color:#13233F;z-index:21;box-shadow:0 12px 30px rgba(0,20,70,.25);
     opacity:0;transform:translateY(12px);transition:opacity .35s,transform .35s}
   #bubble.on{opacity:1;transform:translateY(0)}
@@ -36,9 +31,10 @@
 <body>
 <iframe id="site" src="https://civicactionplanner.github.io/"></iframe>
 
+<div id="blackout" style="position:absolute;inset:0;background:#000;z-index:40"></div>
 <div class="card" id="introcard">
   <h1>How to use the Civic Action Scorecard Planner</h1>
-  <p>A two minute tour with Sharky</p>
+  <p>A two minute tour with Finn</p>
 </div>
 
 <div class="card" id="endcard">
@@ -49,49 +45,33 @@
 
 <div id="bubble"></div>
 <div id="guide">
-  <svg viewBox="0 0 360 300" aria-label="Sharky, a friendly cartoon shark">
-    <defs>
-      <linearGradient id="bodyg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#2A66D8"/><stop offset="1" stop-color="#0032A0"/>
-      </linearGradient>
-    </defs>
-    <!-- tail -->
-    <path id="tailfin" d="M70 150 L18 108 Q8 150 26 168 Q10 182 20 206 L70 170 Z" fill="url(#bodyg)"/>
-    <!-- body -->
-    <ellipse cx="190" cy="160" rx="135" ry="88" fill="url(#bodyg)"/>
-    <!-- belly -->
-    <path d="M95 190 Q190 265 300 182 Q250 240 175 240 Q115 232 95 190 Z" fill="#DCE8FF"/>
-    <!-- dorsal fin -->
-    <path d="M165 76 Q182 18 232 34 Q205 52 212 86 Z" fill="#0032A0"/>
-    <!-- side fin -->
-    <path d="M160 190 Q140 238 108 246 Q128 198 148 184 Z" fill="#0032A0"/>
-    <!-- eye -->
-    <circle cx="258" cy="128" r="22" fill="#FFFFFF"/>
-    <circle cx="264" cy="130" r="11" fill="#13233F"/>
-    <circle cx="268" cy="126" r="4" fill="#FFFFFF"/>
-    <!-- cheerful mouth -->
-    <g id="mouth">
-      <path d="M232 178 Q268 210 310 178 Q296 226 258 222 Q238 214 232 178 Z" fill="#7A1B2E"/>
-      <path d="M238 182 L246 194 L254 182 Z" fill="#FFFFFF"/>
-      <path d="M262 186 L270 198 L278 184 Z" fill="#FFFFFF"/>
-    </g>
-    <!-- gills -->
-    <path d="M196 120 q-8 22 0 44" stroke="#0A2B74" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M214 116 q-8 26 0 52" stroke="#0A2B74" stroke-width="5" fill="none" stroke-linecap="round"/>
-  </svg>
+  <img id="finn" src="finn_0.png" alt="Finn, the Miami Dade College shark mascot">
 </div>
 
 <script>
   const bubble = document.getElementById("bubble");
-  const guide = document.getElementById("guide");
+  const finn = document.getElementById("finn");
+  const FRAMES = ["finn_0.png", "finn_1.png", "finn_2.png"];
+  FRAMES.forEach(f => { const i = new Image(); i.src = f; });
+  let talkTimer = null, step = 0;
+  const PATTERN = [1, 2, 1, 0, 2, 1, 2, 0, 1, 2];
+  function startFlaps(){
+    stopFlaps();
+    talkTimer = setInterval(() => { finn.src = FRAMES[PATTERN[step++ % PATTERN.length]]; }, 95);
+  }
+  function stopFlaps(){
+    if (talkTimer) clearInterval(talkTimer);
+    talkTimer = null; finn.src = FRAMES[0];
+  }
   window.setBubble = function(text){
-    if (!text){ bubble.classList.remove("on"); guide.classList.remove("talking"); return; }
+    if (!text){ bubble.classList.remove("on"); stopFlaps(); return; }
     bubble.textContent = text;
     bubble.classList.add("on");
-    guide.classList.add("talking");
   };
-  window.stopTalking = function(){ guide.classList.remove("talking"); };
+  window.startTalking = startFlaps;
+  window.stopTalking = stopFlaps;
   window.hideIntro = function(){ document.getElementById("introcard").classList.add("off"); };
+  window.go = function(){ document.getElementById("blackout").style.display = "none"; };
   window.showEnd = function(){ document.getElementById("endcard").classList.add("on"); };
 </script>
 </body>
