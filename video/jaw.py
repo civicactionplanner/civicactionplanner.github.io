@@ -63,6 +63,12 @@ for i, (dx, dy) in enumerate([(0, 0), (0, 12), (0, 26)]):
     frame.save(os.path.join(HERE, f"finn_{i}.png"))
     print(f"wrote finn_{i}.png offset ({dx},{dy})")
 
+# blink patch: a black lid over the eye, cropped with margin
+blinkbase = im.copy()
+ImageDraw.Draw(blinkbase).ellipse((458, 136, 510, 184), fill=(10, 10, 10, 255))
+blinkbase.crop((450, 128, 518, 192)).save(os.path.join(HERE, "finn_blink.png"))
+print("wrote finn_blink.png")
+
 strip = Image.new("RGBA", (3 * 380, 340), (255, 255, 255, 255))
 for i in range(3):
     f = Image.open(os.path.join(HERE, f"finn_{i}.png")).crop((300, 170, 680, 510))

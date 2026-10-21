@@ -20,6 +20,26 @@ for sc in sched["scenes"]:
     start = int((lead + sc["start"]) * SR)
     track[start:start + len(clip)] = clip[: len(track) - start]
 
+# soft synthesized pad under the voice (C, G, Am, F at 72 bpm), very quiet
+def music(n):
+    t = np.arange(n) / SR
+    out = np.zeros(n)
+    chords = [[261.63, 329.63, 392.0], [196.0, 246.94, 392.0], [220.0, 261.63, 329.63], [174.61, 261.63, 349.23]]
+    bar = 4 * 60 / 72
+    seg = int(bar * SR)
+    for i in range(0, n, seg):
+        ch = chords[(i // seg) % 4]
+        tt = t[i:i+seg] - t[i]
+        envl = np.minimum(tt / 0.9, 1) * np.exp(-tt / (bar * 1.2))
+        for fq in ch:
+            out[i:i+seg] += 0.3 * np.sin(2 * np.pi * fq * tt) * envl + 0.1 * np.sin(2 * np.pi * fq * 2 * tt) * envl
+    fi = int(2 * SR); out[:fi] *= np.linspace(0, 1, fi)
+    fo = int(2.5 * SR); out[-fo:] *= np.linspace(1, 0, fo)
+    return out * 0.09
+
+tf = track.astype(np.float64) + music(len(track)) * 32767
+track = np.clip(tf, -32767, 32767).astype(np.int16)
+
 peak = np.abs(track).max()
 if peak > 0:
     gain = min(3.0, 0.89 * 32767 / peak)

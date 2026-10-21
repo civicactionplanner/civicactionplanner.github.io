@@ -10,9 +10,10 @@ with the Kokoro voice venv (~/.claude/voice/venv) and Playwright.
    (voice am_puck, speed 1.08), detects the speech envelope, and writes
    schedule.json with per-scene talk segments.
 3. `record.mjs` (run from the repo root with TUTDIR pointing here) drives
-   the live site inside stage.html and records 1920x1080 webm; the mouth
-   flaps only inside the talk segments, captions can differ from the
-   spoken text, and a blackout layer drops at the schedule's time zero.
+   the LOCAL build (stage.html's iframe points at this repo's index.html)
+   and records 1920x1080 webm; the mouth frames follow each scene's 80ms
+   loudness envelope, Finn blinks and slides in, captions can differ from
+   the spoken text, and a blackout layer drops at the schedule's time zero.
 4. The first bright frame marks time zero: trim the video there (ffmpeg
-   -ss), build the track with `mix.py 0`, then mux with
-   -c:v libx264 -crf 20 -c:a aac.
+   -ss), build the track with `mix.py 0` (it adds a very quiet synthesized
+   pad under the voice), then mux with -c:v libx264 -crf 20 -c:a aac.

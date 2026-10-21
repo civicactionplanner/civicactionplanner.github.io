@@ -17,7 +17,7 @@ context.on("page", (p) => { if (p !== page) p.close().catch(() => {}); });
 await page.goto("file://" + path.join(HERE, "stage.html"));
 const frame = async () => {
   for (let i = 0; i < 100; i++) {
-    const f = page.frames().find((f) => f.url().includes("civicactionplanner"));
+    const f = page.frames().find((f) => /civic-?action-?planner/.test(f.url()) && f.url().includes("index.html"));
     if (f) return f;
     await sleep(100);
   }
@@ -46,11 +46,9 @@ for (const sc of sched.scenes) {
   const s = sc.start;
   const bubbleAt = Math.max(0, ((sc.talk && sc.talk[0] && sc.talk[0][0]) || 0) - 0.25);
   acts.push(at(s, bubbleAt, async () => { await page.evaluate((txt) => window.setBubble(txt), sc.caption || sc.text); }));
-  for (const [a, b] of (sc.talk || [[0, sc.audio]])) {
-    acts.push(at(s, a, async () => { await page.evaluate(() => window.startTalking()); }));
-    acts.push(at(s, b, async () => { await page.evaluate(() => window.stopTalking()); }));
-  }
+  acts.push(at(s, 0, async () => { await page.evaluate((e) => window.speak(e), sc.env); }));
   if (sc.id === "intro") {
+    acts.push(at(s, 0.15, async () => { await page.evaluate(() => window.enter()); }));
     acts.push(at(s, 4.2, async () => { await page.evaluate(() => window.hideIntro()); }));
     acts.push(at(s, 7.0, async () => { await f.evaluate(() => window.scrollTo({ top: 480, behavior: "smooth" })); }));
     acts.push(at(s, 10.5, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
@@ -72,6 +70,12 @@ for (const sc of sched.scenes) {
     acts.push(at(s, 2.2, async () => { await f.selectOption("#goal-award", "Silver"); }));
     acts.push(at(s, 3.4, async () => { await f.fill("#goal-date", "2027-04-30"); }));
     acts.push(at(s, 5.2, async () => { await f.click("#goal-save"); }));
+  }
+  if (sc.id === "plan") {
+    acts.push(at(s, 0.5, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-2"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
+    acts.push(at(s, 2.0, async () => { await f.click("#item-DE-2 .planb"); }));
+    acts.push(at(s, 3.4, async () => { await f.click("#item-DE-3 .planb"); }));
+    acts.push(at(s, 5.2, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
   }
   if (sc.id === "detail") {
     acts.push(at(s, 0.4, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-11"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));

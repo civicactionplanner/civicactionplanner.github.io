@@ -10,7 +10,9 @@
   /* ---- Finn, the official MDC mascot (used with permission) ---- */
   #guide{position:absolute;right:24px;bottom:10px;width:400px;z-index:20;animation:bob 2.8s ease-in-out infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  #guide img{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.35))}
+  #guide #finn{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.35))}
+  #slide{position:relative;transition:transform .75s cubic-bezier(.2,.7,.3,1.08)}
+  #slide.offstage{transform:translateY(140%)}
   /* ---- speech bubble ---- */
   #bubble{position:absolute;right:430px;bottom:150px;max-width:700px;background:#FFFFFF;border:4px solid #0032A0;border-radius:22px;
     padding:22px 28px;font-size:30px;line-height:1.4;color:#13233F;z-index:21;box-shadow:0 12px 30px rgba(0,20,70,.25);
@@ -29,7 +31,7 @@
 </style>
 </head>
 <body>
-<iframe id="site" src="https://civicactionplanner.github.io/"></iframe>
+<iframe id="site" src="file:///Users/danielllobet/Projects/civic-action-planner/index.html"></iframe>
 
 <div id="blackout" style="position:absolute;inset:0;background:#000;z-index:40"></div>
 <div class="card" id="introcard">
@@ -45,7 +47,10 @@
 
 <div id="bubble"></div>
 <div id="guide">
-  <img id="finn" src="finn_0.png" alt="Finn, the Miami Dade College shark mascot">
+  <div id="slide" class="offstage">
+    <img id="finn" src="finn_0.png" alt="Finn, the Miami Dade College shark mascot">
+    <img id="blinkp" src="finn_blink.png" alt="" style="position:absolute;left:43.99%;top:10.83%;width:6.65%;display:none">
+  </div>
 </div>
 
 <script>
@@ -53,22 +58,32 @@
   const finn = document.getElementById("finn");
   const FRAMES = ["finn_0.png", "finn_1.png", "finn_2.png"];
   FRAMES.forEach(f => { const i = new Image(); i.src = f; });
-  let talkTimer = null, step = 0;
-  const PATTERN = [1, 2, 1, 0, 2, 1, 2, 0, 1, 2];
-  function startFlaps(){
-    stopFlaps();
-    talkTimer = setInterval(() => { finn.src = FRAMES[PATTERN[step++ % PATTERN.length]]; }, 95);
-  }
+  let talkTimer = null;
   function stopFlaps(){
     if (talkTimer) clearInterval(talkTimer);
     talkTimer = null; finn.src = FRAMES[0];
   }
+  window.speak = function(env){
+    stopFlaps();
+    let i = 0;
+    talkTimer = setInterval(() => {
+      if (i >= env.length){ stopFlaps(); return; }
+      finn.src = FRAMES[+env[i++]];
+    }, 80);
+  };
+  const blinkp = document.getElementById("blinkp");
+  (function blinkLoop(){
+    setTimeout(() => {
+      blinkp.style.display = "block";
+      setTimeout(() => { blinkp.style.display = "none"; blinkLoop(); }, 140);
+    }, 2400 + Math.random() * 2600);
+  })();
+  window.enter = function(){ document.getElementById("slide").classList.remove("offstage"); };
   window.setBubble = function(text){
     if (!text){ bubble.classList.remove("on"); stopFlaps(); return; }
     bubble.textContent = text;
     bubble.classList.add("on");
   };
-  window.startTalking = startFlaps;
   window.stopTalking = stopFlaps;
   window.hideIntro = function(){ document.getElementById("introcard").classList.add("off"); };
   window.go = function(){ document.getElementById("blackout").style.display = "none"; };

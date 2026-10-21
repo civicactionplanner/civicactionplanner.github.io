@@ -39,7 +39,16 @@ for sc in cfg["scenes"]:
         if merged and a - merged[-1][1] < 0.28: merged[-1][1] = b
         else: merged.append([a, b])
     talk = [[round(a, 2), round(b, 2)] for a, b in merged if b - a > 0.12]
-    schedule.append({"id": sc["id"], "text": sc["text"], "start": round(t, 3), "audio": round(audio_len, 3), "dur": round(dur, 3), "sr": sr, "talk": talk, "caption": sc.get("caption", sc["text"])})
+    # 80ms loudness levels drive the mouth: 0 closed, 1 half, 2 wide
+    hop = int(sr * 0.08)
+    frames_n = len(samples) // hop
+    levs = [float(np.sqrt((samples[i*hop:(i+1)*hop] ** 2).mean())) for i in range(frames_n)]
+    mx = max(levs) or 1.0
+    q = [0 if r < mx * 0.07 else (1 if r < mx * 0.42 else 2) for r in levs]
+    for i in range(1, len(q) - 1):
+        if q[i] == 0 and q[i-1] > 0 and q[i+1] > 0: q[i] = 1
+    env = "".join(map(str, q))
+    schedule.append({"id": sc["id"], "text": sc["text"], "start": round(t, 3), "audio": round(audio_len, 3), "dur": round(dur, 3), "sr": sr, "talk": talk, "env": env, "caption": sc.get("caption", sc["text"])})
     t += dur
     print(f"{sc['id']}: audio {audio_len:.1f}s, scene {dur:.1f}s")
 
