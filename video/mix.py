@@ -6,7 +6,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sched = json.load(open(os.path.join(HERE, "schedule.json")))
 lead = float(sys.argv[1])  # seconds of video before scene timeline t0
-SR = 24000
+SR = json.load(open(os.path.join(HERE, "schedule.json"))).get("sr", 24000)
 
 def read_wav(p):
     with wave.open(p, "rb") as w:
