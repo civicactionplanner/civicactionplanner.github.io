@@ -24,6 +24,8 @@
   #site{width:1420px;height:813px;border:0;display:block;background:#fff}
   /* ---- Finn ---- */
   #guide{position:absolute;right:10px;bottom:-6px;width:450px;z-index:20;animation:bob 2.8s ease-in-out infinite}
+  #guide.left{right:auto;left:10px}
+  #guide.left #mirror{transform:scaleX(-1)}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   #guide #finn{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.3))}
   #slide{position:relative;transition:transform .75s cubic-bezier(.2,.7,.3,1.08)}
@@ -78,8 +80,10 @@
 <div id="bubble"></div>
 <div id="guide">
   <div id="slide" class="offstage">
-    <img id="finn" src="finn_0.png" alt="Finn, the Miami Dade College shark mascot">
-    <img id="blinkp" src="finn_blink.png" alt="" style="position:absolute;left:43.99%;top:10.83%;width:6.65%;display:none">
+    <div id="mirror">
+      <img id="finn" src="finn_0.png" alt="Finn, the Miami Dade College shark mascot">
+      <img id="blinkp" src="finn_blink.png" alt="" style="position:absolute;left:43.99%;top:10.83%;width:6.65%;display:none">
+    </div>
   </div>
 </div>
 
@@ -109,6 +113,14 @@
     }, 2400 + Math.random() * 2600);
   })();
   window.enter = function(){ document.getElementById("slide").classList.remove("offstage"); };
+  let curSide = "right";
+  window.setSide = function(side){
+    if (side === curSide) return;
+    curSide = side;
+    const sl = document.getElementById("slide"), g = document.getElementById("guide");
+    sl.classList.add("offstage");
+    setTimeout(() => { g.classList.toggle("left", side === "left"); sl.classList.remove("offstage"); }, 500);
+  };
   window.setBubble = function(text){
     if (!text){ bubble.classList.remove("on"); return; }
     bubble.classList.remove("on");

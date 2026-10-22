@@ -35,6 +35,12 @@ f = await frame();
 await f.waitForSelector("#total", { timeout: 30000 });
 await sleep(800);
 
+const jsClick = (sel) => f.evaluate((q) => {
+  const el = document.querySelector(q);
+  if (!el) throw new Error("missing " + q);
+  el.click();
+}, sel);
+await f.evaluate(() => document.fonts.ready.then(() => {}));
 const t0 = Date.now();
 await page.evaluate(() => window.go());
 const until = async (s) => { const ms = t0 + s * 1000 - Date.now(); if (ms > 0) await sleep(ms); };
@@ -46,6 +52,8 @@ for (const sc of sched.scenes) {
   const s = sc.start;
   // short caption beats: one sentence at a time, timed proportionally within the audio
   const STEPS = { browse: 1, check: 1, goal: 1, plan: 1, detail: 1, funnel: 2, phone: 3, close: 4 };
+  const SIDES = { intro: "right", browse: "left", check: "right", goal: "right", plan: "left", detail: "left", funnel: "right", phone: "left", close: "right" };
+  if (SIDES[sc.id]) acts.push(at(s, Math.max(0, s === 0 ? 0 : -0.0) + 0.02, async () => { await page.evaluate((d) => window.setSide(d), SIDES[sc.id]); }));
   if (STEPS[sc.id]) acts.push(at(s, 0.05, async () => { await page.evaluate((n) => window.setStep(n), STEPS[sc.id]); }));
   const voiceStart = Math.max(0, ((sc.talk && sc.talk[0] && sc.talk[0][0]) || 0) - 0.2);
   const chunks = (sc.caption || sc.text).split(/(?<=[.?!])\s+/).filter(Boolean);
@@ -71,31 +79,32 @@ for (const sc of sched.scenes) {
   }
   if (sc.id === "check") {
     acts.push(at(s, 0.2, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-1A"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
-    acts.push(at(s, 1.3, async () => { await f.click("#item-DE-1A .row"); }));
-    acts.push(at(s, 2.4, async () => { await f.click("#item-DE-1B .row"); }));
+    acts.push(at(s, 1.3, async () => { await jsClick("#item-DE-1A .row"); }));
+    acts.push(at(s, 2.4, async () => { await jsClick("#item-DE-1B .row"); }));
     acts.push(at(s, 3.6, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
   }
   if (sc.id === "goal") {
-    acts.push(at(s, 0.8, async () => { await f.click("#btn-goal"); }));
+    acts.push(at(s, 0.8, async () => { await jsClick("#btn-goal"); }));
     acts.push(at(s, 2.2, async () => { await f.selectOption("#goal-award", "Silver"); }));
     acts.push(at(s, 3.4, async () => { await f.fill("#goal-date", "2027-04-30"); }));
-    acts.push(at(s, 5.2, async () => { await f.click("#goal-save"); }));
+    acts.push(at(s, 5.2, async () => { await jsClick("#goal-save"); }));
   }
   if (sc.id === "plan") {
     acts.push(at(s, 0.5, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-2"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
-    acts.push(at(s, 1.4, async () => { await f.click("#item-DE-2 .planb"); }));
-    acts.push(at(s, 2.4, async () => { await f.click("#item-DE-3 .planb"); }));
+    acts.push(at(s, 1.4, async () => { await jsClick("#item-DE-2 .planb"); }));
+    acts.push(at(s, 2.4, async () => { await jsClick("#item-DE-3 .planb"); }));
     acts.push(at(s, 3.7, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
   }
   if (sc.id === "detail") {
     acts.push(at(s, 0.4, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-11"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
-    acts.push(at(s, 1.8, async () => { await f.click("#item-DE-11 .exp"); }));
+    acts.push(at(s, 1.8, async () => { await jsClick("#item-DE-11 .exp"); }));
     acts.push(at(s, 2.6, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-11"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
     acts.push(at(s, 3.6, async () => { await f.type('#item-DE-11 textarea[data-key="what"]', "I watched the county commission meeting on Tuesday. They debated the new transit budget.", { delay: 26 }); }));
   }
   if (sc.id === "funnel") {
-    acts.push(at(s, 1.2, async () => { await f.click('#item-DE-11 [data-copy="what"]'); }));
-    acts.push(at(s, 6.0, async () => { await f.click('#item-DE-11 [data-act="hub"]'); }));
+    acts.push(at(s, 0.6, async () => { await f.evaluate(() => { const b = document.querySelector('#item-DE-11 [data-act="hub"]'); if (b) b.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
+    acts.push(at(s, 1.6, async () => { await jsClick('#item-DE-11 [data-copy="what"]'); }));
+    acts.push(at(s, 6.0, async () => { await jsClick('#item-DE-11 [data-act="hub"]'); }));
   }
   if (sc.id === "phone") {
     acts.push(at(s, 0.4, async () => { await f.evaluate(() => { location.hash = "#how"; window.scrollTo(0, 0); }); }));
@@ -112,7 +121,7 @@ acts.sort((a, b) => a.t - b.t);
 
 for (const a of acts) {
   await until(a.t);
-  try { await a.fn(); } catch (e) { console.error("action @" + a.t + "s failed:", String(e).split("\n")[0]); }
+  try { await a.fn(); } catch (e) { console.error("action @" + a.t + "s failed:", String(e).slice(0, 700)); }
 }
 await until(sched.total + 0.8);
 

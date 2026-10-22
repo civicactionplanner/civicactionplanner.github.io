@@ -37,8 +37,7 @@ def music(n):
     fo = int(2.5 * SR); out[-fo:] *= np.linspace(1, 0, fo)
     return out * 0.09
 
-tf = track.astype(np.float64) + music(len(track)) * 32767
-track = np.clip(tf, -32767, 32767).astype(np.int16)
+# music bed removed: the reference video runs voice only
 
 peak = np.abs(track).max()
 if peak > 0:
