@@ -4,49 +4,50 @@
  "scenes": [
   {
    "id": "intro",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Hey M D C, I'm Finn. This is the Civic Action Scorecard Planner. Free, fast, and it does the math for you. Here's the tour.",
    "caption": "Hey MDC, I'm Finn. This is the Civic Action Scorecard Planner. Free, fast, and it does the math for you. Here's the tour."
   },
   {
    "id": "browse",
-   "pad": 1.5,
-   "text": "All 124 actions. Five categories. Four phases that pace your whole year."
+   "pad": 1.1,
+   "text": "All one hundred and twenty four actions. Five categories. Four phases that pace your whole year.",
+   "caption": "All 124 actions. Five categories. Four phases that pace your whole year."
   },
   {
    "id": "check",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Finish something? Check it off. The points land instantly."
   },
   {
    "id": "goal",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Set a goal. Say, Silver by finals week. The planner tells you the weekly pace, and whether you're on track."
   },
   {
    "id": "plan",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Want to map it out? Hit Plan. Light blue shows where your plan takes you."
   },
   {
    "id": "detail",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Open any action. What to submit, plus the three reflection questions. Draft right here. Green means you've written enough."
   },
   {
    "id": "funnel",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Ready to submit? Press Open Engage M D C. It lands on that exact action. Copy each answer. Your words, straight into the form.",
    "caption": "Ready to submit? Press Open EngageMDC. It lands on that exact action. Copy each answer. Your words, straight into the form."
   },
   {
    "id": "phone",
-   "pad": 1.5,
+   "pad": 1.1,
    "text": "Put it on your phone. It works like an app, even offline. Sign in, and your progress follows you."
   },
   {
    "id": "close",
-   "pad": 2.2,
+   "pad": 2.0,
    "text": "Plan it here. Do it out there. Prove it in Engage M D C. Find it at civic action planner dot github dot I O. See you out there, Sharks.",
    "caption": "Plan it here. Do it out there. Prove it in EngageMDC. Find it at civicactionplanner.github.io. See you out there, Sharks."
   }

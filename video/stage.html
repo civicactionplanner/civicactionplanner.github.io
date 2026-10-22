@@ -28,7 +28,7 @@
   #guide.left #mirror{transform:scaleX(-1)}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   #guide #finn{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.3))}
-  #slide{position:relative;transition:transform .75s cubic-bezier(.2,.7,.3,1.08)}
+  #slide{position:relative;transition:transform .45s cubic-bezier(.2,.7,.3,1.08)}
   #slide.offstage{transform:translateY(145%)}
   /* ---- caption pill ---- */
   #bubble{position:absolute;left:50%;transform:translateX(-50%) translateY(10px);bottom:40px;max-width:1240px;background:#0032A0;color:#FFFFFF;
@@ -67,8 +67,9 @@
 </div>
 
 <div class="card-full" id="introcard">
-  <h1>124 actions.<br><em>One planner.</em></h1>
-  <p>A ninety second tour with Finn</p>
+  <p style="font-size:30px;font-weight:600;letter-spacing:5px;text-transform:uppercase;color:#C8690A;margin:0">Miami Dade College</p>
+  <h1>Civic Action Scorecard<br><em>Planner</em></h1>
+  <p>124 actions. One planner. A tour with Finn.</p>
 </div>
 
 <div class="card-full" id="endcard">
@@ -119,7 +120,7 @@
     curSide = side;
     const sl = document.getElementById("slide"), g = document.getElementById("guide");
     sl.classList.add("offstage");
-    setTimeout(() => { g.classList.toggle("left", side === "left"); sl.classList.remove("offstage"); }, 500);
+    setTimeout(() => { g.classList.toggle("left", side === "left"); sl.classList.remove("offstage"); }, 420);
   };
   window.setBubble = function(text){
     if (!text){ bubble.classList.remove("on"); return; }

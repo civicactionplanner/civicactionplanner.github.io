@@ -53,7 +53,7 @@ for (const sc of sched.scenes) {
   // short caption beats: one sentence at a time, timed proportionally within the audio
   const STEPS = { browse: 1, check: 1, goal: 1, plan: 1, detail: 1, funnel: 2, phone: 3, close: 4 };
   const SIDES = { intro: "right", browse: "left", check: "right", goal: "right", plan: "left", detail: "left", funnel: "right", phone: "left", close: "right" };
-  if (SIDES[sc.id]) acts.push(at(s, Math.max(0, s === 0 ? 0 : -0.0) + 0.02, async () => { await page.evaluate((d) => window.setSide(d), SIDES[sc.id]); }));
+  if (SIDES[sc.id]) acts.push(at(s, s === 0 ? 0.02 : -0.95, async () => { await page.evaluate((d) => window.setSide(d), SIDES[sc.id]); }));
   if (STEPS[sc.id]) acts.push(at(s, 0.05, async () => { await page.evaluate((n) => window.setStep(n), STEPS[sc.id]); }));
   const voiceStart = Math.max(0, ((sc.talk && sc.talk[0] && sc.talk[0][0]) || 0) - 0.2);
   const chunks = (sc.caption || sc.text).split(/(?<=[.?!])\s+/).filter(Boolean);
