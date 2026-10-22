@@ -44,8 +44,18 @@ const at = (sceneStart, offset, fn) => ({ t: sceneStart + offset, fn });
 const acts = [];
 for (const sc of sched.scenes) {
   const s = sc.start;
-  const bubbleAt = Math.max(0, ((sc.talk && sc.talk[0] && sc.talk[0][0]) || 0) - 0.25);
-  acts.push(at(s, bubbleAt, async () => { await page.evaluate((txt) => window.setBubble(txt), sc.caption || sc.text); }));
+  // short caption beats: one sentence at a time, timed proportionally within the audio
+  const STEPS = { browse: 1, check: 1, goal: 1, plan: 1, detail: 1, funnel: 2, phone: 3, close: 4 };
+  if (STEPS[sc.id]) acts.push(at(s, 0.05, async () => { await page.evaluate((n) => window.setStep(n), STEPS[sc.id]); }));
+  const voiceStart = Math.max(0, ((sc.talk && sc.talk[0] && sc.talk[0][0]) || 0) - 0.2);
+  const chunks = (sc.caption || sc.text).split(/(?<=[.?!])\s+/).filter(Boolean);
+  const totalChars = chunks.reduce((a, c) => a + c.length, 0);
+  let cum = 0;
+  for (const c of chunks) {
+    const off = voiceStart + (cum / totalChars) * (sc.audio - voiceStart);
+    acts.push(at(s, off, async () => { await page.evaluate((txt) => window.setBubble(txt), c); }));
+    cum += c.length;
+  }
   acts.push(at(s, 0, async () => { await page.evaluate((e) => window.speak(e), sc.env); }));
   if (sc.id === "intro") {
     acts.push(at(s, 0.15, async () => { await page.evaluate(() => window.enter()); }));

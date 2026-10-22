@@ -5,41 +5,71 @@
 <title>Planner tutorial stage</title>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=EB+Garamond:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0032A0;font-family:Jost,system-ui,sans-serif}
-  #site{position:absolute;inset:0;width:1920px;height:1080px;border:0;background:#fff}
-  /* ---- Finn, the official MDC mascot (used with permission) ---- */
-  #guide{position:absolute;right:24px;bottom:10px;width:400px;z-index:20;animation:bob 2.8s ease-in-out infinite}
+  html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Jost,system-ui,sans-serif;
+    background:#FBFBF9;background-image:radial-gradient(rgba(0,50,160,.07) 1.5px, transparent 1.5px);background-size:26px 26px}
+  /* ---- brand header ---- */
+  #brand{position:absolute;left:52px;top:34px;z-index:5}
+  #brand h1{font-family:'EB Garamond',Georgia,serif;font-size:36px;font-weight:700;color:#0032A0;margin:0;display:inline}
+  #brand span{font-size:22px;color:#5B6678;margin-left:14px}
+  /* ---- step indicator ---- */
+  #stepper{position:absolute;right:52px;top:40px;z-index:5;display:flex;gap:10px}
+  .step{font-size:21px;color:#5B6678;border:1.5px solid #D5DBE7;border-radius:999px;padding:7px 18px;background:#FFFFFF;transition:all .4s}
+  .step.on{background:#0032A0;border-color:#0032A0;color:#FFFFFF;font-weight:600}
+  /* ---- browser card ---- */
+  #card{position:absolute;left:80px;top:122px;width:1420px;height:860px;background:#FFFFFF;border-radius:18px;
+    box-shadow:0 24px 70px rgba(10,30,80,.18);overflow:hidden;z-index:4;border:1px solid #E3E7F0}
+  #chrome{height:46px;background:#EDF0F6;display:flex;align-items:center;gap:8px;padding:0 18px;border-bottom:1px solid #E3E7F0}
+  #chrome i{width:13px;height:13px;border-radius:50%;display:inline-block}
+  #chrome .url{margin-left:14px;background:#FFFFFF;border:1px solid #E3E7F0;border-radius:999px;font-size:17px;color:#5B6678;padding:5px 18px}
+  #site{width:1420px;height:813px;border:0;display:block;background:#fff}
+  /* ---- Finn ---- */
+  #guide{position:absolute;right:10px;bottom:-6px;width:450px;z-index:20;animation:bob 2.8s ease-in-out infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  #guide #finn{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.35))}
+  #guide #finn{width:100%;display:block;filter:drop-shadow(0 10px 22px rgba(0,20,70,.3))}
   #slide{position:relative;transition:transform .75s cubic-bezier(.2,.7,.3,1.08)}
-  #slide.offstage{transform:translateY(140%)}
-  /* ---- speech bubble ---- */
-  #bubble{position:absolute;right:430px;bottom:150px;max-width:700px;background:#FFFFFF;border:4px solid #0032A0;border-radius:22px;
-    padding:22px 28px;font-size:30px;line-height:1.4;color:#13233F;z-index:21;box-shadow:0 12px 30px rgba(0,20,70,.25);
-    opacity:0;transform:translateY(12px);transition:opacity .35s,transform .35s}
-  #bubble.on{opacity:1;transform:translateY(0)}
-  #bubble::after{content:"";position:absolute;right:-24px;bottom:34px;border:14px solid transparent;border-left-color:#0032A0}
-  /* ---- intro / end cards ---- */
-  .card{position:absolute;inset:0;background:#0032A0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
-    color:#FBFBF9;text-align:center;transition:opacity .6s;opacity:1}
-  .card.off{opacity:0;pointer-events:none}
-  .card h1{font-family:'EB Garamond',Georgia,serif;font-size:96px;font-weight:600;margin:0;width:1300px;line-height:1.1}
-  .card p{font-size:40px;color:#CBD9F7;margin:0}
-  .card .url{font-size:48px;font-weight:600;color:#8FB0FF}
-  #endcard{opacity:0;pointer-events:none;z-index:15}
+  #slide.offstage{transform:translateY(145%)}
+  /* ---- caption pill ---- */
+  #bubble{position:absolute;left:50%;transform:translateX(-50%) translateY(10px);bottom:40px;max-width:1240px;background:#0032A0;color:#FFFFFF;
+    border-radius:16px;padding:16px 30px;font-size:33px;line-height:1.35;text-align:center;z-index:25;
+    box-shadow:0 10px 30px rgba(0,20,70,.3);opacity:0;transition:opacity .3s,transform .3s;font-weight:500}
+  #bubble.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* ---- interstitial cards ---- */
+  .card-full{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+    text-align:center;transition:opacity .6s;opacity:1}
+  .card-full.off{opacity:0;pointer-events:none}
+  #introcard{background:#FBFBF9;background-image:radial-gradient(rgba(0,50,160,.07) 1.5px, transparent 1.5px);background-size:26px 26px}
+  #introcard h1{font-family:'EB Garamond',Georgia,serif;font-size:110px;font-weight:700;color:#0032A0;margin:0;line-height:1.08}
+  #introcard h1 em{font-style:normal;color:#C8690A}
+  #introcard p{font-size:40px;color:#5B6678;margin:0}
+  #endcard{background:#0032A0;color:#FBFBF9;opacity:0;pointer-events:none;z-index:15}
   #endcard.on{opacity:1}
+  #endcard h1{font-family:'EB Garamond',Georgia,serif;font-size:92px;font-weight:600;margin:0;width:1400px;line-height:1.12;color:#FBFBF9}
+  #endcard .url{font-size:46px;font-weight:600;color:#8FB0FF;margin:0}
+  #endcard p{font-size:34px;color:#CBD9F7;margin:0}
 </style>
 </head>
 <body>
-<iframe id="site" src="file:///Users/danielllobet/Projects/civic-action-planner/index.html"></iframe>
-
 <div id="blackout" style="position:absolute;inset:0;background:#000;z-index:40"></div>
-<div class="card" id="introcard">
-  <h1>How to use the Civic Action Scorecard Planner</h1>
-  <p>A two minute tour with Finn</p>
+
+<div id="brand"><h1>Civic Action Scorecard Planner</h1><span>2026&#8211;2027</span></div>
+<div id="stepper">
+  <span class="step" id="st1">1 &#183; Plan</span>
+  <span class="step" id="st2">2 &#183; Submit</span>
+  <span class="step" id="st3">3 &#183; Anywhere</span>
 </div>
 
-<div class="card" id="endcard">
+<div id="card">
+  <div id="chrome"><i style="background:#F26D6D"></i><i style="background:#F2C94C"></i><i style="background:#6FCF97"></i>
+    <span class="url">civicactionplanner.github.io</span></div>
+  <iframe id="site" src="file:///Users/danielllobet/Projects/civic-action-planner/index.html"></iframe>
+</div>
+
+<div class="card-full" id="introcard">
+  <h1>124 actions.<br><em>One planner.</em></h1>
+  <p>A ninety second tour with Finn</p>
+</div>
+
+<div class="card-full" id="endcard">
   <h1>Plan it here. Do it out there.<br>Prove it in EngageMDC.</h1>
   <p class="url">civicactionplanner.github.io</p>
   <p>A free, unofficial student planning tool</p>
@@ -80,14 +110,17 @@
   })();
   window.enter = function(){ document.getElementById("slide").classList.remove("offstage"); };
   window.setBubble = function(text){
-    if (!text){ bubble.classList.remove("on"); stopFlaps(); return; }
-    bubble.textContent = text;
-    bubble.classList.add("on");
+    if (!text){ bubble.classList.remove("on"); return; }
+    bubble.classList.remove("on");
+    setTimeout(() => { bubble.textContent = text; bubble.classList.add("on"); }, 180);
   };
   window.stopTalking = stopFlaps;
+  window.setStep = function(n){
+    [1, 2, 3].forEach(k => document.getElementById("st" + k).classList.toggle("on", n === 4 || k === n));
+  };
   window.hideIntro = function(){ document.getElementById("introcard").classList.add("off"); };
-  window.go = function(){ document.getElementById("blackout").style.display = "none"; };
   window.showEnd = function(){ document.getElementById("endcard").classList.add("on"); };
+  window.go = function(){ document.getElementById("blackout").style.display = "none"; };
 </script>
 </body>
 </html>
