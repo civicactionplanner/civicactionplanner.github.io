@@ -59,21 +59,21 @@ for (const sc of sched.scenes) {
   acts.push(at(s, 0, async () => { await page.evaluate((e) => window.speak(e), sc.env); }));
   if (sc.id === "intro") {
     acts.push(at(s, 0.15, async () => { await page.evaluate(() => window.enter()); }));
-    acts.push(at(s, 4.2, async () => { await page.evaluate(() => window.hideIntro()); }));
-    acts.push(at(s, 7.0, async () => { await f.evaluate(() => window.scrollTo({ top: 480, behavior: "smooth" })); }));
-    acts.push(at(s, 10.5, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
+    acts.push(at(s, 3.0, async () => { await page.evaluate(() => window.hideIntro()); }));
+    acts.push(at(s, 4.6, async () => { await f.evaluate(() => window.scrollTo({ top: 480, behavior: "smooth" })); }));
+    acts.push(at(s, 6.6, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
   }
   if (sc.id === "browse") {
     acts.push(at(s, 0.3, async () => { await f.evaluate(() => { location.hash = "#all"; }); }));
-    acts.push(at(s, 2.0, async () => { await f.evaluate(() => window.scrollTo({ top: 700, behavior: "smooth" })); }));
-    acts.push(at(s, 4.6, async () => { await f.evaluate(() => window.scrollTo({ top: 1500, behavior: "smooth" })); }));
-    acts.push(at(s, 7.2, async () => { await f.evaluate(() => window.scrollTo({ top: 2400, behavior: "smooth" })); }));
+    acts.push(at(s, 1.4, async () => { await f.evaluate(() => window.scrollTo({ top: 700, behavior: "smooth" })); }));
+    acts.push(at(s, 3.2, async () => { await f.evaluate(() => window.scrollTo({ top: 1600, behavior: "smooth" })); }));
+    
   }
   if (sc.id === "check") {
     acts.push(at(s, 0.2, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-1A"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
-    acts.push(at(s, 1.8, async () => { await f.click("#item-DE-1A .row"); }));
-    acts.push(at(s, 3.4, async () => { await f.click("#item-DE-1B .row"); }));
-    acts.push(at(s, 5.2, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
+    acts.push(at(s, 1.3, async () => { await f.click("#item-DE-1A .row"); }));
+    acts.push(at(s, 2.4, async () => { await f.click("#item-DE-1B .row"); }));
+    acts.push(at(s, 3.6, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
   }
   if (sc.id === "goal") {
     acts.push(at(s, 0.8, async () => { await f.click("#btn-goal"); }));
@@ -83,9 +83,9 @@ for (const sc of sched.scenes) {
   }
   if (sc.id === "plan") {
     acts.push(at(s, 0.5, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-2"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
-    acts.push(at(s, 2.0, async () => { await f.click("#item-DE-2 .planb"); }));
-    acts.push(at(s, 3.4, async () => { await f.click("#item-DE-3 .planb"); }));
-    acts.push(at(s, 5.2, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
+    acts.push(at(s, 1.4, async () => { await f.click("#item-DE-2 .planb"); }));
+    acts.push(at(s, 2.4, async () => { await f.click("#item-DE-3 .planb"); }));
+    acts.push(at(s, 3.7, async () => { await f.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); }));
   }
   if (sc.id === "detail") {
     acts.push(at(s, 0.4, async () => { await f.evaluate(() => { const el = document.getElementById("item-DE-11"); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" }); }); }));
@@ -100,7 +100,7 @@ for (const sc of sched.scenes) {
   if (sc.id === "phone") {
     acts.push(at(s, 0.4, async () => { await f.evaluate(() => { location.hash = "#how"; window.scrollTo(0, 0); }); }));
     acts.push(at(s, 3.0, async () => { await f.evaluate(() => window.scrollTo({ top: 520, behavior: "smooth" })); }));
-    acts.push(at(s, 7.0, async () => { await f.evaluate(() => window.scrollTo({ top: 1040, behavior: "smooth" })); }));
+    acts.push(at(s, 5.6, async () => { await f.evaluate(() => window.scrollTo({ top: 1040, behavior: "smooth" })); }));
   }
   if (sc.id === "close") {
     acts.push(at(s, 0.4, async () => { await f.evaluate(() => { location.hash = "#home"; window.scrollTo(0, 0); }); }));

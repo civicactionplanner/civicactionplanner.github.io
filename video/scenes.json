@@ -4,52 +4,51 @@
  "scenes": [
   {
    "id": "intro",
-   "pad": 1.4,
-   "text": "Hey M D C, I'm Finn. This is the Civic Action Scorecard Planner, a free site that makes your scorecard way easier to plan. You check things off, it does the math, and it gets you to Bronze, Silver, or Gold. Here's the quick tour.",
-   "caption": "Hey MDC, I'm Finn. This is the Civic Action Scorecard Planner, a free site that makes your scorecard way easier to plan. You check things off, it does the math, and it gets you to Bronze, Silver, or Gold. Here's the quick tour."
+   "pad": 1.5,
+   "text": "Hey M D C, I'm Finn. This is the Civic Action Scorecard Planner. Free, fast, and it does the math for you. Here's the tour.",
+   "caption": "Hey MDC, I'm Finn. This is the Civic Action Scorecard Planner. Free, fast, and it does the math for you. Here's the tour."
   },
   {
    "id": "browse",
-   "pad": 1.3,
-   "text": "All 124 actions from this year's scorecard are in here, organized by the five categories, with four phases that pace out your whole year."
+   "pad": 1.5,
+   "text": "All 124 actions. Five categories. Four phases that pace your whole year."
   },
   {
    "id": "check",
-   "pad": 1.3,
-   "text": "Finished something? Check it off. Your points land instantly, and the meter shows how close you are to the next award."
+   "pad": 1.5,
+   "text": "Finish something? Check it off. The points land instantly."
   },
   {
    "id": "goal",
-   "pad": 1.4,
-   "text": "You can set a goal too. Say, Silver by finals week. The planner tells you how many points a week keeps you on pace, and whether you're ahead or behind."
+   "pad": 1.5,
+   "text": "Set a goal. Say, Silver by finals week. The planner tells you the weekly pace, and whether you're on track."
   },
   {
    "id": "plan",
-   "pad": 1.4,
-   "text": "And if you like mapping things out, hit Plan on anything you want to do later. It shows up in light blue on your meter, so you can see exactly where your plan takes you."
+   "pad": 1.5,
+   "text": "Want to map it out? Hit Plan. Light blue shows where your plan takes you."
   },
   {
    "id": "detail",
-   "pad": 1.4,
-   "text": "Open any action and everything's right there. What to submit, plus the What, So What, and Now What questions. Draft your answers in the planner, and the counter turns green when you've written enough.",
-   "caption": "Open any action and everything's right there: what to submit, plus the What, So What, and Now What questions. Draft your answers in the planner, and the counter turns green when you've written enough."
+   "pad": 1.5,
+   "text": "Open any action. What to submit, plus the three reflection questions. Draft right here. Green means you've written enough."
   },
   {
    "id": "funnel",
-   "pad": 1.4,
-   "text": "When you're ready, hit Open Engage M D C. It drops you on that exact action, one click from Add Impact. And every answer has its own copy button. Your words, your writing, straight into the form.",
-   "caption": "When you're ready, hit Open EngageMDC. It drops you on that exact action, one click from Add Impact. And every answer has its own copy button. Your words, your writing, straight into the form."
+   "pad": 1.5,
+   "text": "Ready to submit? Press Open Engage M D C. It lands on that exact action. Copy each answer. Your words, straight into the form.",
+   "caption": "Ready to submit? Press Open EngageMDC. It lands on that exact action. Copy each answer. Your words, straight into the form."
   },
   {
    "id": "phone",
-   "pad": 1.3,
-   "text": "Oh, and put it on your phone. Add it to your home screen and it opens like an app, even without wifi. Sign in with Google and your progress follows you everywhere."
+   "pad": 1.5,
+   "text": "Put it on your phone. It works like an app, even offline. Sign in, and your progress follows you."
   },
   {
    "id": "close",
-   "pad": 2.0,
-   "text": "So that's the loop. Plan it here, do it out there, prove it in Engage M D C. It's live right now at civic action planner dot github dot I O. See you out there, Sharks.",
-   "caption": "So that's the loop. Plan it here, do it out there, prove it in EngageMDC. It's live right now at civicactionplanner.github.io. See you out there, Sharks."
+   "pad": 2.2,
+   "text": "Plan it here. Do it out there. Prove it in Engage M D C. Find it at civic action planner dot github dot I O. See you out there, Sharks.",
+   "caption": "Plan it here. Do it out there. Prove it in EngageMDC. Find it at civicactionplanner.github.io. See you out there, Sharks."
   }
  ]
 }
