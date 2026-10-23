@@ -4,7 +4,7 @@ import json, os, sys, time
 import torch, torchaudio
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REF = os.path.join(HERE, "sunny-male-ref.wav")
+REF = os.path.join(HERE, "finn-voice-ref.wav")
 cfg = json.load(open(os.path.join(HERE, "scenes.json")))
 
 from chatterbox.tts import ChatterboxTTS
