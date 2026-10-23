@@ -1,55 +1,54 @@
 {
- "voice": "am_puck",
- "speed": 1.08,
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+6%",
+ "pitch": "+2Hz",
  "scenes": [
   {
    "id": "intro",
    "pad": 1.1,
-   "text": "Hey M D C, I'm Finn. This is the Civic Action Scorecard Planner. Free, fast, and it does the math for you. Here's the tour.",
-   "caption": "Hey MDC, I'm Finn. This is the Civic Action Scorecard Planner. Free, fast, and it does the math for you. Here's the tour."
+   "text": "Hi MDC! I'm Finn, and this is the Civic Action Scorecard Planner. It makes your scorecard easy. Here's the quick tour!"
   },
   {
    "id": "browse",
    "pad": 1.1,
-   "text": "All one hundred and twenty four actions. Five categories. Four phases that pace your whole year.",
-   "caption": "All 124 actions. Five categories. Four phases that pace your whole year."
+   "text": "All 124 actions, right here. Five categories, and four phases that pace your whole year."
   },
   {
    "id": "check",
    "pad": 1.1,
-   "text": "Finish something? Check it off. The points land instantly."
+   "text": "Finished something? Check it off! Your points land instantly, and the meter shows how close the next award is."
   },
   {
    "id": "goal",
    "pad": 1.1,
-   "text": "Set a goal. Say, Silver by finals week. The planner tells you the weekly pace, and whether you're on track."
+   "text": "Now set a goal. Say, Silver by finals week. The planner tells you the weekly pace, and whether you're on track."
   },
   {
    "id": "plan",
    "pad": 1.1,
-   "text": "Want to map it out? Hit Plan. Light blue shows where your plan takes you."
+   "text": "Like to map things out? Hit Plan! It shows up in light blue, so you can see exactly where your plan takes you."
   },
   {
    "id": "detail",
    "pad": 1.1,
-   "text": "Open any action. What to submit, plus the three reflection questions. Draft right here. Green means you've written enough."
+   "text": "Open any action, and everything's right there. What to submit, plus the three reflection questions. Draft right here, and the counter turns green when you've written enough."
   },
   {
    "id": "funnel",
    "pad": 1.1,
-   "text": "Ready to submit? Press Open Engage M D C. It lands on that exact action. Copy each answer. Your words, straight into the form.",
-   "caption": "Ready to submit? Press Open EngageMDC. It lands on that exact action. Copy each answer. Your words, straight into the form."
+   "text": "Ready to submit? Hit Open Engage MDC. It drops you on that exact action, one click from Add Impact. And every answer has its own copy button. Your words, straight into the form.",
+   "caption": "Ready to submit? Hit Open EngageMDC. It drops you on that exact action, one click from Add Impact. And every answer has its own copy button. Your words, straight into the form."
   },
   {
    "id": "phone",
    "pad": 1.1,
-   "text": "Put it on your phone. It works like an app, even offline. Sign in, and your progress follows you."
+   "text": "One more thing. Put it on your phone! It works like an app, even offline, and your progress follows you everywhere."
   },
   {
    "id": "close",
    "pad": 2.0,
-   "text": "Plan it here. Do it out there. Prove it in Engage M D C. Find it at civic action planner dot github dot I O. See you out there, Sharks.",
-   "caption": "Plan it here. Do it out there. Prove it in EngageMDC. Find it at civicactionplanner.github.io. See you out there, Sharks."
+   "text": "That's the whole loop! Plan it here. Do it out there. Prove it in Engage MDC. Find it at civic action planner dot github dot I O. See you out there, Sharks!",
+   "caption": "That's the whole loop! Plan it here. Do it out there. Prove it in EngageMDC. Find it at civicactionplanner.github.io. See you out there, Sharks!"
   }
  ]
 }

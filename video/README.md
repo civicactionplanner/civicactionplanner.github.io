@@ -6,10 +6,10 @@ with the Kokoro voice venv (~/.claude/voice/venv) and Playwright.
 1. `jaw.py` cuts the official MDC mascot art (used with the college's
    permission) into finn_0/1/2.png: closed, half open, and open mouth,
    via a translated lower-jaw layer over a dark mouth interior.
-2. `cb_gen.py` (Chatterbox TTS, MIT, in a uv-managed Python 3.12 venv;
-   needs setuptools<81 for its watermarker) synthesizes each scene,
-   cloning the bright male timbre from a Kokoro am_puck reference clip;
-   `synth.py` is the Kokoro fallback. Convert the wavs to pcm_s16le,
+2. `edge_gen.py` (edge-tts, free Microsoft neural voices; needs internet)
+   synthesizes each scene with en-US-AndrewMultilingualNeural at +6%
+   rate, +2Hz pitch. `cb_gen.py` (Chatterbox) and `synth.py` (Kokoro)
+   remain as offline fallbacks. Convert the audio to pcm_s16le wavs,
    then `schedule.py` computes the timing, talk segments, and the 80ms
    mouth envelope from the finished audio.
 3. `record.mjs` (run from the repo root with TUTDIR pointing here) drives
