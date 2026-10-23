@@ -4,7 +4,7 @@ import json, os, sys, time
 import torch, torchaudio
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REF = os.path.join(HERE, "sample_am_puck.wav")
+REF = os.path.join(HERE, "sunny-male-ref.wav")
 cfg = json.load(open(os.path.join(HERE, "scenes.json")))
 
 from chatterbox.tts import ChatterboxTTS
@@ -23,7 +23,7 @@ for sc in cfg["scenes"]:
     if only and sc["id"] != only:
         continue
     t0 = time.time()
-    wav = model.generate(sc["text"], audio_prompt_path=REF, exaggeration=0.7, cfg_weight=0.35)
+    wav = model.generate(sc["text"], audio_prompt_path=REF, exaggeration=0.5, cfg_weight=0.4)
     out = os.path.join(HERE, f"narr_{sc['id']}.wav")
     torchaudio.save(out, wav, model.sr)
     print(f"{sc['id']}: {wav.shape[-1]/model.sr:.1f}s audio in {time.time()-t0:.0f}s")
